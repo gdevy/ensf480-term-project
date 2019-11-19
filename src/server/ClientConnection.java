@@ -4,10 +4,13 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.lang.reflect.Array;
 import java.net.Socket;
 import java.net.SocketException;
+import java.util.ArrayList;
+import java.util.List;
 
-class ClientConnection implements Runnable {
+abstract class ClientConnection implements Runnable {
     private Socket clientSocket;
     private BufferedReader fromClient;
     private PrintWriter toClient;
@@ -22,44 +25,29 @@ class ClientConnection implements Runnable {
         }
     }
 
-    @Override
-    public void run() {
-
-        while (true) {
-            String inputString;
-            try {
-
-                inputString = readFromInput();
-                System.out.println("Client: " + inputString);
-                writeToClient(inputString);
-
-            } catch (SocketException e) {
-                System.err.println("client left\n");
-                return;
-            } catch (IOException e) {
-                System.err.println("Error reading from socket\n");
-                return;
-            }
-        }
-    }
-
-    String readFromInput() throws IOException {     //dont change even though now it looks redundant
-        StringBuilder input = new StringBuilder("");
-
+    List<String> readFromSocket() throws IOException {     //dont change even though now it looks redundant
+        List<String> fromSocket = new ArrayList<>();
         String clientLine;
         while ((clientLine = fromClient.readLine()) != null) {
             if (clientLine.isEmpty()) {
-                input.append("\n");
                 break;
             }
-            input.append(clientLine);
-            input.append("\n");
+            fromSocket.add(clientLine);
         }
 
-        return new String(input);
+        return fromSocket;
     }
 
-    void writeToClient(String string) {
-        toClient.printf(string);
+    void writeToSocket(List<String> toSocket) {
+        for (String string : toSocket) {
+            toClient.printf("%s\n", string);
+        }
+
+        toClient.printf("\n");
+    }
+
+    void writeToSocket(String string) {
+        toClient.printf(string + "\n");
+        toClient.printf("\n");
     }
 }
