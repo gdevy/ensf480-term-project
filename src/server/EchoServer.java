@@ -21,7 +21,6 @@ class EchoServer extends Server {
             Runnable clientConnection;
             try {
                 clientConnection = new ClientConnection(server.serverSocket.accept());
-
                 System.out.println("connection accepted \n");
 
             } catch (IOException e) {

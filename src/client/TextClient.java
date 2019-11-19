@@ -11,23 +11,24 @@ import static java.lang.System.in;
 import static server.Constants.PORT_NUM;
 
 public class TextClient {
-    Socket socket;
-    BufferedReader fromServer;
-    PrintWriter toServer;
+    private Socket socket;
+    private BufferedReader fromServer;
+    private BufferedReader userInput;
+    private PrintWriter toServer;
 
     TextClient(String hostIP) throws IOException {
         socket = new Socket(hostIP, PORT_NUM);
         fromServer = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         toServer = new PrintWriter(socket.getOutputStream(), true);
-
+        userInput = new BufferedReader(new InputStreamReader(System.in));
     }
 
 
     public static void main(String[] args) {
-        Scanner input = new Scanner(System.in);
+
         String ipAddress = "127.0.0.1";
-        //String ipAddress = input.nextLine();
         TextClient client = null;
+
         try {
             client = new TextClient(ipAddress);
         } catch (IOException e) {
@@ -38,14 +39,50 @@ public class TextClient {
         String userInput;
         while (true) {
             try {
-                userInput = input.nextLine();
-                client.toServer.println(userInput);
-                System.out.println(client.fromServer.readLine());
+                userInput = client.getUserInput();
+                client.writeToServer(userInput);
+                System.out.printf("Server: \n%s", client.readFromServer());
             } catch (IOException e) {
                 System.err.println("Error communicating with server\n");
                 exit(2);
 
             }
         }
+    }
+
+    String getUserInput() throws IOException{   //dont change even though now it looks redundant
+
+        StringBuilder input = new StringBuilder("");
+        String string;
+        while((string = userInput.readLine()) != null) {
+            if (string.isEmpty()) {
+                input.append("\n");
+                break;
+            }
+            input.append(string);
+            input.append("\n");
+        }
+        return new String(input);
+    }
+
+    void writeToServer(String toWrite) throws IOException{
+
+        toServer.printf(toWrite);
+
+    }
+
+    String readFromServer() throws IOException {    //dont change even though now it looks redundant
+        StringBuilder input = new StringBuilder("");
+        String string;
+        while ((string = fromServer.readLine()) != null) {
+            if (string.isEmpty()) {
+                input.append("\n");
+                break;
+            }
+            input.append(string);
+            input.append("\n");
+        }
+
+        return new String(input);
     }
 }

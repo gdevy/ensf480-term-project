@@ -29,9 +29,9 @@ class ClientConnection implements Runnable {
             String inputString;
             try {
 
-                inputString = fromClient.readLine();
+                inputString = readFromInput();
                 System.out.println("Client: " + inputString);
-                toClient.printf(inputString);
+                writeToClient(inputString);
 
             } catch (SocketException e) {
                 System.err.println("client left\n");
@@ -41,5 +41,25 @@ class ClientConnection implements Runnable {
                 return;
             }
         }
+    }
+
+    String readFromInput() throws IOException {     //dont change even though now it looks redundant
+        StringBuilder input = new StringBuilder("");
+
+        String clientLine;
+        while ((clientLine = fromClient.readLine()) != null) {
+            if (clientLine.isEmpty()) {
+                input.append("\n");
+                break;
+            }
+            input.append(clientLine);
+            input.append("\n");
+        }
+
+        return new String(input);
+    }
+
+    void writeToClient(String string) {
+        toClient.printf(string);
     }
 }

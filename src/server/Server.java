@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 
 public abstract class Server {
-    protected int serverPort = 9000;
+    private  int serverPort = 9000;
     protected ServerSocket serverSocket = null;
 
     public Server(int serverPort) {
