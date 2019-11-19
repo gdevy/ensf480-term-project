@@ -4,11 +4,16 @@ import server.Constants;
 
 import java.io.*;
 import java.net.Socket;
-import java.util.Scanner;
+import java.util.*;
 
 import static java.lang.System.exit;
 import static java.lang.System.in;
 import static server.Constants.PORT_NUM;
+
+enum Test {
+    test1,
+    test2
+}
 
 public class TextClient {
     private Socket socket;
@@ -29,6 +34,54 @@ public class TextClient {
         String ipAddress = "127.0.0.1";
         TextClient client = null;
 
+        List<List<String>> list1 = new ArrayList<>() {
+            {
+                add(new ArrayList<>() {
+                    {
+                        add("LOGI");
+                        add("Greg");
+                    }
+                });
+                add(new ArrayList<>() {
+                    {
+                        add("SEAR");
+                        add("some property");
+                    }
+
+                });
+            }
+        };
+
+        List<List<String>> list2 = new ArrayList<>() {
+            {
+                add(new ArrayList<>() {
+                    {
+                        add("LOGI");
+                        add("Erslan");
+                    }
+                });
+                add(new ArrayList<>() {
+                    {
+                        add("SEAR");
+                        add("some property");
+                    }
+
+                });
+            }
+        };
+
+        Iterator test = null;
+        if (args[0].compareTo("test1") == 0) {
+            System.err.println("running test 1");
+            test = list1.iterator();
+        } else if (args[0].compareTo("test2") == 0) {
+            System.err.println("running test 2");
+            test = list1.iterator();
+        } else {
+            System.err.println("running text based");
+            //leave test null
+        }
+
         try {
             client = new TextClient(ipAddress);
         } catch (IOException e) {
@@ -36,12 +89,21 @@ public class TextClient {
             exit(1);
         }
 
-        String userInput;
+        List<String> userInput;
+        List<String> serverResponse;
         while (true) {
             try {
-                userInput = client.getUserInput();
+                if ((test != null) && test.hasNext()) {
+                    userInput = (List<String>) test.next();
+                } else {
+                    userInput = client.getUserInput();
+                }
                 client.writeToServer(userInput);
-                System.out.printf("Server: \n%s", client.readFromServer());
+                System.out.printf("Server: \n");
+                serverResponse = client.readFromServer();
+                for (String line : serverResponse) {
+                    System.out.printf("%s\n", line);
+                }
             } catch (IOException e) {
                 System.err.println("Error communicating with server\n");
                 exit(2);
@@ -50,39 +112,39 @@ public class TextClient {
         }
     }
 
-    String getUserInput() throws IOException{   //dont change even though now it looks redundant
+    List<String> getUserInput() throws IOException {   //dont change even though now it looks redundant
+        List<String> input = new ArrayList<>();
+        String line;
 
-        StringBuilder input = new StringBuilder("");
-        String string;
-        while((string = userInput.readLine()) != null) {
-            if (string.isEmpty()) {
-                input.append("\n");
+        while ((line = userInput.readLine()) != null) {
+            if (line.isEmpty()) {
                 break;
             }
-            input.append(string);
-            input.append("\n");
+            input.add(line);
         }
-        return new String(input);
+        return input;
     }
 
-    void writeToServer(String toWrite) throws IOException{
+    void writeToServer(List<String> toWrite) throws IOException {
 
-        toServer.printf(toWrite);
+        for (String line : toWrite) {
+            toServer.printf("%s\n", line);
+        }
+        toServer.printf("\n");
 
     }
 
-    String readFromServer() throws IOException {    //dont change even though now it looks redundant
-        StringBuilder input = new StringBuilder("");
-        String string;
-        while ((string = fromServer.readLine()) != null) {
-            if (string.isEmpty()) {
-                input.append("\n");
+    List<String> readFromServer() throws IOException {    //dont change even though now it looks redundant
+
+        List<String> input = new ArrayList<>();
+        String line;
+        while ((line = fromServer.readLine()) != null) {
+            if (line.isEmpty()) {
                 break;
             }
-            input.append(string);
-            input.append("\n");
+            input.add(line);
         }
 
-        return new String(input);
+        return input;
     }
 }

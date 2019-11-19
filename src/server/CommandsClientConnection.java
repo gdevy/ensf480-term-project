@@ -2,6 +2,7 @@ package server;
 
 import java.io.IOException;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.List;
 
 public class CommandsClientConnection extends ClientConnection {
@@ -36,6 +37,9 @@ public class CommandsClientConnection extends ClientConnection {
                 }
 
                 writeToSocket("got " + command.getText());
+            } catch (SocketException e) {
+                System.err.println("client left\n");
+                return;
             } catch (IOException e) {
                 e.printStackTrace();
             }
