@@ -5,20 +5,23 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.util.List;
 
-public class CommandsClientConnection extends ClientConnection {
-    public CommandsClientConnection(Socket clientSocket) {
-        super(clientSocket);
+public class SocketController implements Runnable {
+
+    SocketConnection clientConnection;
+    //TODO add a reference to the user model here
+
+
+    public SocketController(Socket socket) {
+        this.clientConnection = new SocketConnection(socket);
     }
 
-
-    @Override
     public void run() {
         ServerCommand command;
         List<String> strings;
         while (true) {
 
             try {
-                strings = readFromSocket();
+                strings = clientConnection.readFromSocket();
                 command = ServerCommand.getServerCommand(strings.get(0));
 
                 switch (command) {
@@ -36,15 +39,14 @@ public class CommandsClientConnection extends ClientConnection {
                         System.out.println("invalid command");
                 }
 
-                writeToSocket("got " + command.getText());
+                clientConnection.writeToSocket("got " + command.getText());
             } catch (SocketException e) {
                 System.err.println("client left\n");
                 return;
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
-
         }
     }
+
 }

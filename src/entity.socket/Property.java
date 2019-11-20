@@ -1,5 +1,7 @@
 package entity.socket;
 
+import entity.descriptor.Address;
+
 enum PropertyStatus
 {
 	AVAILABLE,
