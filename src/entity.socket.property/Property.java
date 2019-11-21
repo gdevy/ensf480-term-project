@@ -1,40 +1,19 @@
-package entity.socket;
+package entity.socket.property;
 
-import entity.descriptor.Address;
+import descriptor.Address;
+import java.io.Serializable;
 
-enum PropertyStatus
-{
-	AVAILABLE,
-	SUSPENDED,
-	RENTED,
-	REMOVED
-}
-
-enum Quadrant
-{
-	NW,
-	NE,
-	SW,
-	SE
-}
-
-enum PropertyType
-{
-	HOUSE,
-	DUPLEX,
-	TOWNHOUSE,
-	APARTMENT,
-	CONDO,
-	MAINFLOOR,
-	BASEMENT
-}
-
-public class Property
+public class Property implements Serializable
 {
 	private Address address;
 	private Quadrant quadrant;
 	private PropertyStatus status;
 	private PropertyTraits traits;
+	private int id;
+
+	private static final long serialVersionUID = 3L;
+
+	static private int count = 0;
 
 	public Property( Address address, Quadrant quadrant, PropertyStatus status, PropertyTraits traits )
 	{
@@ -42,6 +21,9 @@ public class Property
 		this.quadrant = quadrant;
 		this.status = status;
 		this.traits = traits;
+		
+		this.id = 1000 + count;
+		count++;
 	}
 
 }
