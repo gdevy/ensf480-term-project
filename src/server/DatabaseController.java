@@ -1,20 +1,26 @@
 package server;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class DatabaseController {
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
 
-        Connection dbConnection;
+        Connection dbConnection = null;
         try {
-            dbConnection = DriverManager.getConnection("jdbc:mysql://localhost:3306/finalproject",
-                    "root", "ensf409");     //this may have to be changed depending on how you set it up
+            dbConnection = DriverManager.getConnection("jdbc:sqlite:C:/Users/Greg/Documents/School/ENSF480/project/code/src/sqlite/db.db",
+                    "root", "");
         } catch (SQLException e) {
             e.printStackTrace();
+            return;
+        }
+
+        Statement statement = dbConnection.createStatement();
+        ResultSet rs = statement.executeQuery("SELECT * FROM properties");
+
+        while (rs.next()) {
+            System.out.println("property id: " + rs.getInt("propertyid"));
         }
 
 
