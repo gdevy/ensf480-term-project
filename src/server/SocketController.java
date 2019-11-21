@@ -7,12 +7,10 @@ import java.util.List;
 
 public class SocketController implements Runnable {
 
-    SocketConnection clientConnection;
-    //TODO add a reference to the user model here
+    protected SocketConnection clientConnection;
 
-
-    public SocketController(Socket socket) {
-        this.clientConnection = new SocketConnection(socket);
+    public SocketController(Socket clientSocket) {
+        clientConnection = new SocketConnection(clientSocket);
     }
 
     public void run() {
