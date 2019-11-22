@@ -6,26 +6,32 @@ import java.io.*;
 
 public class Property implements Serializable
 {
+    private int monthlyRent;
 	private Address address;
 	private Quadrant quadrant;
 	private PropertyStatus status;
 	private PropertyTraits traits;
-	private int id;
-
+	
+    private int id;
+    
 	private static final long serialVersionUID = 3L;
-
 	static private int count = 0;
 
-	public Property( Address address, Quadrant quadrant, PropertyStatus status, PropertyTraits traits )
+	public Property( int monthlyRent, Address address, Quadrant quadrant, PropertyStatus status, PropertyTraits traits )
 	{
+        this.monthlyRent = monthlyRent;
 		this.address = address;
 		this.quadrant = quadrant;
 		this.status = status;
 		this.traits = traits;
 		
-		this.id = 1000 + count;
-		count++;
+		this.id = 1001 + count++;
 	}
+
+    public int getMonthlyRent()
+    {
+        return monthlyRent;
+    }
 
     public Address getAddress()
     {
@@ -52,7 +58,7 @@ public class Property implements Serializable
     {   
     	PropertyTraits pt = new PropertyTraits( PropertyType.HOUSE, 1, 1, 1000, true );
         Address ad = new Address( 3307, "24 Street NW", "Calgary", "AB", "T2M3Z8" );
-        Property object = new Property( ad, Quadrant.NW, PropertyStatus.AVAILABLE, pt );
+        Property object = new Property( 1000, ad, Quadrant.NW, PropertyStatus.AVAILABLE, pt );
         String filename = "file.ser";
           
         // Serialization

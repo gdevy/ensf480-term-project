@@ -13,6 +13,7 @@ enum Furnishing
 
 public class PropertySearchCriteria implements Serializable
 {
+	private int maxMonthlyRent;
 	private ArrayList<PropertyType> types;
 	private int minBedrooms;
 	private int minBathrooms;
@@ -24,12 +25,29 @@ public class PropertySearchCriteria implements Serializable
 
 	public PropertySearchCriteria()
 	{
+		maxMonthlyRent = -1;
 		types = new ArrayList<PropertyType>();
 		minBedrooms = -1;
 		minBathrooms = -1;
 		minSquareFootage = -1;
 		furnished = Furnishing.EITHER;
 		quadrants = new ArrayList<Quadrant>();
+	}
+
+	public void setMaxMonthlyRent( int maxMonthlyRent )
+	{
+		this.maxMonthlyRent = maxMonthlyRent;
+	}
+
+	public int getMaxMonthlyRent()
+	{
+		return maxMonthlyRent;
+	}
+
+	public boolean hasMaxMonthlyRent()
+	{
+		if( maxMonthlyRent > 0 ) return true;
+		return false;
 	}
 
 	public void addType( PropertyType type )
