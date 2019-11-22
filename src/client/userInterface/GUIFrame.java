@@ -39,6 +39,7 @@ public class GUIFrame {
 		mainFrame.setTitle("Property Rental System");
 		mainFrame.setBounds(100, 100, 450, 300);
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		mainFrame.setContentPane(new pnlLogin().getPnlLogin());
 	}
 
 }
