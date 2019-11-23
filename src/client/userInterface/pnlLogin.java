@@ -81,14 +81,6 @@ public class pnlLogin extends JPanel {
         gbc.anchor = GridBagConstraints.WEST;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         pnlLogin.add(txtUsername, gbc);
-        txtPassword = new JTextField();
-        txtPassword.setPreferredSize(new Dimension(80, 30));
-        gbc = new GridBagConstraints();
-        gbc.gridx = 1;
-        gbc.gridy = 1;
-        gbc.anchor = GridBagConstraints.WEST;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        pnlLogin.add(txtPassword, gbc);
         loginButton = new JButton();
         loginButton.setText("Login");
         gbc = new GridBagConstraints();
@@ -96,6 +88,13 @@ public class pnlLogin extends JPanel {
         gbc.gridy = 2;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         pnlLogin.add(loginButton, gbc);
+        txtPassword = new JPasswordField();
+        gbc = new GridBagConstraints();
+        gbc.gridx = 1;
+        gbc.gridy = 1;
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        pnlLogin.add(txtPassword, gbc);
     }
 
     /**
@@ -104,4 +103,5 @@ public class pnlLogin extends JPanel {
     public JComponent $$$getRootComponent$$$() {
         return pnlLogin;
     }
+
 }

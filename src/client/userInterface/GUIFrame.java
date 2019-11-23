@@ -37,9 +37,9 @@ public class GUIFrame {
 	private void initialize() {
 		mainFrame = new JFrame();
 		mainFrame.setTitle("Property Rental System");
-		mainFrame.setBounds(100, 100, 450, 300);
+		mainFrame.setBounds(100, 100, 700, 500);
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		mainFrame.setContentPane(new pnlLogin().getPnlLogin());
+		mainFrame.setContentPane(new pnlLandlordNewProp().getPnlLandlordNewProp());
 	}
 
 }
