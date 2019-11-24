@@ -1,6 +1,7 @@
 package entity.socket.property;
 
 import java.io.Serializable;
+import entity.socket.property.PropertyType;
 
 public class PropertyTraits implements Serializable
 {
@@ -19,6 +20,31 @@ public class PropertyTraits implements Serializable
 		this.bathrooms = bathrooms;
 		this.squareFootage = squareFootage;
 		this.furnished = furnished;
+	}
+
+	public PropertyType getType()
+	{
+		return type;
+	}
+
+	public int getBedrooms()
+	{
+		return bedrooms;
+	}
+
+	public int getBathrooms()
+	{
+		return bathrooms;
+	}
+
+	public double getSquareFootage()
+	{
+		return squareFootage;
+	}
+
+	public boolean getFurnished()
+	{
+		return furnished;
 	}
 
 }
