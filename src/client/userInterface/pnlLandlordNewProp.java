@@ -2,6 +2,8 @@ package client.userInterface;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class pnlLandlordNewProp {
     private JPanel pnlLandlordNewProp;
@@ -19,125 +21,71 @@ public class pnlLandlordNewProp {
     private JTextField txtProvince;
     private JTextField txtPostalCode;
     private JTextField txtRent;
+    private GUIController controller;
+
+    public pnlLandlordNewProp() {
+        btnSubmit.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                controller.NewLandlordProperty();
+            }
+        });
+    }
 
     public JPanel getPnlLandlordNewProp() {
         return pnlLandlordNewProp;
-    }
-
-    public void setPnlLandlordNewProp(JPanel pnlLandlordNewProp) {
-        this.pnlLandlordNewProp = pnlLandlordNewProp;
-    }
-
-    public JTextField getTxtRent() {
-        return txtRent;
-    }
-
-    public void setTxtRent(JTextField txtRent) {
-        this.txtRent = txtRent;
     }
 
     public JTextField getTxtStreet() {
         return txtStreet;
     }
 
-    public void setTxtStreet(JTextField txtStreet) {
-        this.txtStreet = txtStreet;
+    public String getTxtStreetNum() {
+        return txtStreetNum.getText();
     }
 
-    public JTextField getTxtStreetNum() {
-        return txtStreetNum;
+    public String getCmbQuadrant() {
+        return String.valueOf(cmbQuadrant.getSelectedItem());
     }
 
-    public void setTxtStreetNum(JTextField txtStreetNum) {
-        this.txtStreetNum = txtStreetNum;
+    public String getCmbPropertyType() {
+        return String.valueOf(cmbPropertyType.getSelectedItem());
     }
 
-    public JComboBox getCmbQuadrant() {
-        return cmbQuadrant;
+    public String getTxtBedrooms() {
+        return txtBedrooms.getText();
     }
 
-    public void setCmbQuadrant(JComboBox cmbQuadrant) {
-        this.cmbQuadrant = cmbQuadrant;
+    public String getTxtBathrooms() {
+        return txtBathrooms.getText();
     }
 
-    public JComboBox getCmbPropertyType() {
-        return cmbPropertyType;
+    public String getTxtSquareFootage() {
+        return txtSquareFootage.getText();
     }
 
-    public void setCmbPropertyType(JComboBox cmbPropertyType) {
-        this.cmbPropertyType = cmbPropertyType;
+    public boolean getChkFurnished() {
+        return chkFurnished.isSelected();
     }
 
-    public JTextField getTxtBedrooms() {
-        return txtBedrooms;
+    public String getCmbPropertyStatus() {
+        return String.valueOf(cmbPropertyStatus.getSelectedItem());
     }
 
-    public void setTxtBedrooms(JTextField txtBedrooms) {
-        this.txtBedrooms = txtBedrooms;
+    public String getTxtCity() {
+        return txtCity.getText();
     }
 
-    public JTextField getTxtBathrooms() {
-        return txtBathrooms;
+    public String getTxtProvince() {
+        return txtProvince.getText();
     }
 
-    public void setTxtBathrooms(JTextField txtBathrooms) {
-        this.txtBathrooms = txtBathrooms;
+    public String getTxtPostalCode() {
+        return txtPostalCode.toString();
     }
 
-    public JTextField getTxtSquareFootage() {
-        return txtSquareFootage;
-    }
-
-    public void setTxtSquareFootage(JTextField txtSquareFootage) {
-        this.txtSquareFootage = txtSquareFootage;
-    }
-
-    public JCheckBox getChkFurnished() {
-        return chkFurnished;
-    }
-
-    public void setChkFurnished(JCheckBox chkFurnished) {
-        this.chkFurnished = chkFurnished;
-    }
-
-    public JComboBox getCmbPropertyStatus() {
-        return cmbPropertyStatus;
-    }
-
-    public void setCmbPropertyStatus(JComboBox cmbPropertyStatus) {
-        this.cmbPropertyStatus = cmbPropertyStatus;
-    }
-
-    public JButton getBtnSubmit() {
-        return btnSubmit;
-    }
-
-    public void setBtnSubmit(JButton btnSubmit) {
-        this.btnSubmit = btnSubmit;
-    }
-
-    public JTextField getTxtCity() {
-        return txtCity;
-    }
-
-    public void setTxtCity(JTextField txtCity) {
-        this.txtCity = txtCity;
-    }
-
-    public JTextField getTxtProvince() {
-        return txtProvince;
-    }
-
-    public void setTxtProvince(JTextField txtProvince) {
-        this.txtProvince = txtProvince;
-    }
-
-    public JTextField getTxtPostalCode() {
-        return txtPostalCode;
-    }
-
-    public void setTxtPostalCode(JTextField txtPostalCode) {
-        this.txtPostalCode = txtPostalCode;
+    public String getTxtRent() {
+        return txtRent.getText();
     }
 
     {

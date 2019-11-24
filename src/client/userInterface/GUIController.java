@@ -50,8 +50,19 @@ public class GUIController {
         System.out.println("Username="+username+"\n Password:"+password);
         //Assume Landlord
         pnlLandlordMain = new pnlLandlordMain();
+        pnlLandlordMain.setController(this);
         MainFrame.setContentPane(pnlLandlordMain.getPnlLandlord());
         MainFrame.revalidate();
+
+    }
+
+    public void goToNewProp() {
+        pnlLandlordNewProp = new pnlLandlordNewProp();
+        MainFrame.setContentPane(pnlLandlordNewProp.getPnlLandlordNewProp());
+        MainFrame.revalidate();
+    }
+
+    public void NewLandlordProperty() {
 
     }
 }

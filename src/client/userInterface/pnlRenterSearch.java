@@ -17,6 +17,7 @@ public class pnlRenterSearch {
     private JComboBox cmbRentEquals;
     private JComboBox cmbFeetEquals;
     private JPanel pnlRenterSearch;
+    private JComboBox cmbFurnished;
     private GUIController controller;
 
     public void setController(GUIController controller) {

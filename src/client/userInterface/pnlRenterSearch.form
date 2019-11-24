@@ -121,15 +121,6 @@
           <preferredSize width="120" height="30"/>
         </properties>
       </component>
-      <component id="d278c" class="javax.swing.JCheckBox" binding="chkFurnished">
-        <constraints>
-          <grid row="7" column="10" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-          <gridbag weightx="0.0" weighty="0.0"/>
-        </constraints>
-        <properties>
-          <text value=""/>
-        </properties>
-      </component>
       <component id="dd117" class="javax.swing.JLabel">
         <constraints>
           <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
@@ -277,6 +268,13 @@
           <gridbag weightx="0.0" weighty="0.0"/>
         </constraints>
       </hspacer>
+      <component id="a1d3f" class="javax.swing.JComboBox" binding="cmbFurnished">
+        <constraints>
+          <grid row="7" column="10" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+          <gridbag weightx="0.0" weighty="0.0"/>
+        </constraints>
+        <properties/>
+      </component>
     </children>
   </grid>
 </form>

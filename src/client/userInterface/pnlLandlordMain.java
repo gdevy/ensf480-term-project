@@ -35,6 +35,12 @@ public class pnlLandlordMain {
 
             }
         });
+        makeNewListingButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                controller.goToNewProp();
+            }
+        });
     }
 
     public JPanel getPnlLandlord() {
