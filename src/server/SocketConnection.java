@@ -10,12 +10,12 @@ import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.List;
 
-abstract class ClientConnection implements Runnable {
+public class SocketConnection {
     private Socket clientSocket;
     private BufferedReader fromClient;
     private PrintWriter toClient;
 
-    public ClientConnection(Socket clientSocket) {
+    public SocketConnection(Socket clientSocket) {
         this.clientSocket = clientSocket;
         try {
             fromClient = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
