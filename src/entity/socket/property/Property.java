@@ -15,7 +15,6 @@ public class Property implements Serializable
     private int id;
     
 	private static final long serialVersionUID = 3L;
-	static private int count = 0;
 
 	public Property( int monthlyRent, Address address, Quadrant quadrant, PropertyStatus status, PropertyTraits traits )
 	{
@@ -25,7 +24,7 @@ public class Property implements Serializable
 		this.status = status;
 		this.traits = traits;
 		
-		this.id = 1001 + count++;
+		this.id = 0;
 	}
 
     public int getMonthlyRent()

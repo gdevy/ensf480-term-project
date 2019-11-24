@@ -3,6 +3,7 @@ package server;
 import entity.socket.MessageType;
 import entity.socket.PropertySearchCriteria;
 import entity.socket.property.*;
+import server.entity.mhs.*;
 
 import java.net.Socket;
 import java.util.ArrayList;
@@ -15,15 +16,16 @@ public class SocketController implements Runnable
     private ObjectInputStream sockIn;
     private ObjectOutputStream sockOut;
 
+    private MessageHandlerStrategy messageHandler;
+
     public SocketController( Socket sock )
     {
         try
         {
-            System.out.println( "creating socketcontroller" );
             this.sock = sock;
             this.sockOut = new ObjectOutputStream( sock.getOutputStream() );
             this.sockIn = new ObjectInputStream( sock.getInputStream() );
-            System.out.println( "created socketcontroller" );
+            this.messageHandler = new UnregisteredRenterMessageHandler( this, sockOut, sockIn );
         }
         catch( IOException e )
         {
@@ -33,13 +35,12 @@ public class SocketController implements Runnable
 
     public void run()
     {
-        System.out.println( "running" );
         try
         {
             while( true )
             {
                 MessageType msgType = (MessageType) sockIn.readObject();
-                if( msgType != null ) handleNewMessage( msgType );
+                if( msgType != null ) messageHandler.handleMessage( msgType );
             }
         }
         catch ( Exception e )
@@ -47,21 +48,6 @@ public class SocketController implements Runnable
             e.printStackTrace();
         }
 
-    }
-
-    private void handleNewMessage( MessageType msgType ) throws IOException, ClassNotFoundException
-    {
-        System.out.println( msgType + " message received" );
-        switch( msgType )
-        {
-            case PROPERTY_SEARCH_REQUEST:
-                PropertySearchCriteria psc = (PropertySearchCriteria) sockIn.readObject();
-                System.out.println( "Min bathrooms: " + psc.getMinBathrooms() );
-                System.out.println( "Furnished: " + psc.getFurnished() );
-                ArrayList<PropertyType> al = psc.getTypes();
-                System.out.println( "Property Types: " + al.get(0) + ", " + al.get(1) );
-                break;
-        }
     }
 
 }
