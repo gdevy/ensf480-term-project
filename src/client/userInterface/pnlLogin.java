@@ -2,12 +2,28 @@ package client.userInterface;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class pnlLogin extends JPanel {
+public class pnlLogin {
     private JTextField txtUsername;
     private JTextField txtPassword;
     private JButton loginButton;
     private JPanel pnlLogin;
+    private GUIController controller;
+
+    public pnlLogin() {
+        loginButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                controller.ValidateLogin(txtUsername.getText(), txtPassword.getText());
+            }
+        });
+    }
+
+    public void setController(GUIController controller) {
+        this.controller = controller;
+    }
 
     public JTextField getTxtUsername() {
         return txtUsername;

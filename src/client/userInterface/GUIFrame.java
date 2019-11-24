@@ -4,42 +4,42 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 
-public class GUIFrame {
+public class GUIFrame extends JFrame {
 
 	private JFrame mainFrame;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					GUIFrame window = new GUIFrame();
-					window.mainFrame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+//	/**
+//	 * Launch the application.
+//	 */
+//	public static void main(String[] args) {
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					GUIFrame window = new GUIFrame();
+//					window.setVisible(true);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+//	}
 
 	/**
 	 * Create the application.
 	 */
 	public GUIFrame() {
-		initialize();
+		super();
+		setTitle("Property Rental System");
+		setBounds(100, 100, 700, 500);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//		setContentPane(new pnlLandlordMain().getPnlLandlord());
+//		setContentPane(new pnlLandlordNewProp().getPnlLandlordNewProp());
+//		setContentPane(new pnlLogin().getPnlLogin());
+//		setContentPane(new pnlEditProperty().getPnlEditProperty());
+//		setContentPane(new pnlManagerMain().getPnlManagerMain());
+//		setContentPane(new pnlRenterSearch().getPnlRenterSearch());
+//		setContentPane(new pnlStart().getPnlStart());
+//		setContentPane(new pnlLandlordNewProp().getPnlLandlordNewProp());
+//		setContentPane(new pnlLandlordNewProp().getPnlLandlordNewProp());
 	}
-
-	/**
-	 * Initialize the contents of the frame.
-	 */
-	private void initialize() {
-		mainFrame = new JFrame();
-		mainFrame.setTitle("Property Rental System");
-		mainFrame.setBounds(100, 100, 700, 500);
-		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		mainFrame.setContentPane(new pnlLandlordNewProp().getPnlLandlordNewProp());
-	}
-
 }

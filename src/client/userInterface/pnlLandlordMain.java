@@ -10,6 +10,11 @@ public class pnlLandlordMain {
     private JPanel pnlLandlord;
     private JButton makeNewListingButton;
     private JButton viewListingsButton;
+    private GUIController controller;
+
+    public void setController(GUIController controller) {
+        this.controller = controller;
+    }
 
     public pnlLandlordMain() {
         messageAManagerButton.addActionListener(new ActionListener() {
@@ -18,38 +23,22 @@ public class pnlLandlordMain {
 
             }
         });
-    }
+        viewListingsButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
 
-    public JButton getMessageAManagerButton() {
-        return messageAManagerButton;
-    }
+            }
+        });
+        messageAManagerButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
 
-    public void setMessageAManagerButton(JButton messageAManagerButton) {
-        this.messageAManagerButton = messageAManagerButton;
+            }
+        });
     }
 
     public JPanel getPnlLandlord() {
         return pnlLandlord;
-    }
-
-    public void setPnlLandlord(JPanel pnlLandlord) {
-        this.pnlLandlord = pnlLandlord;
-    }
-
-    public JButton getMakeNewListingButton() {
-        return makeNewListingButton;
-    }
-
-    public void setMakeNewListingButton(JButton makeNewListingButton) {
-        this.makeNewListingButton = makeNewListingButton;
-    }
-
-    public JButton getViewListingsButton() {
-        return viewListingsButton;
-    }
-
-    public void setViewListingsButton(JButton viewListingsButton) {
-        this.viewListingsButton = viewListingsButton;
     }
 
     {
