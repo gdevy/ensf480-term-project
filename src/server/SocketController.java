@@ -1,49 +1,66 @@
 package server;
 
-import java.io.IOException;
+import entity.socket.MessageType;
+import entity.socket.PropertySearchCriteria;
+import entity.socket.property.*;
+
 import java.net.Socket;
-import java.net.SocketException;
-import java.util.List;
+import java.util.ArrayList;
+import java.io.*;
 
-public class SocketController implements Runnable {
+public class SocketController implements Runnable
+{
 
-    protected SocketConnection clientConnection;
+    private Socket sock;
+    private ObjectInputStream sockIn;
+    private ObjectOutputStream sockOut;
 
-    public SocketController(Socket clientSocket) {
-        clientConnection = new SocketConnection(clientSocket);
+    public SocketController( Socket sock )
+    {
+        try
+        {
+            System.out.println( "creating socketcontroller" );
+            this.sock = sock;
+            this.sockOut = new ObjectOutputStream( sock.getOutputStream() );
+            this.sockIn = new ObjectInputStream( sock.getInputStream() );
+            System.out.println( "created socketcontroller" );
+        }
+        catch( IOException e )
+        {
+            e.printStackTrace();
+        }
     }
 
-    public void run() {
-        ServerCommand command;
-        List<String> strings;
-        while (true) {
-
-            try {
-                strings = clientConnection.readFromSocket();
-                command = ServerCommand.getServerCommand(strings.get(0));
-
-                switch (command) {
-                    case logout:
-                        System.out.println("logout command received");
-                        break;
-                    case login:
-                        System.out.println("login command received");
-                        break;
-                    case search:
-                        System.out.println("seach command received");
-                        break;
-                    case invalid:
-                    default:
-                        System.out.println("invalid command");
-                }
-
-                clientConnection.writeToSocket("got " + command.getText());
-            } catch (SocketException e) {
-                System.err.println("client left\n");
-                return;
-            } catch (IOException e) {
-                e.printStackTrace();
+    public void run()
+    {
+        System.out.println( "running" );
+        try
+        {
+            while( true )
+            {
+                MessageType msgType = (MessageType) sockIn.readObject();
+                if( msgType != null ) handleNewMessage( msgType );
             }
+        }
+        catch ( Exception e )
+        {
+            e.printStackTrace();
+        }
+
+    }
+
+    private void handleNewMessage( MessageType msgType ) throws IOException, ClassNotFoundException
+    {
+        System.out.println( msgType + " message received" );
+        switch( msgType )
+        {
+            case PROPERTY_SEARCH_REQUEST:
+                PropertySearchCriteria psc = (PropertySearchCriteria) sockIn.readObject();
+                System.out.println( "Min bathrooms: " + psc.getMinBathrooms() );
+                System.out.println( "Furnished: " + psc.getFurnished() );
+                ArrayList<PropertyType> al = psc.getTypes();
+                System.out.println( "Property Types: " + al.get(0) + ", " + al.get(1) );
+                break;
         }
     }
 
