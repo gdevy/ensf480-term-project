@@ -7,10 +7,10 @@ import server.SocketController;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-public class UnregisteredRenterMessageHandler extends MessageHandlerStrategy
+public class LandlordMessageHandler extends MessageHandlerStrategy
 {
 
-	public UnregisteredRenterMessageHandler( SocketController sc, ObjectOutputStream oos, ObjectInputStream ois )
+	public LandlordMessageHandler( SocketController sc, ObjectOutputStream oos, ObjectInputStream ois )
 	{
 		super( sc, oos, ois );
 	}
@@ -23,15 +23,13 @@ public class UnregisteredRenterMessageHandler extends MessageHandlerStrategy
 	        System.out.println( "Unregistered Renter handling " + msgType );
 	        switch( msgType )
 	        {
-	            case PROPERTY_SEARCH_REQUEST:
-	                PropertySearchCriteria psc = (PropertySearchCriteria) ois.readObject();
-	                System.out.println( "Min bathrooms: " + psc.getMinBathrooms() );
-	                System.out.println( "Furnished: " + psc.getFurnished() );
-	                break;
+	            case CREATE_NEW_PROPERTY:
+	            	Property p = (Property) ois.readObject();
+	            	System.out.println( p.getTraits() );
+	            	break;
 
 	            default:
 	                System.out.println( "Received unknown message type: " + msgType );
-	                ois.readObject();
 	                break;
 	        }
 		}
