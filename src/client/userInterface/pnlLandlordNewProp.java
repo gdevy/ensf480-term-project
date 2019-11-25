@@ -278,7 +278,6 @@ public class pnlLandlordNewProp {
         gbc.anchor = GridBagConstraints.WEST;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         pnlLandlordNewProp.add(cmbQuadrant, gbc);
-        cmbPropertyType = new JComboBox();
         gbc = new GridBagConstraints();
         gbc.gridx = 6;
         gbc.gridy = 2;
@@ -392,5 +391,28 @@ public class pnlLandlordNewProp {
         txtRent = new JFormattedTextField(formatterD);
         //Square feet is int
         txtSquareFootage = new JFormattedTextField(formatter);
+
+        cmbPropertyType = new JComboBox();
+        cmbPropertyType.addItem("House");
+        cmbPropertyType.addItem("Duplex");
+        cmbPropertyType.addItem("Townhouse");
+        cmbPropertyType.addItem("Apartment");
+        cmbPropertyType.addItem("Condo");
+        cmbPropertyType.addItem("Mainfloor");
+        cmbPropertyType.addItem("Basement");
+
+        cmbPropertyStatus = new JComboBox();
+        cmbPropertyStatus.addItem("AVAILABLE");
+        cmbPropertyStatus.addItem("SUSPENDED");
+        cmbPropertyStatus.addItem("RENTED");
+        cmbPropertyStatus.addItem("REMOVED");
+
+        cmbQuadrant = new JComboBox();
+        cmbQuadrant.addItem("NW");
+        cmbQuadrant.addItem("NE");
+        cmbQuadrant.addItem("SW");
+        cmbQuadrant.addItem("SE");
+
+
     }
 }

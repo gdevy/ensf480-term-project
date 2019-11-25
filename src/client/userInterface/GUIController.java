@@ -57,6 +57,7 @@ public class GUIController {
 
     public void ValidateLogin(String username, String password) {
         LoginInfo loginInfo= new LoginInfo(username, password);
+        //TODO: Send String to server, Validate Input
         System.out.println("Username="+username+"\n Password:"+password);
 
         UserTypeLogin userType = controller.sendLoginAttemptAndGetResult(loginInfo);
@@ -82,6 +83,7 @@ public class GUIController {
         }
 
         MainFrame.revalidate();
+
     }
 
     public void goToNewProp() {
