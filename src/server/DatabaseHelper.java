@@ -40,8 +40,10 @@ public class DatabaseHelper {
 
         dbHelper.registerProperty(object);
         //dbHelper.searchProperty(psc);
+        dbHelper.saveSearchCriteria(psc, "greg");
         LoginInfo info = new LoginInfo("greg", "abc123");
         System.out.println(dbHelper.attemptLogin(info));
+
 
     }
 
@@ -63,7 +65,6 @@ public class DatabaseHelper {
         statement.setString(11, property.getAddress().getCity());
         statement.setString(12, property.getAddress().getProvince());
         statement.setString(13, property.getAddress().getPostalCode());
-        System.out.println(statement);
         return statement.executeUpdate() == 1;  //double check this. javaDocs is a little ambiguous on this
     }
 
@@ -208,40 +209,16 @@ public class DatabaseHelper {
     }
 
     void saveSearchCriteria(PropertySearchCriteria psc, String userInfo) throws SQLException {
-        Statement stm = dbConnection.createStatement();
-        ResultSet rs = stm.executeQuery("SELECT user_id FROM users\n" +
-                "WHERE email = '" + userInfo + "'");
 
-        int userID = rs.getInt("user_id");
-
-        rs = stm.executeQuery("SELECT * from saved_search_criteria\n" +
-                "WHERE user_id = " + userID + "");
-
-        PreparedStatement statement = dbConnection.prepareStatement("INSERT INTO saved_search_criteria (search_id, user_id, max_monthly_rent, min_bathrooms, min_bedrooms, min_square_footage) values (null, ?, ?, ?, ?, ?)");
-        statement.setInt(1, userID);
-        if (psc.hasMaxMonthlyRent()) {
-            statement.setInt(2, psc.getMaxMonthlyRent());
-        } else {
-            statement.setNull(2, Types.INTEGER);
-        }
-        if (psc.hasMinBathrooms()) {
-            statement.setInt(3, psc.getMinBathrooms());
-        } else {
-            statement.setNull(3, Types.INTEGER);
-        }
-        if (psc.hasMinBedrooms()) {
-            statement.setInt(4, psc.getMinBedrooms());
-        } else {
-            statement.setNull(4, Types.INTEGER);
-        }
-        if (psc.hasMinSquareFootage()) {
-            statement.setInt(5, psc.getMinSquareFootage());
-        } else {
-            statement.setNull(5, Types.INTEGER);
-        }
-
-        rs = stm.executeQuery("SELECT last_insert_rowid()");
-
+        PreparedStatement statement = dbConnection.prepareStatement("INSERT INTO saved_search_criteria (search_id, user_id, max_monthly_rent, min_bathrooms, min_bedrooms, min_square_footage) " +
+                "values (null, (SELECT user_id FROM users WHERE email = ?), ?, ?, ?, ?)");
+        statement.setString(1, userInfo);
+        statement.setInt(2, psc.getMaxMonthlyRent());
+        statement.setInt(3, psc.getMinBathrooms());
+        statement.setInt(4, psc.getMinBedrooms());
+        statement.setInt(5, psc.getMinSquareFootage());
+        statement.executeUpdate();
+        ResultSet rs = dbConnection.createStatement().executeQuery("SELECT last_insert_rowid()");
         int searchID = rs.getInt("last_insert_rowid()");
 
         StringBuilder insertUpdate;
@@ -251,26 +228,26 @@ public class DatabaseHelper {
             insertUpdate = new StringBuilder("INSERT INTO search_property_type (search_id, property_type_id)\n" +
                     "VALUES\n");
             for (PropertyType type : psc.getTypes()) {
-                int propertyTypeID = 1;
                 if (!firstRow) {
                     insertUpdate.append(",\n");
                 }
                 insertUpdate.append("(" + searchID + ", (SELECT type_id from property_type WHERE type = '" + type.name() + "'))");
                 firstRow = false;
             }
+            dbConnection.createStatement().executeUpdate(insertUpdate.toString());
         }
         if (psc.hasQuadrant()) {
             firstRow = true;
             insertUpdate = new StringBuilder("INSERT INTO search_quadrant (search_id, quadrant_id)\n" +
                     "VALUES\n");
             for (Quadrant quadrant : psc.getQuadrants()) {
-                int quadrantID = 1;
                 if (!firstRow) {
                     insertUpdate.append(",\n");
                 }
                 insertUpdate.append("(" + searchID + ", (SELECT type_id from property_type WHERE type = '" + quadrant.name() + "'))");
                 firstRow = false;
             }
+            dbConnection.createStatement().executeUpdate(insertUpdate.toString());
         }
 
     }
