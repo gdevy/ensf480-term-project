@@ -23,9 +23,19 @@ public class DatabaseHelper {
         Address ad = new Address(3307, "24 Street NW", "Calgary", "AB", "T2M3Z8");
         Property object = new Property(1000, ad, Quadrant.NW, PropertyStatus.AVAILABLE, pt);
 
+        PropertySearchCriteria psc = new PropertySearchCriteria();
+        psc.setMaxMonthlyRent( 2000 );
+        psc.setMinBathrooms( 2 );
+        psc.addQuadrant( Quadrant.NW );
+        psc.addQuadrant( Quadrant.SW );
+        psc.addType( PropertyType.HOUSE );
+        psc.addType( PropertyType.APARTMENT );
+        psc.setFurnished( true );
+
         DatabaseHelper dbHelper = new DatabaseHelper();
 
-        dbHelper.registerProperty(object);
+        //dbHelper.registerProperty(object);
+        dbHelper.searchProperty(psc);
     }
 
     boolean registerProperty(Property property) throws SQLException {
@@ -79,20 +89,20 @@ public class DatabaseHelper {
             query.append("INNER JOIN property_type ON property_type = property_type.type_id\n");
         }
 
-        if (!psc.hasQuadrant()) {
+        if (psc.hasQuadrant()) {
             query.append("INNER JOIN quadrant ON properties.quadrant = quadrant.quadrant_id\n");
         }
 
         query.append("WHERE ");
 
         if (psc.hasMaxMonthlyRent()) {
-            query.append("monthly rent <= " + psc.getMaxMonthlyRent() + "\n");
+            query.append("monthly_rent <= " + psc.getMaxMonthlyRent());
             first = false;
         }
 
         if (psc.hasMinBathrooms()) {
             if (!first) {
-                query.append(" AND ");
+                query.append("\n AND ");
             }
             query.append("bathrooms >= " + psc.getMinBathrooms());
             first = false;
@@ -100,7 +110,7 @@ public class DatabaseHelper {
 
         if (psc.hasMinBedrooms()) {
             if (!first) {
-                query.append(" AND ");
+                query.append("\n AND ");
             }
             query.append("bedrooms >= " + psc.getMinBedrooms());
             first = false;
@@ -108,15 +118,15 @@ public class DatabaseHelper {
 
         if (psc.hasMinSquareFootage()) {
             if (!first) {
-                query.append(" AND ");
+                query.append("\n AND ");
             }
             query.append("square_footage >= " + psc.getMinSquareFootage());
             first = false;
         }
 
-        if (!psc.hasQuadrant()) {
+        if (psc.hasQuadrant()) {
             if (!first) {
-                query.append(" AND ");
+                query.append("\n AND ");
             }
             if (psc.getQuadrants().size() == 1) {
                 query.append("quadrant.quadrant = '" + psc.getQuadrants().get(0).name() + "'");
@@ -125,48 +135,56 @@ public class DatabaseHelper {
                 Iterator iter = psc.getQuadrants().iterator();
 
                 while (iter.hasNext()) {
-                    query.append("quadrant.quadrant = '" + iter.next() + "'\n");
+                    query.append("quadrant.quadrant = '" + iter.next() + "'");
                     if (iter.hasNext()) {
                         query.append("\n OR ");
                     }
                 }
 
-                query.append(") \n");
+                query.append(")");
             }
         }
 
-        if (psc.hasQuadrant()) {
+        if (psc.hasType()) {
             if (!first) {
-                query.append(" AND ");
+                query.append("\n AND ");
             }
             if (psc.getTypes().size() == 1) {
-                query.append("quadrant.quadrant = '" + psc.getQuadrants().get(0).name() + "'");
+                query.append("type = '" + psc.getTypes().get(0).name() + "'");
             } else {
                 query.append("(");
-                Iterator iter = psc.getTypes().iterator();
+                Iterator<PropertyType> iter = psc.getTypes().iterator();
 
                 while (iter.hasNext()) {
-                    query.append("quadrant.quadrant = '" + iter.next() + "'\n");
+                    query.append("type = '" + iter.next().name() + "'");
                     if (iter.hasNext()) {
                         query.append("\n OR ");
                     }
                 }
-                query.append(") \n");
+                query.append(")");
             }
             first = false;
         }
 
         if (psc.getFurnished()) {
             if (!first) {
-                query.append(" AND ");
+                query.append("\n AND ");
             }
             query.append("furnished = " + 1);
             first = false;
         }
 
+        System.out.println(query);
         PreparedStatement statement = dbConnection.prepareStatement(query.toString());
 
         ResultSet rs = statement.executeQuery();
+
+
+//        PropertyTraits pt = new PropertyTraits(PropertyType.HOUSE, 1, 1, 1000, true);
+//        Address ad = new Address(3307, "24 Street NW", "Calgary", "AB", "T2M3Z8");
+//        Property object = new Property(1000, ad, Quadrant.NW, PropertyStatus.AVAILABLE, pt);
+
+
 
         return results;
     }
