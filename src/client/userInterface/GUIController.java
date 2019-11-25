@@ -1,7 +1,6 @@
 package client.userInterface;
 
-import descriptor.Address;
-import descriptor.LoginInfo;
+import descriptor.*;
 import entity.socket.PropertySearchCriteria;
 import entity.socket.property.*;
 import client.mvc.Controller;
@@ -58,17 +57,31 @@ public class GUIController {
 
     public void ValidateLogin(String username, String password) {
         LoginInfo loginInfo= new LoginInfo(username, password);
-        //TODO: Send String to server, Validate Input
         System.out.println("Username="+username+"\n Password:"+password);
 
-        controller.sendLoginAttempt(loginInfo);
-        //TODO:Get Something Back
-        //Assume Landlord
-        pnlLandlordMain = new pnlLandlordMain();
-        pnlLandlordMain.setController(this);
-        MainFrame.setContentPane(pnlLandlordMain.getPnlLandlord());
-        MainFrame.revalidate();
+        UserTypeLogin userType = controller.sendLoginAttemptAndGetResult(loginInfo);
 
+        switch( userType )
+        {
+            case LOGIN_FAILED:
+
+                break;
+            case REGISTERED_RENTER:
+
+                break;
+            case LANDLORD:
+                pnlLandlordMain = new pnlLandlordMain();
+                pnlLandlordMain.setController(this);
+                MainFrame.setContentPane(pnlLandlordMain.getPnlLandlord());
+                break;
+            case MANAGER:
+                //pnlManagerMain = new pnlManagerMain();
+                //pnlManagerMain.setController(this);
+                //MainFrame.setContentPane(pnlManagerMain.getPnlManagerMain());
+                break;
+        }
+
+        MainFrame.revalidate();
     }
 
     public void goToNewProp() {
@@ -107,6 +120,7 @@ public class GUIController {
 
     public static void main(String[] args) {
         GUIController g = new GUIController();
+        g.setController( new Controller() );
     }
 
     public void PropertySearch() {

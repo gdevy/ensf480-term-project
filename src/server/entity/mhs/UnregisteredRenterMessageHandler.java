@@ -37,7 +37,7 @@ public class UnregisteredRenterMessageHandler extends MessageHandlerStrategy
 	            	System.out.println( "Password: " + login.password );
 
 	            	oos.writeObject( MessageType.LOGIN_RESULT );
-	            	UserTypeLogin userType = UserTypeLogin.REGISTERED_RENTER;
+	            	UserTypeLogin userType = UserTypeLogin.LANDLORD;
 	            	oos.writeObject( userType );
 	            	System.out.println( "Sent login validation" );
 
