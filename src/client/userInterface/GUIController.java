@@ -95,8 +95,7 @@ public class GUIController {
 
     public void NewLandlordProperty() {
         try {
-            int streetNumber = Integer.parseInt(pnlLandlordNewProp.getTxtStreetNum());
-            int rent = Integer.parseInt(pnlLandlordNewProp.getTxtRent());
+            int streetNumber = Integer.parseInt(pnlLandlordNewProp.getTxtStreetNum().replace(",","") );
             String street = pnlLandlordNewProp.getTxtStreet();
             String city = pnlLandlordNewProp.getTxtCity();
             String province = pnlLandlordNewProp.getTxtProvince();
@@ -104,9 +103,10 @@ public class GUIController {
             Quadrant q = Quadrant.valueOf(pnlLandlordNewProp.getCmbQuadrant());
             Address a = new Address(streetNumber, street, city, province, postalCode);
             PropertyType type = PropertyType.valueOf(pnlLandlordNewProp.getCmbPropertyType());
-            int bedrooms = Integer.parseInt(pnlLandlordNewProp.getTxtBedrooms());
-            int bathrooms = Integer.parseInt(pnlLandlordNewProp.getTxtBathrooms());
-            int squareFootage = Integer.parseInt(pnlLandlordNewProp.getTxtSquareFootage());
+            int bedrooms = Integer.parseInt(pnlLandlordNewProp.getTxtBedrooms().replace(",","") );
+            int bathrooms = Integer.parseInt(pnlLandlordNewProp.getTxtBathrooms().replace(",","") );
+            int squareFootage = Integer.parseInt(pnlLandlordNewProp.getTxtSquareFootage().replace(",","") );
+            int rent = Integer.parseInt(pnlLandlordNewProp.getTxtRent().replace(",","") );
             boolean furnished = pnlLandlordNewProp.getChkFurnished();
             PropertyTraits t = new PropertyTraits(type, bedrooms, bathrooms, squareFootage, furnished);
             PropertyStatus s = PropertyStatus.valueOf(pnlLandlordNewProp.getCmbPropertyStatus());
@@ -116,6 +116,7 @@ public class GUIController {
             //TODO:Get Something back
         }catch(Exception e){
             System.out.println(e.getMessage());
+            e.printStackTrace();
             //TODO:Error Message
         }
     }

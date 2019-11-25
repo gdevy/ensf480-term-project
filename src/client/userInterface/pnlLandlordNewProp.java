@@ -383,17 +383,17 @@ public class pnlLandlordNewProp {
 //        formatterD.setMaximum(Double.MAX_VALUE);
         // If you want the value to be committed on each keystroke instead of focus lost
         formatterD.setCommitsOnValidEdit(true);
-        txtRent = new JFormattedTextField(formatterD);
+        txtRent = new JFormattedTextField(formatter);
         //Square feet is int
         txtSquareFootage = new JFormattedTextField(formatter);
         cmbPropertyType = new JComboBox();
-        cmbPropertyType.addItem("House");
-        cmbPropertyType.addItem("Duplex");
-        cmbPropertyType.addItem("Townhouse");
-        cmbPropertyType.addItem("Apartment");
-        cmbPropertyType.addItem("Condo");
-        cmbPropertyType.addItem("Mainfloor");
-        cmbPropertyType.addItem("Basement");
+        cmbPropertyType.addItem("HOUSE");
+        cmbPropertyType.addItem("DUPLEX");
+        cmbPropertyType.addItem("TOWNHOUSE");
+        cmbPropertyType.addItem("APARTMENT");
+        cmbPropertyType.addItem("CONDO");
+        cmbPropertyType.addItem("MAINFLOOR");
+        cmbPropertyType.addItem("BASEMENT");
         cmbPropertyStatus = new JComboBox();
         cmbPropertyStatus.addItem("AVAILABLE");
         cmbPropertyStatus.addItem("SUSPENDED");
