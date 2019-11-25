@@ -29,11 +29,33 @@ public class DatabaseHelper {
     }
 
     boolean registerProperty(Property property) throws SQLException {
+        StringBuilder sb = new StringBuilder();
+        Statement stm = dbConnection.createStatement();
+        ResultSet rs = null;
+        rs = stm.executeQuery("SELECT quadrant_id\n" +
+                "from quadrant\n" +
+                "WHERE quadrant = '" + property.getQuadrant().name() + "';");
+
+        int quadrantID = rs.getInt("quadrant_id");
+
+        rs = stm.executeQuery("SELECT status_id\n" +
+                "from property_status\n" +
+                "WHERE status = '" + property.getStatus().name() + "';\n");
+
+        int propertyStatusID = rs.getInt("status_id");
+
+        rs = stm.executeQuery("SELECT type_id\n" +
+                "from property_type\n" +
+                "WHERE type = '" + property.getTraits().getType().name() + "';");
+
+        int propertyTypeID = rs.getInt("type_id");
+
+
         PreparedStatement statement = dbConnection.prepareStatement("INSERT INTO properties (property_id, quadrant, property_status, property_type, bathrooms, bedrooms, furnished, square_footage, monthly_rent, streetNumber, street, city, province, postal_code) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-        statement.setInt(1, property.getId());
-        statement.setString(2, "(SELECT quadrant_id from quadrant WHERE quadrant = " + property.getQuadrant().name());
-        statement.setString(3, "(SELECT status_id from property_status WHERE status = " + property.getStatus().name());
-        statement.setString(4, "(SELECT type_id from property_type WHERE type = " + property.getTraits().getType().name());
+        statement.setInt(1, 4);
+        statement.setInt(2, quadrantID);
+        statement.setInt(3, propertyStatusID);
+        statement.setInt(4, propertyTypeID);
         statement.setInt(5, property.getTraits().getBathrooms());
         statement.setInt(6, property.getTraits().getBedrooms());
         statement.setBoolean(7, property.getTraits().getFurnished());

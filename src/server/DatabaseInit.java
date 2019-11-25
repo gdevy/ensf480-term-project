@@ -17,7 +17,7 @@ public class DatabaseInit {
         try {
             switch (args.length) {
                 case 0:
-                    dbConnection = DriverManager.getConnection("jdbc:sqlite:C:/Users/Greg/Documents/School/ENSF480/project/code/src/sqlite/db.db",
+                    dbConnection = DriverManager.getConnection("jdbc:sqlite:C:/Users/Greg/Documents/School/ENSF480/project/ensf480-term-project/src/sqlite/db.db",
                             "root", "");
                     break;
                 case 2:
