@@ -39,11 +39,11 @@ public class DatabaseHelper {
         statement.setBoolean(7, property.getTraits().getFurnished());
         statement.setDouble(8, property.getTraits().getSquareFootage());
         statement.setInt(9, property.getMonthlyRent());
-        //statement.setInt(10, property.getAddress());
-        //statement.setInt(11, property.getAddress());
-        //statement.setInt(12, property.getAddress());
-        //statement.setInt(13, property.getAddress());
-        //statement.setInt(14, property.getAddress());
+        statement.setInt(10, property.getAddress().getStreetNumber());
+        statement.setString(11, property.getAddress().getStreet());
+        statement.setString(12, property.getAddress().getCity());
+        statement.setString(13, property.getAddress().getProvince());
+        statement.setString(14, property.getAddress().getPostalCode());
         System.out.println(statement);
         return statement.executeUpdate() == 1;  //double check this. javaDocs is a little ambiguous on this
     }
