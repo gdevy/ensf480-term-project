@@ -3,6 +3,7 @@ package server.entity.mhs;
 import entity.socket.property.*;
 import entity.socket.*;
 import server.SocketController;
+import descriptor.LoginInfo;
 
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -29,8 +30,14 @@ public class UnregisteredRenterMessageHandler extends MessageHandlerStrategy
 	                System.out.println( "Furnished: " + psc.getFurnished() );
 	                break;
 
+	            case LOGIN_ATTEMPT:
+	            	LoginInfo login = (LoginInfo) ois.readObject();
+	            	System.out.println( "Username: " + login.username );
+	            	System.out.println( "Password: " + login.password );
+	            	break;
+
 	            default:
-	                System.out.println( "Received unknown message type: " + msgType );
+	                System.out.println( "Message handler can't handle: " + msgType );
 	                ois.readObject();
 	                break;
 	        }
