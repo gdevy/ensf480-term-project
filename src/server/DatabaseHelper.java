@@ -69,7 +69,6 @@ public class DatabaseHelper {
     }
 
     List<Property> searchProperty(PropertySearchCriteria psc) throws SQLException {
-        boolean first = true;
         ArrayList<Property> results = new ArrayList<>();
         StringBuilder query = new StringBuilder("SELECT * FROM properties\n");
 
@@ -83,50 +82,30 @@ public class DatabaseHelper {
         }
 
         query.append("WHERE ");
-
+        query.append("status = '" + PropertyStatus.AVAILABLE.name() + "'");
 
         if (psc.hasMaxMonthlyRent()) {
-
+            query.append("\n AND ");
             query.append("monthly_rent <= " + psc.getMaxMonthlyRent());
-            first = false;
-        }
-
-        if (true) {
-            if (!first) {
-                query.append("\n AND ");
-            }
-            query.append("status = '" + PropertyStatus.AVAILABLE.name() + "'");
-            first = false;
         }
 
         if (psc.hasMinBathrooms()) {
-            if (!first) {
-                query.append("\n AND ");
-            }
+            query.append("\n AND ");
             query.append("bathrooms >= " + psc.getMinBathrooms());
-            first = false;
         }
 
         if (psc.hasMinBedrooms()) {
-            if (!first) {
-                query.append("\n AND ");
-            }
+            query.append("\n AND ");
             query.append("bedrooms >= " + psc.getMinBedrooms());
-            first = false;
         }
 
         if (psc.hasMinSquareFootage()) {
-            if (!first) {
-                query.append("\n AND ");
-            }
+            query.append("\n AND ");
             query.append("square_footage >= " + psc.getMinSquareFootage());
-            first = false;
         }
 
         if (psc.hasQuadrant()) {
-            if (!first) {
-                query.append("\n AND ");
-            }
+            query.append("\n AND ");
             if (psc.getQuadrants().size() == 1) {
                 query.append("quadrant.quadrant_name = '" + psc.getQuadrants().get(0).name() + "'");
             } else {
@@ -145,9 +124,7 @@ public class DatabaseHelper {
         }
 
         if (psc.hasType()) {
-            if (!first) {
-                query.append("\n AND ");
-            }
+            query.append("\n AND ");
             if (psc.getTypes().size() == 1) {
                 query.append("type = '" + psc.getTypes().get(0).name() + "'");
             } else {
@@ -162,15 +139,11 @@ public class DatabaseHelper {
                 }
                 query.append(")");
             }
-            first = false;
         }
 
         if (psc.getFurnished()) {
-            if (!first) {
-                query.append("\n AND ");
-            }
+            query.append("\n AND ");
             query.append("furnished = " + 1);
-            first = false;
         }
 
         System.out.println(query);
