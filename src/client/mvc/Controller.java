@@ -29,27 +29,13 @@ public class Controller
 		}
 	}
 
-	public void sendPropertySearchRequest( PropertySearchCriteria propertySearchCriteria )
-	{
-		try
-		{
-			sockOut.writeObject( MessageType.PROPERTY_SEARCH_REQUEST );
-			sockOut.writeObject( propertySearchCriteria );
-			System.out.println( "sendPropertySearchRequest successful" );
-		}
-		catch( Exception e ) 
-		{
-			e.printStackTrace();
-		}
-	}
-
 	public void sendNewProperty( Property property )
 	{
 		try
 		{
 			sockOut.writeObject( MessageType.CREATE_NEW_PROPERTY );
 			sockOut.writeObject( property );
-			System.out.println( "send property successful" );
+			System.out.println( "sent property" );
 		}
 		catch( Exception e ) 
 		{
@@ -64,7 +50,7 @@ public class Controller
 		{
 			sockOut.writeObject( MessageType.LOGIN_ATTEMPT );
 			sockOut.writeObject( login );
-			System.out.println( "send login attempt successful" );
+			System.out.println( "sent login attempt" );
 
 			MessageType msgType;
 			while( true )
@@ -82,6 +68,7 @@ public class Controller
 			e.printStackTrace();
 		}
 
+		System.out.println( "Logged in as a " + login_result );
 		return login_result;
 	}
 
@@ -91,8 +78,8 @@ public class Controller
 		try
 		{
 			sockOut.writeObject( MessageType.VIEW_SAVED_SEARCHES_REQUEST );
-			sockOut.writeObject( null );
-			System.out.println( "send view saved searches request successful" );
+			sockOut.writeObject( MessageType.NULL_OBJECT );
+			System.out.println( "sent view saved searches request" );
 
 			MessageType msgType;
 			while( true )
@@ -104,6 +91,63 @@ public class Controller
 				}
 			}
 			retVal = (ArrayList<PropertySearchCriteria>) sockIn.readObject();
+		}
+		catch( Exception e )
+		{
+			e.printStackTrace();
+		}
+
+		return retVal;
+	}
+
+	public ArrayList<Property> sendPropertySearchRequestAndGetResults( PropertySearchCriteria propertySearchCriteria )
+	{
+		ArrayList<Property> retVal = new ArrayList<Property>();
+
+		try
+		{
+			sockOut.writeObject( MessageType.PROPERTY_SEARCH_REQUEST );
+			sockOut.writeObject( propertySearchCriteria );
+			System.out.println( "sent PropertySearchRequest" );
+
+			MessageType msgType;
+			while( true )
+			{
+				msgType = (MessageType) sockIn.readObject();
+				if( msgType == MessageType.PROPERT_SEARCH_RESULT )
+				{
+					break;
+				}
+			}
+			retVal = (ArrayList<Property>) sockIn.readObject();
+		}
+		catch( Exception e ) 
+		{
+			e.printStackTrace();
+		}
+
+		return retVal;
+	}
+
+	public ArrayList<Property> getLandlordProperties()
+	{
+		ArrayList<Property> retVal = new ArrayList<Property>();
+		try
+		{
+			sockOut.writeObject( MessageType.VIEW_LANDLORD_PROPERTIES_REQUEST );
+			sockOut.writeObject( MessageType.NULL_OBJECT );
+			System.out.println( "sent view landlord properties request" );
+
+			MessageType msgType;
+			while( true )
+			{
+				msgType = (MessageType) sockIn.readObject();
+				if( msgType == MessageType.VIEW_LANDLORD_PROPERTIES_RESULT )
+				{
+					break;
+				}
+			}
+			retVal = (ArrayList<Property>) sockIn.readObject();
 		}
 		catch( Exception e )
 		{
@@ -126,8 +170,7 @@ public class Controller
 		psc.addType( PropertyType.APARTMENT );
 		psc.setFurnished( true );
 
-		c.sendPropertySearchRequest( psc );
-
+		c.sendPropertySearchRequestAndGetResults( psc );
 
         LoginInfo login = new LoginInfo( "user1234", "pass5928" );
 
@@ -139,6 +182,10 @@ public class Controller
         Property p = new Property( 1000, ad, Quadrant.NW, PropertyStatus.AVAILABLE, pt );
 
         c.sendNewProperty( p );
+
+        c.getLandlordProperties();
+
+        c.getSavedPropertySearches();
         
 		while(true);
 	}

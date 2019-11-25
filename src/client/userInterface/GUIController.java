@@ -148,8 +148,7 @@ public class GUIController {
         }
         //TODO:Send c to server
 
-        controller.sendPropertySearchRequest(c);
-        ArrayList<Property> p;
+        ArrayList<Property> p = controller.sendPropertySearchRequestAndGetResults(c);
         //TODO:Fill arrayList
 
         pnlRenterSearchResult  = new pnlRenterSearchResult();
