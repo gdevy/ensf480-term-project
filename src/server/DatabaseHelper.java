@@ -38,8 +38,8 @@ public class DatabaseHelper {
 
         DatabaseHelper dbHelper = new DatabaseHelper();
 
-        dbHelper.registerProperty(object);
-        //dbHelper.searchProperty(psc);
+        //dbHelper.registerProperty(object);
+        dbHelper.searchProperty(psc);
         dbHelper.saveSearchCriteria(psc, "greg");
         LoginInfo info = new LoginInfo("greg", "abc123");
         System.out.println(dbHelper.attemptLogin(info));
@@ -73,6 +73,7 @@ public class DatabaseHelper {
         ArrayList<Property> results = new ArrayList<>();
         StringBuilder query = new StringBuilder("SELECT * FROM properties\n");
 
+        query.append("INNER JOIN property_status ON property_status = property_status.status_id\n");
         if (psc.hasType()) {
             query.append("INNER JOIN property_type ON property_type = property_type.type_id\n");
         }
@@ -83,8 +84,18 @@ public class DatabaseHelper {
 
         query.append("WHERE ");
 
+
         if (psc.hasMaxMonthlyRent()) {
+
             query.append("monthly_rent <= " + psc.getMaxMonthlyRent());
+            first = false;
+        }
+
+        if (true) {
+            if (!first) {
+                query.append("\n AND ");
+            }
+            query.append("status = '" + PropertyStatus.AVAILABLE.name() + "'");
             first = false;
         }
 
@@ -117,13 +128,13 @@ public class DatabaseHelper {
                 query.append("\n AND ");
             }
             if (psc.getQuadrants().size() == 1) {
-                query.append("quadrant.quad = '" + psc.getQuadrants().get(0).name() + "'");
+                query.append("quadrant.quadrant_name = '" + psc.getQuadrants().get(0).name() + "'");
             } else {
                 query.append("(");
                 Iterator iter = psc.getQuadrants().iterator();
 
                 while (iter.hasNext()) {
-                    query.append("quadrant.quad = '" + iter.next() + "'");
+                    query.append("quadrant.quadrant_name = '" + iter.next() + "'");
                     if (iter.hasNext()) {
                         query.append("\n OR ");
                     }
@@ -181,7 +192,9 @@ public class DatabaseHelper {
             String postalCode = rs.getString("postal_code");
             Address address = new Address(num, street, city, province, postalCode);
             int monthlyRent = rs.getInt("monthly_rent");
-            Quadrant q = Quadrant.valueOf(rs.getString("quad"));
+            String quad = rs.getString("quadrant_name");
+            System.out.println(quad);
+            Quadrant q = Quadrant.valueOf(quad);
             PropertyStatus ps = PropertyStatus.AVAILABLE;
             Property property = new Property(monthlyRent, address, q, ps, pt);
 
