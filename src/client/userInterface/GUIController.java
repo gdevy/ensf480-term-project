@@ -4,14 +4,21 @@ import descriptor.Address;
 import descriptor.LoginInfo;
 import entity.socket.PropertySearchCriteria;
 import entity.socket.property.*;
+import client.mvc.Controller;
 
 import java.awt.*;
 import java.util.ArrayList;
 
 public class GUIController {
     private GUIFrame MainFrame;
+    private Controller controller;
 
     private pnlEditProperty pnlEditProperty;
+
+    public void setController(Controller controller) {
+        this.controller = controller;
+    }
+
     private pnlLandlordMain pnlLandlordMain;
     private pnlLandlordNewProp pnlLandlordNewProp;
     private pnlLogin pnlLogin;
@@ -50,10 +57,12 @@ public class GUIController {
     }
 
     public void ValidateLogin(String username, String password) {
-        //TODO: make login info class
         LoginInfo loginInfo= new LoginInfo(username, password);
         //TODO: Send String to server, Validate Input
         System.out.println("Username="+username+"\n Password:"+password);
+
+        controller.sendLoginAttempt(loginInfo);
+        //TODO:Get Something Back
         //Assume Landlord
         pnlLandlordMain = new pnlLandlordMain();
         pnlLandlordMain.setController(this);
@@ -87,6 +96,9 @@ public class GUIController {
             PropertyTraits t = new PropertyTraits(type, bedrooms, bathrooms, squareFootage, furnished);
             PropertyStatus s = PropertyStatus.valueOf(pnlLandlordNewProp.getCmbPropertyStatus());
             Property p = new Property(rent, a, q, s, t);
+
+            controller.sendNewProperty(p);
+            //TODO:Get Something back
         }catch(Exception e){
             System.out.println(e.getMessage());
             //TODO:Error Message
@@ -119,7 +131,9 @@ public class GUIController {
         }
         //TODO:Send c to server
 
+        controller.sendPropertySearchRequest(c);
         ArrayList<Property> p;
+        //TODO:Fill arrayList
 
         pnlRenterSearchResult  = new pnlRenterSearchResult();
         pnlRenterSearchResult.setController(this);
