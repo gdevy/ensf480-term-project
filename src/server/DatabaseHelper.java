@@ -38,12 +38,12 @@ public class DatabaseHelper {
 
         DatabaseHelper dbHelper = new DatabaseHelper();
 
-        dbHelper.registerProperty(object, "jed");
-        dbHelper.searchProperty(psc);
-        dbHelper.saveSearchCriteria(psc, "greg");
-        LoginInfo info = new LoginInfo("greg", "abc123");
-        System.out.println(dbHelper.attemptLogin(info));
-
+//        dbHelper.registerProperty(object, "jed");
+//        dbHelper.searchProperty(psc);
+//        dbHelper.saveSearchCriteria(psc, "greg");
+//        LoginInfo info = new LoginInfo("greg", "abc123");
+//        System.out.println(dbHelper.attemptLogin(info));
+        System.out.println(dbHelper.getLandlordEmail(1008));
 
     }
 
@@ -239,6 +239,13 @@ public class DatabaseHelper {
         return results;
     }
 
+    String getLandlordEmail(int propertyID) throws SQLException {
+        ResultSet rs = dbConnection.createStatement().executeQuery("SELECT email FROM users\n" +
+                "INNER JOIN landlord_property ON user_id = landlord_property.landlord_id\n" +
+                "WHERE property_id = '" + propertyID + "'");
+
+        return rs.getString(1);
+    }
     UserTypeLogin attemptLogin(LoginInfo info) throws SQLException {
         Statement stm = dbConnection.createStatement();
 
