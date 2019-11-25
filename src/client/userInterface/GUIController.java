@@ -14,9 +14,6 @@ public class GUIController {
 
     private pnlEditProperty pnlEditProperty;
 
-    public void setController(Controller controller) {
-        this.controller = controller;
-    }
 
     private pnlLandlordMain pnlLandlordMain;
     private pnlLandlordNewProp pnlLandlordNewProp;
@@ -26,8 +23,16 @@ public class GUIController {
     private pnlStart pnlStart;
     private pnlRenterSearchResult pnlRenterSearchResult;
     private pnlLandlordListings pnlLandlordListings;
+    private pnlLandordPayment pnlLandordPayment;
     //TODO: Manager and landlord communications
 
+    public static void main(String[] args) {
+        GUIController g = new GUIController();
+        g.setController( new Controller() );
+    }
+    public void setController(Controller controller) {
+        this.controller = controller;
+    }
     public GUIController() {
         InitializeGUI();
         MainFrame.setVisible(true);
@@ -121,10 +126,6 @@ public class GUIController {
         }
     }
 
-    public static void main(String[] args) {
-        GUIController g = new GUIController();
-        g.setController( new Controller() );
-    }
 
     public void PropertySearch() {
         PropertySearchCriteria c = new PropertySearchCriteria();
@@ -165,5 +166,19 @@ public class GUIController {
         pnlLandlordListings.setController(this);
         MainFrame.setContentPane(pnlLandlordListings.getPnlLandlordListings());
         MainFrame.revalidate();
+    }
+
+    public void NewLandlordPayment() {
+        String name = pnlLandordPayment.getTxtCardName();
+        String num = pnlLandordPayment.getTxtCardNumber();
+        String ccv = pnlLandordPayment.getTxtCCV();
+        String date = pnlLandordPayment.getTxtExpirationDate();
+        //TODO: Payment Object and send to server
+        MainFrame.setContentPane(pnlLandlordMain.getPnlLandlord());
+        MainFrame.revalidate();
+    }
+
+    public void goToLandlordEditProperty() {
+        //TODO:Finish Edit Property
     }
 }

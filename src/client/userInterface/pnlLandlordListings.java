@@ -3,16 +3,34 @@ package client.userInterface;
 import entity.socket.property.Property;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.*;
 import java.util.ArrayList;
 
 public class pnlLandlordListings {
     private JTable tblResults;
     private JPanel pnlLandlordListings;
+    private JButton editPropertyButton;
     private GUIController controller;
 
 
+    public pnlLandlordListings() {
+        tblResults.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
+        public void valueChanged(ListSelectionEvent event) {
+            editPropertyButton.setEnabled(true);
+            //System.out.println(tblResults.getValueAt(tblResults.getSelectedRow(), 0).toString());
+        }
+    });
+        editPropertyButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                controller.goToLandlordEditProperty();
+            }
+        });
+    }
     public void fillTable(ArrayList<Property> properties) {
         DefaultTableModel d = (DefaultTableModel) tblResults.getModel();
         d.setRowCount(0);
