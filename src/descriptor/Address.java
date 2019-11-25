@@ -21,4 +21,29 @@ public class Address implements Serializable
 		this.postalCode = postalCode;
 	}
 
+	public int getStreetNumber()
+	{
+		return streetNumber;
+	}
+
+	public String getStreet()
+	{
+		return street;
+	}
+
+	public String getCity()
+	{
+		return city;
+	}
+
+	public String getProvince()
+	{
+		return province;
+	}
+
+	public String getPostalCode()
+	{
+		return postalCode;
+	}	
+
 }

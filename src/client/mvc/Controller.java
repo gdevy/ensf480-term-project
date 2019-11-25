@@ -6,6 +6,7 @@ import java.io.*;
 import entity.socket.PropertySearchCriteria;
 import entity.socket.property.*;
 import entity.socket.MessageType;
+import descriptor.*;
 
 public class Controller
 {
@@ -42,6 +43,21 @@ public class Controller
 		}
 	}
 
+	public void sendNewProperty( Property property )
+	{
+		try
+		{
+			MessageType msgType = MessageType.CREATE_NEW_PROPERTY;
+			sockOut.writeObject( msgType );
+			sockOut.writeObject( property );
+			System.out.println( "send property successful" );
+		}
+		catch( Exception e ) 
+		{
+			e.printStackTrace();
+		}
+	}
+
 	public static void main( String[] args )
 	{
 		Controller c = new Controller();
@@ -56,6 +72,13 @@ public class Controller
 		psc.setFurnished( true );
 
 		c.sendPropertySearchRequest( psc );
+
+		PropertyTraits pt = new PropertyTraits( PropertyType.HOUSE, 1, 1, 1000, true );
+        Address ad = new Address( 3307, "24 Street NW", "Calgary", "AB", "T2M3Z8" );
+        Property p = new Property( 1000, ad, Quadrant.NW, PropertyStatus.AVAILABLE, pt );
+
+        c.sendNewProperty( p );
+
 		while(true);
 	}
 
