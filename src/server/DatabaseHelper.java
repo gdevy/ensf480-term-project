@@ -43,7 +43,8 @@ public class DatabaseHelper {
 //        dbHelper.saveSearchCriteria(psc, "greg");
 //        LoginInfo info = new LoginInfo("greg", "abc123");
 //        System.out.println(dbHelper.attemptLogin(info));
-        System.out.println(dbHelper.getLandlordEmail(1008));
+//        System.out.println(dbHelper.getLandlordEmail(1008));
+        dbHelper.editStatus(1008, PropertyStatus.REMOVED);
 
     }
 
@@ -246,6 +247,14 @@ public class DatabaseHelper {
 
         return rs.getString(1);
     }
+
+    void editStatus(int propertyID, PropertyStatus newStatus) throws SQLException {
+        dbConnection.createStatement().executeUpdate("UPDATE properties\n" +
+                "SET property_status = (SELECT status_id FROM property_status WHERE status = '" + newStatus.name() + "')\n" +
+                "WHERE\n" +
+                "    property_id = " + propertyID);
+    }
+
     UserTypeLogin attemptLogin(LoginInfo info) throws SQLException {
         Statement stm = dbConnection.createStatement();
 
