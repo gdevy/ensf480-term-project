@@ -1,6 +1,8 @@
 package server;
 
 import descriptor.Address;
+import descriptor.LoginInfo;
+import descriptor.UserTypeLogin;
 import entity.socket.PropertySearchCriteria;
 import entity.socket.property.*;
 
@@ -35,7 +37,10 @@ public class DatabaseHelper {
         DatabaseHelper dbHelper = new DatabaseHelper();
 
         //dbHelper.registerProperty(object);
-        dbHelper.searchProperty(psc);
+        //dbHelper.searchProperty(psc);
+        LoginInfo info = new LoginInfo("greg", "abc123");
+        System.out.println(dbHelper.attemptLogin(info));
+
     }
 
     boolean registerProperty(Property property) throws SQLException {
@@ -202,5 +207,20 @@ public class DatabaseHelper {
         }
 
         return results;
+    }
+
+    UserTypeLogin attemptLogin(LoginInfo info) throws SQLException {
+        Statement stm = dbConnection.createStatement();
+        ResultSet rs = stm.executeQuery("SELECT user_type from users\n" +
+                "WHERE email = '" + info.username + "'\n" +
+                "AND   password = '" + info.password + "'");
+
+        if (rs.next()) {
+            return UserTypeLogin.valueOf(rs.getString("user_type"));
+
+        } else {
+            return UserTypeLogin.LOGIN_FAILED;
+        }
+
     }
 }
