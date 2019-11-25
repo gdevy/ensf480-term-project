@@ -50,4 +50,9 @@ public class SocketController implements Runnable
 
     }
 
+    public void setMessageHandler( MessageHandlerStrategy messageHandler )
+    {
+        this.messageHandler = messageHandler;
+    }
+
 }

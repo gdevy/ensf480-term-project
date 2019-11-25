@@ -10,9 +10,12 @@ import java.io.ObjectOutputStream;
 public class LandlordMessageHandler extends MessageHandlerStrategy
 {
 
-	public LandlordMessageHandler( SocketController sc, ObjectOutputStream oos, ObjectInputStream ois )
+	private String username;
+
+	public LandlordMessageHandler( SocketController sc, ObjectOutputStream oos, ObjectInputStream ois, String username )
 	{
 		super( sc, oos, ois );
+		this.username = username;
 	}
 
 	@Override
@@ -20,7 +23,7 @@ public class LandlordMessageHandler extends MessageHandlerStrategy
 	{
 		try
 		{
-	        System.out.println( "Unregistered Renter handling " + msgType );
+	        System.out.println( "Landlord handling " + msgType );
 	        switch( msgType )
 	        {
 	            case CREATE_NEW_PROPERTY:
