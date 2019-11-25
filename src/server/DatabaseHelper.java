@@ -13,7 +13,7 @@ public class DatabaseHelper {
     private Connection dbConnection;
 
     DatabaseHelper() throws SQLException {
-        dbConnection = DriverManager.getConnection("jdbc:sqlite:C:/Users/Greg/Documents/School/ENSF480/project/code/src/sqlite/db.db",
+        dbConnection = DriverManager.getConnection("jdbc:sqlite:C:/Users/Greg/Documents/School/ENSF480/project/ensf480-term-project/src/sqlite/db.db",
                 "root", "");
     }
 
@@ -57,6 +57,7 @@ public class DatabaseHelper {
         rs = stm.executeQuery("SELECT type_id\n" +
                 "from property_type\n" +
                 "WHERE type = '" + property.getTraits().getType().name() + "';");
+
 
         int propertyTypeID = rs.getInt("type_id");
 
@@ -129,13 +130,13 @@ public class DatabaseHelper {
                 query.append("\n AND ");
             }
             if (psc.getQuadrants().size() == 1) {
-                query.append("quadrant.quadrant = '" + psc.getQuadrants().get(0).name() + "'");
+                query.append("quadrant.quad = '" + psc.getQuadrants().get(0).name() + "'");
             } else {
                 query.append("(");
                 Iterator iter = psc.getQuadrants().iterator();
 
                 while (iter.hasNext()) {
-                    query.append("quadrant.quadrant = '" + iter.next() + "'");
+                    query.append("quadrant.quad = '" + iter.next() + "'");
                     if (iter.hasNext()) {
                         query.append("\n OR ");
                     }
@@ -179,12 +180,26 @@ public class DatabaseHelper {
 
         ResultSet rs = statement.executeQuery();
 
+        while (rs.next()) {
+            PropertyType type = PropertyType.valueOf(rs.getString("type"));
+            int bedrooms = rs.getInt("bedrooms");
+            int bathrooms = rs.getInt("bathrooms");
+            int squareFootage = rs.getInt("square_footage");
+            boolean furnished = rs.getInt("furnished") == 1;
+            PropertyTraits pt = new PropertyTraits(type, bedrooms, bathrooms, squareFootage, furnished);
+            int num = rs.getInt("streetNumber");
+            String street = rs.getString("street");
+            String city = rs.getString("city");
+            String province = rs.getString("province");
+            String postalCode = rs.getString("postal_code");
+            Address address = new Address(num, street, city, province, postalCode);
+            int monthlyRent = rs.getInt("monthly_rent");
+            Quadrant q = Quadrant.valueOf(rs.getString("quad"));
+            PropertyStatus ps = PropertyStatus.AVAILABLE;
+            Property property = new Property(monthlyRent, address, q, ps, pt);
 
-//        PropertyTraits pt = new PropertyTraits(PropertyType.HOUSE, 1, 1, 1000, true);
-//        Address ad = new Address(3307, "24 Street NW", "Calgary", "AB", "T2M3Z8");
-//        Property object = new Property(1000, ad, Quadrant.NW, PropertyStatus.AVAILABLE, pt);
-
-
+            results.add(property);
+        }
 
         return results;
     }

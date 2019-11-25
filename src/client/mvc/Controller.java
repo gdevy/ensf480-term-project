@@ -1,12 +1,13 @@
 package client.mvc;
 
-import java.net.Socket;
-import java.io.*;
-
 import entity.socket.PropertySearchCriteria;
 import entity.socket.property.*;
 import entity.socket.MessageType;
 import descriptor.*;
+
+import java.net.Socket;
+import java.io.*;
+import java.util.ArrayList;
 
 public class Controller
 {
@@ -32,8 +33,7 @@ public class Controller
 	{
 		try
 		{
-			MessageType msgType = MessageType.PROPERTY_SEARCH_REQUEST;
-			sockOut.writeObject( msgType );
+			sockOut.writeObject( MessageType.PROPERTY_SEARCH_REQUEST );
 			sockOut.writeObject( propertySearchCriteria );
 			System.out.println( "sendPropertySearchRequest successful" );
 		}
@@ -47,8 +47,7 @@ public class Controller
 	{
 		try
 		{
-			MessageType msgType = MessageType.CREATE_NEW_PROPERTY;
-			sockOut.writeObject( msgType );
+			sockOut.writeObject( MessageType.CREATE_NEW_PROPERTY );
 			sockOut.writeObject( property );
 			System.out.println( "send property successful" );
 		}
@@ -58,19 +57,60 @@ public class Controller
 		}
 	}
 
-	public void sendLoginAttempt( LoginInfo login )
+	public UserTypeLogin sendLoginAttemptAndGetResult( LoginInfo login )
 	{
+		UserTypeLogin login_result = UserTypeLogin.LOGIN_FAILED;
 		try
 		{
-			MessageType msgType = MessageType.LOGIN_ATTEMPT;
-			sockOut.writeObject( msgType );
+			sockOut.writeObject( MessageType.LOGIN_ATTEMPT );
 			sockOut.writeObject( login );
-			System.out.println( "send property successful" );
+			System.out.println( "send login attempt successful" );
+
+			MessageType msgType;
+			while( true )
+			{
+				msgType = (MessageType) sockIn.readObject();
+				if( msgType == MessageType.LOGIN_RESULT )
+				{
+					break;
+				}
+			}
+			login_result = (UserTypeLogin) sockIn.readObject();
 		}
-		catch( Exception e ) 
+		catch( Exception e )
 		{
 			e.printStackTrace();
 		}
+
+		return login_result;
+	}
+
+	public ArrayList<PropertySearchCriteria> getSavedPropertySearches()
+	{
+		ArrayList<PropertySearchCriteria> retVal = new ArrayList<PropertySearchCriteria>();
+		try
+		{
+			sockOut.writeObject( MessageType.VIEW_SAVED_SEARCHES_REQUEST );
+			sockOut.writeObject( null );
+			System.out.println( "send view saved searches request successful" );
+
+			MessageType msgType;
+			while( true )
+			{
+				msgType = (MessageType) sockIn.readObject();
+				if( msgType == MessageType.VIEW_SAVED_SEARCHES_RESULT )
+				{
+					break;
+				}
+			}
+			retVal = (ArrayList<PropertySearchCriteria>) sockIn.readObject();
+		}
+		catch( Exception e )
+		{
+			e.printStackTrace();
+		}
+
+		return retVal;
 	}
 
 	public static void main( String[] args )
@@ -88,16 +128,18 @@ public class Controller
 
 		c.sendPropertySearchRequest( psc );
 
+
+        LoginInfo login = new LoginInfo( "user1234", "pass5928" );
+
+        UserTypeLogin utl = c.sendLoginAttemptAndGetResult( login );
+        System.out.println( "Login result: " + utl );
+
 		PropertyTraits pt = new PropertyTraits( PropertyType.HOUSE, 1, 1, 1000, true );
         Address ad = new Address( 3307, "24 Street NW", "Calgary", "AB", "T2M3Z8" );
         Property p = new Property( 1000, ad, Quadrant.NW, PropertyStatus.AVAILABLE, pt );
 
         c.sendNewProperty( p );
-
-        LoginInfo login = new LoginInfo( "user1234", "pass5928" );
-
-        c.sendLoginAttempt( login );
-
+        
 		while(true);
 	}
 
