@@ -58,11 +58,26 @@ public class Controller
 		}
 	}
 
+	public void sendLoginAttempt( LoginInfo login )
+	{
+		try
+		{
+			MessageType msgType = MessageType.LOGIN_ATTEMPT;
+			sockOut.writeObject( msgType );
+			sockOut.writeObject( login );
+			System.out.println( "send property successful" );
+		}
+		catch( Exception e ) 
+		{
+			e.printStackTrace();
+		}
+	}
+
 	public static void main( String[] args )
 	{
 		Controller c = new Controller();
-		PropertySearchCriteria psc = new PropertySearchCriteria();
 
+		PropertySearchCriteria psc = new PropertySearchCriteria();
 		psc.setMaxMonthlyRent( 2000 );
 		psc.setMinBathrooms( 2 );
 		psc.addQuadrant( Quadrant.NW );
@@ -78,6 +93,10 @@ public class Controller
         Property p = new Property( 1000, ad, Quadrant.NW, PropertyStatus.AVAILABLE, pt );
 
         c.sendNewProperty( p );
+
+        LoginInfo login = new LoginInfo( "user1234", "pass5928" );
+
+        c.sendLoginAttempt( login );
 
 		while(true);
 	}
