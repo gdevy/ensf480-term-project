@@ -211,12 +211,15 @@ public class DatabaseHelper {
 
     UserTypeLogin attemptLogin(LoginInfo info) throws SQLException {
         Statement stm = dbConnection.createStatement();
-        ResultSet rs = stm.executeQuery("SELECT user_type from users\n" +
+
+
+        ResultSet rs = stm.executeQuery("SELECT user_type.user_type_name from users\n" +
+                "INNER JOIN user_type ON user_id = user_type.user_type_id \n" +
                 "WHERE email = '" + info.username + "'\n" +
                 "AND   password = '" + info.password + "'");
 
         if (rs.next()) {
-            return UserTypeLogin.valueOf(rs.getString("user_type"));
+            return UserTypeLogin.valueOf(rs.getString("user_type_name"));
 
         } else {
             return UserTypeLogin.LOGIN_FAILED;
