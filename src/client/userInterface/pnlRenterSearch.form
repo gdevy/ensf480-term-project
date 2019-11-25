@@ -46,7 +46,7 @@
           <gridbag weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties>
-          <text value="Bedrooms:"/>
+          <text value="Minimum Bedrooms:"/>
         </properties>
       </component>
       <component id="c194" class="javax.swing.JLabel">
@@ -55,7 +55,7 @@
           <gridbag weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties>
-          <text value="Bathrooms:"/>
+          <text value="Minimum Bathrooms:"/>
         </properties>
       </component>
       <component id="7863e" class="javax.swing.JLabel">

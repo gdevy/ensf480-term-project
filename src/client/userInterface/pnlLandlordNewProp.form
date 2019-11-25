@@ -85,18 +85,6 @@
           <preferredSize width="120" height="30"/>
         </properties>
       </component>
-      <component id="3a261" class="javax.swing.JTextField" binding="txtStreetNum">
-        <constraints>
-          <grid row="3" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
-            <preferred-size width="150" height="-1"/>
-          </grid>
-          <gridbag weightx="0.0" weighty="0.0"/>
-        </constraints>
-        <properties>
-          <minimumSize width="120" height="30"/>
-          <preferredSize width="120" height="30"/>
-        </properties>
-      </component>
       <component id="c1048" class="javax.swing.JTextField" binding="txtCity">
         <constraints>
           <grid row="5" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
@@ -234,7 +222,7 @@
         </constraints>
         <properties/>
       </component>
-      <component id="7e18e" class="javax.swing.JTextField" binding="txtBedrooms">
+      <component id="cb1b7" class="javax.swing.JFormattedTextField" binding="txtBedrooms" custom-create="true">
         <constraints>
           <grid row="3" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="-1"/>
@@ -244,9 +232,10 @@
         <properties>
           <minimumSize width="120" height="30"/>
           <preferredSize width="120" height="30"/>
+          <text value=""/>
         </properties>
       </component>
-      <component id="499e6" class="javax.swing.JTextField" binding="txtBathrooms">
+      <component id="9644d" class="javax.swing.JFormattedTextField" binding="txtBathrooms" custom-create="true">
         <constraints>
           <grid row="4" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="-1"/>
@@ -257,7 +246,7 @@
           <minimumSize width="120" height="30"/>
         </properties>
       </component>
-      <component id="55e8a" class="javax.swing.JTextField" binding="txtSquareFootage">
+      <component id="a510b" class="javax.swing.JFormattedTextField" binding="txtSquareFootage" custom-create="true">
         <constraints>
           <grid row="5" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="-1"/>
@@ -308,7 +297,7 @@
           <text value="Monthly Rent:"/>
         </properties>
       </component>
-      <component id="d36e4" class="javax.swing.JTextField" binding="txtRent">
+      <component id="45c39" class="javax.swing.JFormattedTextField" binding="txtRent" custom-create="true">
         <constraints>
           <grid row="9" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="-1"/>
@@ -320,6 +309,15 @@
           <opaque value="false"/>
           <preferredSize width="120" height="30"/>
         </properties>
+      </component>
+      <component id="7a65d" class="javax.swing.JFormattedTextField" binding="txtStreetNum" custom-create="true">
+        <constraints>
+          <grid row="3" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+            <preferred-size width="150" height="-1"/>
+          </grid>
+          <gridbag weightx="0.0" weighty="0.0"/>
+        </constraints>
+        <properties/>
       </component>
     </children>
   </grid>

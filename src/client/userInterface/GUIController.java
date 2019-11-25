@@ -1,5 +1,9 @@
 package client.userInterface;
 
+import descriptor.Address;
+import entity.socket.PropertySearchCriteria;
+import entity.socket.property.*;
+
 import java.awt.*;
 
 public class GUIController {
@@ -46,6 +50,7 @@ public class GUIController {
 	}
 
     public void ValidateLogin(String username, String password) {
+        //TODO: make login info class
         //TODO: Send String to server, Validate Input
         System.out.println("Username="+username+"\n Password:"+password);
         //Assume Landlord
@@ -63,6 +68,21 @@ public class GUIController {
     }
 
     public void NewLandlordProperty() {
-
+        int rent = Integer.parseInt(pnlLandlordNewProp.getTxtRent());
+        int streetNumber = Integer.parseInt(pnlLandlordNewProp.getTxtStreetNum());
+        String street = pnlLandlordNewProp.getTxtStreet();
+        String city = pnlLandlordNewProp.getTxtCity();
+        String province = pnlLandlordNewProp.getTxtProvince();
+        String postalCode = pnlLandlordNewProp.getTxtPostalCode();
+        Quadrant q = Quadrant.valueOf(pnlLandlordNewProp.getCmbQuadrant());
+        Address a = new Address(streetNumber,street,city,province,postalCode);
+        PropertyType type = PropertyType.valueOf(pnlLandlordNewProp.getCmbPropertyType());
+        int bedrooms = Integer.parseInt(pnlLandlordNewProp.getTxtBedrooms());
+        int bathrooms = Integer.parseInt(pnlLandlordNewProp.getTxtBathrooms());
+        double squareFootage = Double.parseDouble(pnlLandlordNewProp.getTxtSquareFootage());
+        boolean furnished = pnlLandlordNewProp.getChkFurnished();
+        PropertyTraits t = new PropertyTraits(type,bedrooms,bathrooms,squareFootage,furnished);
+        PropertyStatus s = PropertyStatus.valueOf(pnlLandlordNewProp.getCmbPropertyStatus());
+        Property p = new Property(rent,a,q,s,t);
     }
 }

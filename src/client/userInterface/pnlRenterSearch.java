@@ -174,14 +174,14 @@ public class pnlRenterSearch {
         gbc.anchor = GridBagConstraints.WEST;
         pnlRenterSearch.add(label3, gbc);
         final JLabel label4 = new JLabel();
-        label4.setText("Bedrooms:");
+        label4.setText("Minimum Bedrooms:");
         gbc = new GridBagConstraints();
         gbc.gridx = 6;
         gbc.gridy = 4;
         gbc.anchor = GridBagConstraints.WEST;
         pnlRenterSearch.add(label4, gbc);
         final JLabel label5 = new JLabel();
-        label5.setText("Bathrooms:");
+        label5.setText("Minimum Bathrooms:");
         gbc = new GridBagConstraints();
         gbc.gridx = 6;
         gbc.gridy = 5;
@@ -237,13 +237,6 @@ public class pnlRenterSearch {
         gbc.anchor = GridBagConstraints.WEST;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         pnlRenterSearch.add(txtSquareFootage, gbc);
-        chkFurnished = new JCheckBox();
-        chkFurnished.setText("");
-        gbc = new GridBagConstraints();
-        gbc.gridx = 10;
-        gbc.gridy = 7;
-        gbc.anchor = GridBagConstraints.WEST;
-        pnlRenterSearch.add(chkFurnished, gbc);
         final JLabel label8 = new JLabel();
         label8.setText("Quadrant:");
         gbc = new GridBagConstraints();
@@ -370,6 +363,13 @@ public class pnlRenterSearch {
         gbc.gridy = 0;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         pnlRenterSearch.add(spacer7, gbc);
+        cmbFurnished = new JComboBox();
+        gbc = new GridBagConstraints();
+        gbc.gridx = 10;
+        gbc.gridy = 7;
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        pnlRenterSearch.add(cmbFurnished, gbc);
     }
 
     /**

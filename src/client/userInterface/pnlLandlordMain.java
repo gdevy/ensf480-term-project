@@ -6,7 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class pnlLandlordMain {
-    private JButton messageAManagerButton;
+    private JButton paymentButton;
     private JPanel pnlLandlord;
     private JButton makeNewListingButton;
     private JButton viewListingsButton;
@@ -17,7 +17,7 @@ public class pnlLandlordMain {
     }
 
     public pnlLandlordMain() {
-        messageAManagerButton.addActionListener(new ActionListener() {
+        paymentButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
@@ -29,7 +29,7 @@ public class pnlLandlordMain {
 
             }
         });
-        messageAManagerButton.addActionListener(new ActionListener() {
+        paymentButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
@@ -64,8 +64,8 @@ public class pnlLandlordMain {
     private void $$$setupUI$$$() {
         pnlLandlord = new JPanel();
         pnlLandlord.setLayout(new GridBagLayout());
-        messageAManagerButton = new JButton();
-        messageAManagerButton.setText("Message a Manager");
+        paymentButton = new JButton();
+        paymentButton.setText("Make Payments");
         GridBagConstraints gbc;
         gbc = new GridBagConstraints();
         gbc.gridx = 2;
@@ -74,7 +74,7 @@ public class pnlLandlordMain {
         gbc.weighty = 1.0;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.insets = new Insets(0, 10, 0, 10);
-        pnlLandlord.add(messageAManagerButton, gbc);
+        pnlLandlord.add(paymentButton, gbc);
         makeNewListingButton = new JButton();
         makeNewListingButton.setText("Make New Listing");
         gbc = new GridBagConstraints();

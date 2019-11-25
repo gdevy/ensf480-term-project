@@ -115,7 +115,7 @@ public class pnlManagerMain {
         viewLandlordMessagesButton = new JButton();
         viewLandlordMessagesButton.setText("View Landlord Messages");
         gbc = new GridBagConstraints();
-        gbc.gridx = 3;
+        gbc.gridx = 4;
         gbc.gridy = 0;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         pnlManagerMain.add(viewLandlordMessagesButton, gbc);
@@ -136,10 +136,16 @@ public class pnlManagerMain {
         viewRentersButton = new JButton();
         viewRentersButton.setText("View Renters");
         gbc = new GridBagConstraints();
-        gbc.gridx = 3;
+        gbc.gridx = 4;
         gbc.gridy = 2;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         pnlManagerMain.add(viewRentersButton, gbc);
+        final JPanel spacer3 = new JPanel();
+        gbc = new GridBagConstraints();
+        gbc.gridx = 3;
+        gbc.gridy = 0;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        pnlManagerMain.add(spacer3, gbc);
     }
 
     /**
@@ -148,4 +154,5 @@ public class pnlManagerMain {
     public JComponent $$$getRootComponent$$$() {
         return pnlManagerMain;
     }
+
 }
