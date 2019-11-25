@@ -26,6 +26,10 @@ public class pnlLandlordNewProp {
     private JFormattedTextField txtRent;
     private GUIController controller;
 
+    public void setController(GUIController controller) {
+        this.controller = controller;
+    }
+
     public pnlLandlordNewProp() {
         $$$setupUI$$$();
         btnSubmit.addActionListener(new ActionListener() {
@@ -386,7 +390,7 @@ public class pnlLandlordNewProp {
         // If you want the value to be committed on each keystroke instead of focus lost
         formatterD.setCommitsOnValidEdit(true);
         txtRent = new JFormattedTextField(formatterD);
-        //TODO: Change rent to double format
-        txtSquareFootage = new JFormattedTextField(formatterD);
+        //Square feet is int
+        txtSquareFootage = new JFormattedTextField(formatter);
     }
 }

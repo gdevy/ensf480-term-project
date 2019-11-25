@@ -1,10 +1,12 @@
 package client.userInterface;
 
 import descriptor.Address;
+import descriptor.LoginInfo;
 import entity.socket.PropertySearchCriteria;
 import entity.socket.property.*;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 public class GUIController {
     private GUIFrame MainFrame;
@@ -16,6 +18,8 @@ public class GUIController {
     private pnlManagerMain pnlManagerMain;
     private pnlRenterSearch pnlRenterSearch;
     private pnlStart pnlStart;
+    private pnlRenterSearchResult pnlRenterSearchResult;
+    private pnlLandlordListings pnlLandlordListings;
     //TODO: Manager and landlord communications
 
     public GUIController() {
@@ -45,12 +49,9 @@ public class GUIController {
         MainFrame.revalidate();
     }
 
-    public static void main(String[] args) {
-		GUIController g = new GUIController();
-	}
-
     public void ValidateLogin(String username, String password) {
         //TODO: make login info class
+        LoginInfo loginInfo= new LoginInfo(username, password);
         //TODO: Send String to server, Validate Input
         System.out.println("Username="+username+"\n Password:"+password);
         //Assume Landlord
@@ -63,26 +64,75 @@ public class GUIController {
 
     public void goToNewProp() {
         pnlLandlordNewProp = new pnlLandlordNewProp();
+        pnlLandlordNewProp.setController(this);
         MainFrame.setContentPane(pnlLandlordNewProp.getPnlLandlordNewProp());
         MainFrame.revalidate();
     }
 
     public void NewLandlordProperty() {
-        int rent = Integer.parseInt(pnlLandlordNewProp.getTxtRent());
-        int streetNumber = Integer.parseInt(pnlLandlordNewProp.getTxtStreetNum());
-        String street = pnlLandlordNewProp.getTxtStreet();
-        String city = pnlLandlordNewProp.getTxtCity();
-        String province = pnlLandlordNewProp.getTxtProvince();
-        String postalCode = pnlLandlordNewProp.getTxtPostalCode();
-        Quadrant q = Quadrant.valueOf(pnlLandlordNewProp.getCmbQuadrant());
-        Address a = new Address(streetNumber,street,city,province,postalCode);
-        PropertyType type = PropertyType.valueOf(pnlLandlordNewProp.getCmbPropertyType());
-        int bedrooms = Integer.parseInt(pnlLandlordNewProp.getTxtBedrooms());
-        int bathrooms = Integer.parseInt(pnlLandlordNewProp.getTxtBathrooms());
-        double squareFootage = Double.parseDouble(pnlLandlordNewProp.getTxtSquareFootage());
-        boolean furnished = pnlLandlordNewProp.getChkFurnished();
-        PropertyTraits t = new PropertyTraits(type,bedrooms,bathrooms,squareFootage,furnished);
-        PropertyStatus s = PropertyStatus.valueOf(pnlLandlordNewProp.getCmbPropertyStatus());
-        Property p = new Property(rent,a,q,s,t);
+        try {
+            int streetNumber = Integer.parseInt(pnlLandlordNewProp.getTxtStreetNum());
+            int rent = Integer.parseInt(pnlLandlordNewProp.getTxtRent());
+            String street = pnlLandlordNewProp.getTxtStreet();
+            String city = pnlLandlordNewProp.getTxtCity();
+            String province = pnlLandlordNewProp.getTxtProvince();
+            String postalCode = pnlLandlordNewProp.getTxtPostalCode();
+            Quadrant q = Quadrant.valueOf(pnlLandlordNewProp.getCmbQuadrant());
+            Address a = new Address(streetNumber, street, city, province, postalCode);
+            PropertyType type = PropertyType.valueOf(pnlLandlordNewProp.getCmbPropertyType());
+            int bedrooms = Integer.parseInt(pnlLandlordNewProp.getTxtBedrooms());
+            int bathrooms = Integer.parseInt(pnlLandlordNewProp.getTxtBathrooms());
+            int squareFootage = Integer.parseInt(pnlLandlordNewProp.getTxtSquareFootage());
+            boolean furnished = pnlLandlordNewProp.getChkFurnished();
+            PropertyTraits t = new PropertyTraits(type, bedrooms, bathrooms, squareFootage, furnished);
+            PropertyStatus s = PropertyStatus.valueOf(pnlLandlordNewProp.getCmbPropertyStatus());
+            Property p = new Property(rent, a, q, s, t);
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+            //TODO:Error Message
+        }
+    }
+
+    public static void main(String[] args) {
+        GUIController g = new GUIController();
+    }
+
+    public void PropertySearch() {
+        PropertySearchCriteria c = new PropertySearchCriteria();
+        if(pnlRenterSearch.getTxtSquareFootage().trim().length() != 0){
+            c.setMinSquareFootage(Integer.parseInt(pnlRenterSearch.getTxtSquareFootage()));
+        }
+        if (pnlRenterSearch.getTxtBathrooms().trim().length() != 0){
+            c.setMinBathrooms(Integer.parseInt(pnlRenterSearch.getTxtBathrooms()));
+        }
+        if (pnlRenterSearch.getTxtBedrooms().trim().length() != 0){
+            c.setMinBedrooms(Integer.parseInt(pnlRenterSearch.getTxtBedrooms()));
+        }
+        if (pnlRenterSearch.getTxtCity().trim().length() != 0){
+            //TODO:SearchCriteria City
+        }
+        if (pnlRenterSearch.getTxtProvince().trim().length() != 0) {
+
+        }
+        if (pnlRenterSearch.getTxtRent().trim().length() != 0){
+            c.setMaxMonthlyRent(Integer.parseInt(pnlRenterSearch.getTxtRent()));
+        }
+        //TODO:Send c to server
+
+        ArrayList<Property> p;
+
+        pnlRenterSearchResult  = new pnlRenterSearchResult();
+        pnlRenterSearchResult.setController(this);
+        MainFrame.setContentPane(pnlRenterSearchResult.getPnlRenterSearchResult());
+        MainFrame.revalidate();
+        //TODO:Populate Table
+//        pnlRenterSearchResult.fillTable(p);
+    }
+
+    public void goToLandlordProperty() {
+        pnlLandlordListings = new pnlLandlordListings();
+        pnlLandlordListings.setController(this);
+        MainFrame.setContentPane(pnlLandlordListings.getPnlLandlordListings());
+        MainFrame.revalidate();
     }
 }

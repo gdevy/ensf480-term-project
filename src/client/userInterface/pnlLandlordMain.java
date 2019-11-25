@@ -17,16 +17,10 @@ public class pnlLandlordMain {
     }
 
     public pnlLandlordMain() {
-        paymentButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-            }
-        });
         viewListingsButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                controller.goToLandlordProperty();
             }
         });
         paymentButton.addActionListener(new ActionListener() {
