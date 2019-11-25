@@ -268,17 +268,6 @@ public class pnlLandlordNewProp {
         gbc.gridy = 0;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         pnlLandlordNewProp.add(spacer5, gbc);
-        cmbQuadrant = new JComboBox();
-        cmbQuadrant.setMinimumSize(new Dimension(120, 30));
-        final DefaultComboBoxModel defaultComboBoxModel1 = new DefaultComboBoxModel();
-        cmbQuadrant.setModel(defaultComboBoxModel1);
-        gbc = new GridBagConstraints();
-        gbc.gridx = 2;
-        gbc.gridy = 4;
-        gbc.anchor = GridBagConstraints.WEST;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        pnlLandlordNewProp.add(cmbQuadrant, gbc);
-        cmbPropertyType = new JComboBox();
         gbc = new GridBagConstraints();
         gbc.gridx = 6;
         gbc.gridy = 2;
@@ -315,7 +304,6 @@ public class pnlLandlordNewProp {
         gbc.gridy = 6;
         gbc.anchor = GridBagConstraints.WEST;
         pnlLandlordNewProp.add(chkFurnished, gbc);
-        cmbPropertyStatus = new JComboBox();
         gbc = new GridBagConstraints();
         gbc.gridx = 6;
         gbc.gridy = 8;
@@ -357,6 +345,12 @@ public class pnlLandlordNewProp {
         gbc.anchor = GridBagConstraints.WEST;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         pnlLandlordNewProp.add(txtStreetNum, gbc);
+        gbc = new GridBagConstraints();
+        gbc.gridx = 2;
+        gbc.gridy = 4;
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        pnlLandlordNewProp.add(cmbQuadrant, gbc);
     }
 
     /**
@@ -392,5 +386,23 @@ public class pnlLandlordNewProp {
         txtRent = new JFormattedTextField(formatterD);
         //Square feet is int
         txtSquareFootage = new JFormattedTextField(formatter);
+        cmbPropertyType = new JComboBox();
+        cmbPropertyType.addItem("House");
+        cmbPropertyType.addItem("Duplex");
+        cmbPropertyType.addItem("Townhouse");
+        cmbPropertyType.addItem("Apartment");
+        cmbPropertyType.addItem("Condo");
+        cmbPropertyType.addItem("Mainfloor");
+        cmbPropertyType.addItem("Basement");
+        cmbPropertyStatus = new JComboBox();
+        cmbPropertyStatus.addItem("AVAILABLE");
+        cmbPropertyStatus.addItem("SUSPENDED");
+        cmbPropertyStatus.addItem("RENTED");
+        cmbPropertyStatus.addItem("REMOVED");
+        cmbQuadrant = new JComboBox();
+        cmbQuadrant.addItem("NW");
+        cmbQuadrant.addItem("NE");
+        cmbQuadrant.addItem("SW");
+        cmbQuadrant.addItem("SE");
     }
 }
