@@ -20,6 +20,13 @@ public class pnlSavedSearches {
     private GUIController controller;
     private ArrayList<PropertySearchCriteria> c;
 
+    public JPanel getPnlSavedSearches() {
+        return pnlSavedSearches;
+    }
+
+    public void setController(GUIController controller) {
+        this.controller = controller;
+    }
 
     public pnlSavedSearches() {
         $$$setupUI$$$();

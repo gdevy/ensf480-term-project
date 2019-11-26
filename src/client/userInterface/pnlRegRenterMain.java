@@ -29,7 +29,7 @@ public class pnlRegRenterMain {
         viewSavedSearchesButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //TODO:ADD FORM FOR SAVED SEARCHES
+                controller.goToSavedSearches();
             }
         });
     }

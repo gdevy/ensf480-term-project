@@ -32,7 +32,7 @@ public class pnlSendEmail {
             @Override
             public void actionPerformed(ActionEvent e) {
                 EmailInfo ei = new EmailInfo(txtHeader.getText(), txtBody.getText());
-                ei.setPropertyID(propID);
+                ei.PropertyID = propID;
                 controller.SendEmail(ei);
             }
         });
@@ -112,4 +112,5 @@ public class pnlSendEmail {
     public JComponent $$$getRootComponent$$$() {
         return pnlSendEmail;
     }
+
 }

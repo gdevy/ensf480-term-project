@@ -34,6 +34,8 @@ public class GUIController {
     private pnlManagerFees pnlManagerFees;
     private pnlManagerViewProperties pnlManagerViewProperties;
     private pnlSendEmail pnlSendEmail;
+    private pnlSavedSearches pnlSavedSearches;
+    private pnlRegRenterMain pnlRegRenterMain;
 
 
     public static void main(String[] args) {
@@ -83,7 +85,13 @@ public class GUIController {
             //TODO:Error Message
                 break;
             case REGISTERED_RENTER:
-                   userInfo = loginInfo;
+                pnlRegRenterMain = new pnlRegRenterMain();
+                pnlRegRenterMain.setController(this);
+                MainFrame.setContentPane(pnlRegRenterMain.getPnlRegRenterMain());
+                MainFrame.revalidate();
+                userInfo = loginInfo;
+
+
                 break;
             case LANDLORD:
                 pnlLandlordMain = new pnlLandlordMain();
@@ -185,11 +193,12 @@ public class GUIController {
     }
 
     public void generateManagerReport() {
-        //TODO:Add call to controller function that gets report
+        controller.getManagerReport();
         pnlManagerReport = new pnlManagerReport();
-        //pnlManagerReport.fillTable();
+        pnlManagerReport.setController(this);
+        pnlManagerReport.fillTable(controller.getManagerReport());
         pnlManagerReport.setLabels();
-        MainFrame.setContentPane(pnlLandlordMain.getPnlLandlord());
+        MainFrame.setContentPane(pnlManagerReport.getPnlManagerReport());
         MainFrame.revalidate();
     }
 
@@ -279,5 +288,12 @@ public class GUIController {
     }
     public void SendEmail(EmailInfo ei) {
         controller.sendEmailToLandlord(ei);
+    }
+
+    public void goToSavedSearches() {
+        pnlSavedSearches = new pnlSavedSearches();
+        pnlSavedSearches.setController(this);
+        MainFrame.setContentPane(pnlSavedSearches.getPnlSavedSearches());
+        MainFrame.revalidate();
     }
 }

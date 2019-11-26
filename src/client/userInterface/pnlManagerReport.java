@@ -1,5 +1,6 @@
 package client.userInterface;
 
+import entity.socket.ManagerReport;
 import entity.socket.property.Property;
 
 import javax.swing.*;
@@ -15,24 +16,33 @@ public class pnlManagerReport {
     private JLabel txtNumHousesListed;
     private JLabel txtNumActiveListings;
     private GUIController controller;
+    private ManagerReport properties;
 
+    public JPanel getPnlManagerReport() {
+        return pnlManagerReport;
+    }
 
-    public void fillTable(ArrayList<Property> properties) {
-//        DefaultTableModel d = (DefaultTableModel) tblResults.getModel();
-//        d.setRowCount(0);
-//        for (Property p : properties) {
-//            String[] data = {p.getAddress().getStreetNumber() + "", p.getAddress().getStreet(),
-//                    p.getQuadrant().toString(), p.getTraits().getFurnished() + "", p.getTraits().getBedrooms() + "", p.getTraits().getBathrooms() + ""};
-//            d.addRow(data);
-//        }
+    public void setController(GUIController controller) {
+        this.controller = controller;
+    }
+
+    public void fillTable(ManagerReport properties) {
+        this.properties = properties;
+        DefaultTableModel d = (DefaultTableModel) tblActiveListings.getModel();
+        d.setRowCount(0);
+        for (Property p : properties.listPropertiesRented) {
+            String[] data = {p.getAddress().getStreetNumber() + "", p.getAddress().getStreet(),
+                    p.getQuadrant().toString(), p.getTraits().getFurnished() + "", p.getTraits().getBedrooms() + "", p.getTraits().getBathrooms() + ""};
+            d.addRow(data);
+        }
         //Todo:Make Manager Report
     }
 
     public void setLabels() {
-//        txtNumActiveListings.setText();
-//        txtNumHousesListed.setText();
-//        txtNumRentedHouses.setText();
-//        txtPeriod.setText();
+        txtNumActiveListings.setText(properties.propertiesActive + "");
+        txtNumHousesListed.setText(properties.propertiesListed + "");
+        txtNumRentedHouses.setText(properties.propertiesRented + "");
+
     }
 
 
@@ -76,12 +86,6 @@ public class pnlManagerReport {
         gbc.gridx = 0;
         gbc.gridy = 3;
         panel1.add(label3, gbc);
-        final JLabel label4 = new JLabel();
-        label4.setText("Summary Period");
-        gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        panel1.add(label4, gbc);
         txtPeriod = new JLabel();
         txtPeriod.setText("");
         gbc = new GridBagConstraints();
