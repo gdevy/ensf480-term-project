@@ -28,7 +28,8 @@ public class GUIController {
     private LoginInfo userInfo;
     private pnlViewUsers pnlViewUsers;
     private pnlManagerFees pnlManagerFees;
-    //TODO: Manager and landlord communications
+    private pnlManagerViewProperties pnlManagerViewProperties;
+
 
     public static void main(String[] args) {
         GUIController g = new GUIController();
@@ -66,7 +67,7 @@ public class GUIController {
 
     public void ValidateLogin(String username, String password) {
         LoginInfo loginInfo= new LoginInfo(username, password);
-        //TODO: Send String to server, Validate Input
+
         System.out.println("Username="+username+"\n Password:"+password);
 
         UserTypeLogin userType = controller.sendLoginAttemptAndGetResult(loginInfo);
@@ -74,7 +75,7 @@ public class GUIController {
         switch( userType )
         {
             case LOGIN_FAILED:
-
+            //TODO:Error Message
                 break;
             case REGISTERED_RENTER:
                    userInfo = loginInfo;
@@ -144,26 +145,17 @@ public class GUIController {
         if (pnlRenterSearch.getTxtBedrooms().trim().length() != 0){
             c.setMinBedrooms(Integer.parseInt(pnlRenterSearch.getTxtBedrooms()));
         }
-        if (pnlRenterSearch.getTxtCity().trim().length() != 0){
-            //TODO:SearchCriteria City
-        }
-        if (pnlRenterSearch.getTxtProvince().trim().length() != 0) {
-
-        }
         if (pnlRenterSearch.getTxtRent().trim().length() != 0){
             c.setMaxMonthlyRent(Integer.parseInt(pnlRenterSearch.getTxtRent()));
         }
-        //TODO:Send c to server
 
         ArrayList<Property> p = controller.sendPropertySearchRequestAndGetResults(c);
-        //TODO:Fill arrayList
 
         pnlRenterSearchResult  = new pnlRenterSearchResult();
         pnlRenterSearchResult.setController(this);
+        pnlRenterSearchResult.fillTable(p);
         MainFrame.setContentPane(pnlRenterSearchResult.getPnlRenterSearchResult());
         MainFrame.revalidate();
-        //TODO:Populate Table
-//        pnlRenterSearchResult.fillTable(p);
     }
 
     public void goToLandlordProperty() {
@@ -179,7 +171,6 @@ public class GUIController {
         String num = pnlLandordPayment.getTxtCardNumber();
         String ccv = pnlLandordPayment.getTxtCCV();
         String date = pnlLandordPayment.getTxtExpirationDate();
-        //TODO: Payment Object and send to server
         MainFrame.setContentPane(pnlLandlordMain.getPnlLandlord());
         MainFrame.revalidate();
     }
@@ -198,13 +189,15 @@ public class GUIController {
     }
 
     public void updateProperty(Property property) {
-        //TODO:Add Call to controller to update property
+        controller.editCurrentProperty(property);
     }
 
     public void viewAllProperties() {
         PropertySearchCriteria c = new PropertySearchCriteria();
         ArrayList<Property> p = controller.sendPropertySearchRequestAndGetResults(c);
-
+        pnlManagerViewProperties = new pnlManagerViewProperties();
+        pnlManagerViewProperties.setController(this);
+        pnlManagerViewProperties.fillTable(p);
     }
 
     public void updateFees(int Fee, int period) {

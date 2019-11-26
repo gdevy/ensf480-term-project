@@ -1,5 +1,6 @@
 package client.mvc;
 
+import entity.socket.EmailInfo;
 import entity.socket.PropertySearchCriteria;
 import entity.socket.property.*;
 import entity.socket.MessageType;
