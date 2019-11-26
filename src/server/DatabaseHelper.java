@@ -365,6 +365,10 @@ public class DatabaseHelper {
         return new ManagerReport(results.size(), results.size(), available, results);
     }
 
+//    public ArrayList<Property> viewProperties(String userName) {
+//
+//    }
+
     public ArrayList<PropertySearchCriteria> getSavedSearches(String userName) throws SQLException {
         ArrayList<PropertySearchCriteria> results = new ArrayList<>();
         Statement stm = DatabaseHelper.getInstance().dbConnection.createStatement();
