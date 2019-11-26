@@ -1,5 +1,6 @@
 package client.userInterface;
 
+import com.sun.tools.javac.Main;
 import descriptor.*;
 import entity.socket.EmailInfo;
 
@@ -261,13 +262,14 @@ public class GUIController {
                 saveSearch();
             }
         });
-        b.setText("Search");
+        b.setText("Save Search");
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.gridx = 4;
+        gbc.gridx = 2;
         gbc.gridy = 9;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         p.add(b, gbc);
         MainFrame.setContentPane(p);
+        MainFrame.revalidate();
 
     }
 
