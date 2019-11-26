@@ -1,7 +1,8 @@
 package client.userInterface;
 
-import descriptor.Address;
+import entity.socket.PropertySearchCriteria;
 import entity.socket.property.Property;
+import entity.socket.property.PropertyType;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -12,56 +13,50 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-public class pnlRenterSearchResult {
-    private JPanel pnlRenterSearchResult;
+public class pnlSavedSearches {
     private JTable tblResults;
-    private JButton EmailLandlordbtn;
+    private JButton deleteSearchButton;
+    private JPanel pnlSavedSearches;
     private GUIController controller;
-    private ArrayList<Property> properties;
+    private ArrayList<PropertySearchCriteria> c;
 
-    public pnlRenterSearchResult() {
+
+    public pnlSavedSearches() {
         $$$setupUI$$$();
         tblResults.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             public void valueChanged(ListSelectionEvent event) {
-                EmailLandlordbtn.setEnabled(true);
+                deleteSearchButton.setEnabled(true);
                 //System.out.println(tblResults.getValueAt(tblResults.getSelectedRow(), 0).toString());
             }
         });
-        EmailLandlordbtn.addActionListener(new ActionListener() {
+        deleteSearchButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                controller.goToEmail(properties.get(tblResults.getSelectedRow()).getId());
+                controller.deleteSearch(c.get(tblResults.getSelectedRow()));
             }
         });
     }
 
-    public JPanel getPnlRenterSearchResult() {
-        return pnlRenterSearchResult;
-    }
-
-    public void fillTable(ArrayList<Property> properties) {
-        this.properties = properties;
+    public void fillTable(ArrayList<PropertySearchCriteria> c) {
+        this.c = c;
         DefaultTableModel d = (DefaultTableModel) tblResults.getModel();
         d.setRowCount(0);
-        for (Property p : properties) {
-            String[] data = {p.getAddress().getStreetNumber() + "", p.getAddress().getStreet(),
-                    p.getQuadrant().toString(), p.getTraits().getFurnished() + "", p.getTraits().getBedrooms() + "", p.getTraits().getBathrooms() + ""};
-            d.addRow(data);
+        for (PropertySearchCriteria p : c) {
+            for (PropertyType pt : p.getTypes()) {
+                String[] data = {pt + "", p.getMaxMonthlyRent() + "",
+                        p.getMinBedrooms() + "", p.getMinBathrooms() + "", p.getMinSquareFootage() + "", p.getMinSquareFootage() + ""};
+                d.addRow(data);
+            }
         }
-        //Todo:Clear table, Add more Data
-    }
-
-    public void setController(GUIController controller) {
-        this.controller = controller;
     }
 
     private void createUIComponents() {
         DefaultTableModel d = new DefaultTableModel();
-        String[] columns = {"Street number", "Street Name", "Quadrant", "Is Furnished", "Bedrooms", "Bathrooms"};
+        String[] columns = {"Property Type", "Max Rent", "Min Bedrooms", "Min Bathrooms", "Min Square Footage", "Is Furnished"};
         d.setColumnCount(6);
         d.setColumnIdentifiers(columns);
         tblResults = new JTable();
-
+        // TODO: place custom component creation code here
     }
 
     /**
@@ -73,43 +68,49 @@ public class pnlRenterSearchResult {
      */
     private void $$$setupUI$$$() {
         createUIComponents();
-        pnlRenterSearchResult = new JPanel();
-        pnlRenterSearchResult.setLayout(new GridBagLayout());
-        final JLabel label1 = new JLabel();
-        label1.setText("Search Results:");
+        pnlSavedSearches = new JPanel();
+        pnlSavedSearches.setLayout(new GridBagLayout());
+        final JPanel spacer1 = new JPanel();
         GridBagConstraints gbc;
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.anchor = GridBagConstraints.WEST;
-        pnlRenterSearchResult.add(label1, gbc);
-        final JPanel spacer1 = new JPanel();
+        gbc.fill = GridBagConstraints.VERTICAL;
+        pnlSavedSearches.add(spacer1, gbc);
+        final JLabel label1 = new JLabel();
+        label1.setText("Your Searches");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 1;
-        gbc.fill = GridBagConstraints.VERTICAL;
-        pnlRenterSearchResult.add(spacer1, gbc);
-        final JScrollPane scrollPane1 = new JScrollPane();
+        gbc.anchor = GridBagConstraints.WEST;
+        pnlSavedSearches.add(label1, gbc);
+        final JPanel spacer2 = new JPanel();
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 2;
-        gbc.fill = GridBagConstraints.BOTH;
-        pnlRenterSearchResult.add(scrollPane1, gbc);
-        scrollPane1.setViewportView(tblResults);
-        EmailLandlordbtn.setEnabled(false);
-        EmailLandlordbtn.setText("Email Landlord");
+        gbc.fill = GridBagConstraints.VERTICAL;
+        pnlSavedSearches.add(spacer2, gbc);
+        final JScrollPane scrollPane1 = new JScrollPane();
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 3;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        pnlRenterSearchResult.add(EmailLandlordbtn, gbc);
+        gbc.fill = GridBagConstraints.BOTH;
+        pnlSavedSearches.add(scrollPane1, gbc);
+        scrollPane1.setViewportView(tblResults);
+        deleteSearchButton = new JButton();
+        deleteSearchButton.setEnabled(false);
+        deleteSearchButton.setText("Delete Search");
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 4;
+        gbc.anchor = GridBagConstraints.EAST;
+        pnlSavedSearches.add(deleteSearchButton, gbc);
     }
 
     /**
      * @noinspection ALL
      */
     public JComponent $$$getRootComponent$$$() {
-        return pnlRenterSearchResult;
+        return pnlSavedSearches;
     }
-
 }
