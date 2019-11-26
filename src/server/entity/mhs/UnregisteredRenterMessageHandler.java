@@ -70,7 +70,7 @@ public class UnregisteredRenterMessageHandler extends MessageHandlerStrategy
 							sc.setMessageHandler( mhs );
 							break;
 						case MANAGER:
-							System.out.println( "*** I CAN'T HANDLE MANAGER LOGINS YET" );
+							mhs = new ManagerMessageHandler( sc, oos, ois );
 							break;
 	            	}
 

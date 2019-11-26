@@ -1,7 +1,6 @@
 package client.mvc;
 
-import entity.socket.EmailInfo;
-import entity.socket.PropertySearchCriteria;
+import entity.socket.*;
 import entity.socket.property.*;
 import entity.socket.MessageType;
 import descriptor.*;
@@ -184,6 +183,34 @@ public class Controller
 		{
 			e.printStackTrace();
 		}
+	}
+
+	public ManagerReport getManagerReport()
+	{
+		ManagerReport retVal = null;
+		try
+		{
+			sockOut.writeObject( MessageType.VIEW_MANAGER_REPORT_REQUEST );
+			sockOut.writeObject( MessageType.NULL_OBJECT );
+			System.out.println( "sent view landlord properties request" );
+
+			MessageType msgType;
+			while( true )
+			{
+				msgType = (MessageType) sockIn.readObject();
+				if( msgType == MessageType.VIEW_MANAGER_REPORT_REQUEST )
+				{
+					break;
+				}
+			}
+			retVal = (ManagerReport) sockIn.readObject();
+		}
+		catch( Exception e )
+		{
+			e.printStackTrace();
+		}
+
+		return retVal;
 	}
 
 	public static void main( String[] args )
