@@ -7,6 +7,7 @@ import server.SocketController;
 import descriptor.*;
 import server.DatabaseHelper;
 
+import javax.xml.crypto.Data;
 import java.util.ArrayList;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -41,19 +42,14 @@ public class LandlordMessageHandler extends MessageHandlerStrategy
 					Property pedit = (Property) ois.readObject();
 					System.out.println( pedit.getTraits() );
 
+					System.out.println("prop " + pedit.getId());
 					DatabaseHelper.getInstance().editStatus( pedit.getId(), pedit.getStatus() );
 					break;
 
 	            case VIEW_LANDLORD_PROPERTIES_REQUEST:
 	            	ois.readObject();
-	            	ArrayList<Property> currentProperties = new ArrayList<Property>();
 
-	            	PropertyTraits pt = new PropertyTraits( PropertyType.HOUSE, 1, 1, 1000, true );
-        			Address ad = new Address( 3307, "24 Street NW", "Calgary", "AB", "T2M3Z8" );
-        			Property tempp = new Property( 1000, ad, Quadrant.NW, PropertyStatus.AVAILABLE, pt );
-
-					currentProperties.add(tempp);
-					currentProperties.add(tempp);
+	            	ArrayList<Property> currentProperties = DatabaseHelper.getInstance().viewProperties(username);
 					oos.writeObject( MessageType.VIEW_LANDLORD_PROPERTIES_RESULT );
 					oos.writeObject( currentProperties );
 					System.out.println( "Sent back landlord's properties" );

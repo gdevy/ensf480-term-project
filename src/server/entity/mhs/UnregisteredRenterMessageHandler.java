@@ -43,7 +43,7 @@ public class UnregisteredRenterMessageHandler extends MessageHandlerStrategy
 	            case SEND_EMAIL_TO_LANDLORD:
 	            	EmailInfo ei = (EmailInfo) ois.readObject();
 
-	            	Test.sendEmailTo( ei, DatabaseHelper.getInstance().getLandlordEmail( ei.PropertyID ) );
+	            	Test.sendEmailTo( ei, DatabaseHelper.getInstance().getLandlordEmail( 1013 ) );
 
 	            case LOGIN_ATTEMPT:
 	            	LoginInfo login = (LoginInfo) ois.readObject();

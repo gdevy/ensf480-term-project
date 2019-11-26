@@ -57,7 +57,11 @@ public class Property implements Serializable
         return id;
     }
 
-	public static void main(String[] args) 
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public static void main(String[] args)
     {   
     	PropertyTraits pt = new PropertyTraits( PropertyType.HOUSE, 1, 1, 1000, true );
         Address ad = new Address( 3307, "24 Street NW", "Calgary", "AB", "T2M3Z8" );
