@@ -8,6 +8,7 @@ import entity.socket.PropertySearchCriteria;
 import entity.socket.User;
 import entity.socket.property.*;
 
+import java.lang.reflect.Array;
 import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -30,31 +31,27 @@ public class DatabaseHelper {
 
     public static void main(String[] args) throws SQLException {
 
-        PropertyTraits pt = new PropertyTraits(PropertyType.APARTMENT, 2, 2, 100, false);
-        Address ad = new Address(3307, "24 Street NW", "Calgary", "AB", "T2M3Z8");
-        Property object = new Property(1000, ad, Quadrant.NW, PropertyStatus.AVAILABLE, pt);
+//        PropertyTraits pt = new PropertyTraits(PropertyType.APARTMENT, 2, 2, 100, false);
+//        Address ad = new Address(3307, "24 Street NW", "Calgary", "AB", "T2M3Z8");
+//        Property object = new Property(1000, ad, Quadrant.NW, PropertyStatus.AVAILABLE, pt);
 
         PropertySearchCriteria psc = new PropertySearchCriteria();
-        psc.setMaxMonthlyRent(150);
-        psc.setMinBathrooms(2);
-        psc.addQuadrant(Quadrant.NW);
+        psc.addType(PropertyType.BASEMENT);
+        psc.addType(PropertyType.CONDO);
+        psc.setMinBedrooms(1);
+        psc.setMinBathrooms(1);
+        psc.setMinSquareFootage(750);
         psc.addQuadrant(Quadrant.SW);
-        psc.addType(PropertyType.HOUSE);
-        psc.addType(PropertyType.APARTMENT);
-        psc.setFurnished(true);
 
-//        DatabaseHelper.getInstance().registerProperty(object, "jed");
-//        DatabaseHelper.getInstance().searchProperty(psc);
-//        DatabaseHelper.getInstance().saveSearchCriteria(psc, "greg");
-//        DatabaseHelper.getInstance().searchSavedSearches("greg");
-//        LoginInfo info = new LoginInfo("greg", "abc123");
-//        System.out.println(DatabaseHelper.getInstance().attemptLogin(info));
-//        System.out.println(DatabaseHelper.getInstance().getLandlordEmail(1008));
-//        DatabaseHelper.getInstance().editStatus(1008, PropertyStatus.REMOVED);
-        System.out.println(DatabaseHelper.getInstance().checkSavedSearches(object));
+        PropertyTraits pt = new PropertyTraits( PropertyType.CONDO, 2, 2, 1000, false );
+        Address ad = new Address( 3307, "24 Street NW", "Calgary", "AB", "T2M3Z8" );
+        Property object = new Property( 1000, ad, Quadrant.NW, PropertyStatus.AVAILABLE, pt );
+
+        DatabaseHelper.getInstance().createPropertyReport();
 
     }
 
+    //workds
     public void registerProperty(Property property, String landlordInfo) throws SQLException {
         PreparedStatement statement = dbConnection.prepareStatement("INSERT INTO properties (property_id, quadrant, property_status, property_type, bathrooms, bedrooms, furnished, square_footage, monthly_rent, streetNumber, street, city, province, postal_code, date_created) values" +
                 " (null, (SELECT quadrant_id from quadrant WHERE quadrant_name = ?), (SELECT status_id from property_status WHERE status = ?), (SELECT type_id from property_type WHERE type =?), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
@@ -83,6 +80,8 @@ public class DatabaseHelper {
                 "((SELECT user_id FROM users WHERE email = '" + landlordInfo + "'), " + propertyID + ")");
     }
 
+
+    //works
     public ArrayList<String> checkSavedSearches(Property property) throws SQLException {
         PreparedStatement ps = DatabaseHelper.getInstance().dbConnection.prepareStatement("SELECT * FROM saved_search_criteria\n" +
                 "WHERE (max_monthly_rent >= ?\n" +
@@ -115,46 +114,32 @@ public class DatabaseHelper {
             boolean quadrantMatches = false;
             boolean typeMatches = false;
             boolean rsEmpty = true;
+            tempStatement = DatabaseHelper.getInstance().dbConnection.createStatement();
             rs = tempStatement.executeQuery("SELECT * FROM search_quadrant\n" +
                     "INNER JOIN quadrant ON search_quadrant.quadrant_id = quadrant.quadrant_id\n" +
                     "WHERE search_id = " + searchID);
 
-            Quadrant q;
+            ArrayList<Quadrant> qs = new ArrayList<>();
             while (rs.next()) {
-                rsEmpty = false;
-                q = Quadrant.valueOf(rs.getString("quadrant_name"));
-                if (property.getQuadrant() == q) {
-                    quadrantMatches = true;
-                    break;
-                }
-            }
-            if (rsEmpty) {
-                continue;
-            }
-            if (!quadrantMatches) {
-                toRemove.add(searchID);
-                continue;
+                qs.add(Quadrant.valueOf(rs.getString("quadrant_name")));
             }
 
+            if (!qs.contains(property.getQuadrant()) && !qs.isEmpty()) {
+                toRemove.add(searchID);
+            }
+
+            tempStatement = DatabaseHelper.getInstance().dbConnection.createStatement();
             rs = tempStatement.executeQuery("SELECT * FROM search_property_type\n" +
                     "INNER JOIN property_type ON search_property_type.property_type_id = property_type.type_id\n" +
                     "WHERE search_id = " + searchID);
 
 
-            PropertyType pt;
-            rsEmpty = true;
+            ArrayList<PropertyType> pts = new ArrayList<>();
             while (rs.next()) {
-                rsEmpty = false;
-                pt = PropertyType.valueOf(rs.getString("type"));
-                if (property.getTraits().getType() == pt) {
-                    typeMatches = true;
-                    break;
-                }
+                pts.add(PropertyType.valueOf(rs.getString("type")));
             }
-            if (rsEmpty) {
-                continue;
-            }
-            if (!typeMatches) {
+
+            if (!pts.contains(property.getTraits().getType()) && !pts.isEmpty()) {
                 toRemove.add(searchID);
             }
 
@@ -178,6 +163,7 @@ public class DatabaseHelper {
 
     }
 
+    //works
     public void saveSearchCriteria(PropertySearchCriteria psc, String userInfo) throws SQLException {
         PreparedStatement statement = DatabaseHelper.getInstance().dbConnection.prepareStatement("INSERT INTO saved_search_criteria (search_id, user_id, max_monthly_rent, min_bathrooms, min_bedrooms, min_square_footage) " +
                 "values (null, (SELECT user_id FROM users WHERE email = ?), ?, ?, ?, ?)");
@@ -221,18 +207,23 @@ public class DatabaseHelper {
 
     }
 
+    //works
     public ArrayList<Property> searchProperty(PropertySearchCriteria psc) throws SQLException {
         ArrayList<Property> results = new ArrayList<>();
-        StringBuilder query = new StringBuilder("SELECT * FROM properties\n");
+        StringBuilder query = new StringBuilder("SELECT * FROM properties\n" +
+                "INNER JOIN property_status ON property_status = property_status.status_id\n" +
+                "INNER JOIN property_type ON property_type = property_type.type_id\n" +
+                "INNER JOIN quadrant ON properties.quadrant = quadrant.quadrant_id\n");
 
-        query.append("INNER JOIN property_status ON property_status = property_status.status_id\n");
-        if (psc.hasType()) {
-            query.append("INNER JOIN property_type ON property_type = property_type.type_id\n");
-        }
 
-        if (psc.hasQuadrant()) {
-            query.append("INNER JOIN quadrant ON properties.quadrant = quadrant.quadrant_id\n");
-        }
+//        query.append("INNER JOIN property_status ON property_status = property_status.status_id\n");
+//        if (psc.hasType()) {
+//            query.append("INNER JOIN property_type ON property_type = property_type.type_id\n");
+//        }
+//
+//        if (psc.hasQuadrant()) {
+//            query.append("INNER JOIN quadrant ON properties.quadrant = quadrant.quadrant_id\n");
+//        }
 
         query.append("WHERE ");
         query.append("status = '" + PropertyStatus.AVAILABLE.name() + "'");
@@ -298,8 +289,9 @@ public class DatabaseHelper {
             query.append("\n AND ");
             query.append("furnished = " + 1);
         }
-
+        System.out.println(query);
         ResultSet rs = DatabaseHelper.getInstance().dbConnection.prepareStatement(query.toString()).executeQuery();
+
 
         while (rs.next()) { //createProperty
             PropertyType type = PropertyType.valueOf(rs.getString("type"));
@@ -329,10 +321,17 @@ public class DatabaseHelper {
 
     public ManagerReport createPropertyReport() throws SQLException {
 
+        String timeNow = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime());
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.MONTH, -1);
+        String timeMonthAgo = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(calendar.getTime());
+        System.out.println(timeNow);
+        System.out.println(timeMonthAgo);
         ResultSet rs = dbConnection.createStatement().executeQuery("SELECT * FROM properties\n" +
-                "INNER JOIN property_status ON property_status = property_status.status_id\n" +
-                "INNER JOIN property_type ON property_type = property_type.type_id\n" +
-                "INNER JOIN quadrant ON properties.quadrant = quadrant.quadrant_id\n");
+                "  INNER JOIN property_status ON property_status = property_status.status_id\n" +
+                "  INNER JOIN property_type ON property_type = property_type.type_id\n" +
+                " INNER JOIN quadrant ON properties.quadrant = quadrant.quadrant_id\n" +
+                " WHERE date_created BETWEEN '" + timeMonthAgo + "' AND '" + timeNow + "'");
         ArrayList<Property> results = new ArrayList<>();
 
         int available = 0;
@@ -364,12 +363,15 @@ public class DatabaseHelper {
         return new ManagerReport(results.size(), results.size(), available, results);
     }
 
+    //works
     public ArrayList<Property> viewProperties(String userName) throws SQLException {
         ResultSet rs = DatabaseHelper.getInstance().dbConnection.createStatement().executeQuery("SELECT * FROM properties\n" +
                 "INNER JOIN landlord_property ON properties.property_id = landlord_property.property_id\n" +
                 "INNER JOIN users ON users.user_id = landlord_property.landlord_id\n" +
                 "INNER JOIN user_type ON users.user_type = user_type_id\n" +
-                        "INNER JOIN property_type ON properties.property_type = property_type.type_id\n" +
+                "INNER JOIN property_type ON properties.property_type = property_type.type_id\n" +
+                "INNER JOIN quadrant ON properties.property_type = quadrant.quadrant_id\n" +
+                "INNER JOIN property_status ON property_status = property_status.status_id\n" +
                 "WHERE users.email = '" + userName + "'");
 
         ArrayList<Property> results = new ArrayList<>();
@@ -388,17 +390,21 @@ public class DatabaseHelper {
             Address address = new Address(num, street, city, province, postalCode);
             int monthlyRent = rs.getInt("monthly_rent");
             String quad = rs.getString("quadrant_name");
-            System.out.println(quad);
             Quadrant q = Quadrant.valueOf(quad);
             PropertyStatus ps = PropertyStatus.valueOf(rs.getString("status"));
             Property property = new Property(monthlyRent, address, q, ps, pt);
-
+            property.setId(rs.getInt("property_id"));
             results.add(property);
+        }
+
+        for (Property result : results) {
+            System.out.println(result.getTraits());
         }
 
         return results;
     }
 
+    //works
     public ArrayList<PropertySearchCriteria> getSavedSearches(String userName) throws SQLException {
         ArrayList<PropertySearchCriteria> results = new ArrayList<>();
         Statement stm = DatabaseHelper.getInstance().dbConnection.createStatement();
@@ -407,15 +413,15 @@ public class DatabaseHelper {
 
         int userID = rs.getInt("user_id");
 
-        rs = stm.executeQuery("SELECT * from saved_search_criteria\n" +
+        rs = DatabaseHelper.getInstance().dbConnection.createStatement().executeQuery("SELECT * from saved_search_criteria\n" +
                 "WHERE user_id = " + userID + "");
 
-        int lastSearchID = -1;
+        int lastSearchID;
         while (rs.next()) {
             lastSearchID = rs.getInt("search_id");
 
             PropertySearchCriteria psc = new PropertySearchCriteria();
-            psc.setID(rs.getInt(rs.getInt("search_id")));
+            psc.setID(rs.getInt("search_id"));
             psc.setMaxMonthlyRent(rs.getInt("max_monthly_rent"));
             psc.setMinBathrooms(rs.getInt("min_bathrooms"));
             psc.setMinBedrooms(rs.getInt("min_bedrooms"));
@@ -426,22 +432,23 @@ public class DatabaseHelper {
                     "LEFT JOIN quadrant ON search_quadrant.quadrant_id = quadrant.quadrant_id\n" +
                     "WHERE search_id = " + lastSearchID);
             while (tempRS.next()) {
-                psc.addQuadrant(Quadrant.valueOf(rs.getString("quadrant_name")));
+                psc.addQuadrant(Quadrant.valueOf(tempRS.getString("quadrant_name")));
             }
 
-            rs = stm.executeQuery("SELECT * FROM search_property_type\n" +
+            tempRS = stm.executeQuery("SELECT * FROM search_property_type\n" +
                     "LEFT JOIN property_type ON search_property_type.property_type_id = property_type.type_id\n" +
                     "WHERE search_id = " + lastSearchID);
             while (tempRS.next()) {
-                psc.addType(PropertyType.valueOf(rs.getString("quadrant_name")));
+                psc.addType(PropertyType.valueOf(tempRS.getString("type")));
             }
+            System.out.println(psc.getTypes());
             results.add(psc);
         }
 
-        System.out.println(results.size());
         return results;
     }
 
+    //works
     public String getLandlordEmail(int propertyID) throws SQLException {
         ResultSet rs = DatabaseHelper.getInstance().dbConnection.createStatement().executeQuery("SELECT email FROM users\n" +
                 "INNER JOIN landlord_property ON user_id = landlord_property.landlord_id\n" +
@@ -450,19 +457,28 @@ public class DatabaseHelper {
         return rs.getString(1);
     }
 
+    //works
     public void editStatus(int propertyID, PropertyStatus newStatus) throws SQLException {
-        DatabaseHelper.getInstance().dbConnection.createStatement().executeUpdate("UPDATE properties\n" +
-                "SET property_status = (SELECT status_id FROM property_status WHERE status = '" + newStatus.name() + "')\n" +
-                "WHERE\n" +
-                "    property_id = " + propertyID);
+        if (newStatus == PropertyStatus.RENTED) {
+            String time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime());
+            DatabaseHelper.getInstance().dbConnection.createStatement().executeUpdate("UPDATE properties\n" +
+                    "   SET (property_status, date_rented) = ((SELECT status_id FROM property_status WHERE status = '" + newStatus.name() + "'), '" + time + "')\n" +
+                    "WHERE property_id = " + propertyID);
+        } else {
+            DatabaseHelper.getInstance().dbConnection.createStatement().executeUpdate("UPDATE properties\n" +
+                    "SET property_status = (SELECT status_id FROM property_status WHERE status = '" + newStatus.name() + "')\n" +
+                    "WHERE\n" +
+                    "    property_id = " + propertyID);
+        }
     }
 
+    //works
     public UserTypeLogin attemptLogin(LoginInfo info) throws SQLException {
         Statement stm = DatabaseHelper.getInstance().dbConnection.createStatement();
 
 
         ResultSet rs = stm.executeQuery("SELECT user_type.user_type_name from users\n" +
-                "INNER JOIN user_type ON user_id = user_type.user_type_id \n" +
+                "INNER JOIN user_type ON users.user_type = user_type.user_type_id \n" +
                 "WHERE email = '" + info.username + "'\n" +
                 "AND   password = '" + info.password + "'");
 
