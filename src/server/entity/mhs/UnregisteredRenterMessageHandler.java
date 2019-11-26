@@ -33,7 +33,15 @@ public class UnregisteredRenterMessageHandler extends MessageHandlerStrategy
 	                System.out.println( "Min bathrooms: " + psc.getMinBathrooms() );
 	                System.out.println( "Furnished: " + psc.getFurnished() );
 
-	            	ArrayList<Property> currentProperties = DatabaseHelper.getInstance().searchProperty( psc );
+					PropertyTraits pt = new PropertyTraits( PropertyType.HOUSE, 1, 1, 1000, true );
+					Address ad = new Address( 3307, "24 Street NW", "Calgary", "AB", "T2M3Z8" );
+					Property object = new Property( 1000, ad, Quadrant.NW, PropertyStatus.AVAILABLE, pt );
+
+	            	//ArrayList<Property> currentProperties = DatabaseHelper.getInstance().searchProperty( psc );
+					ArrayList<Property> currentProperties = new ArrayList<>();
+
+					currentProperties.add(object);
+					currentProperties.add(object);
 
 					oos.writeObject( MessageType.PROPERT_SEARCH_RESULT );
 					oos.writeObject( currentProperties );
@@ -43,7 +51,7 @@ public class UnregisteredRenterMessageHandler extends MessageHandlerStrategy
 	            case SEND_EMAIL_TO_LANDLORD:
 	            	EmailInfo ei = (EmailInfo) ois.readObject();
 
-	            	Test.sendEmailTo( ei, DatabaseHelper.getInstance().getLandlordEmail( ei.PropertyID ) );
+	            	Test.sendEmailTo( ei, DatabaseHelper.getInstance().getLandlordEmail( 1013 ) );
 
 	            case LOGIN_ATTEMPT:
 	            	LoginInfo login = (LoginInfo) ois.readObject();
