@@ -369,7 +369,8 @@ public class DatabaseHelper {
                 "INNER JOIN landlord_property ON properties.property_id = landlord_property.property_id\n" +
                 "INNER JOIN users ON users.user_id = landlord_property.landlord_id\n" +
                 "INNER JOIN user_type ON users.user_type = user_type_id\n" +
-                        "INNER JOIN property_type ON properties.property_type = property_type.type_id\n" +
+                "INNER JOIN property_type ON properties.property_type = property_type.type_id\n" +
+                "INNER JOIN quadrant ON properties.property_type = quadrant.quadrant_id\n" +
                 "WHERE users.email = '" + userName + "'");
 
         ArrayList<Property> results = new ArrayList<>();
@@ -462,11 +463,12 @@ public class DatabaseHelper {
 
 
         ResultSet rs = stm.executeQuery("SELECT user_type.user_type_name from users\n" +
-                "INNER JOIN user_type ON user_id = user_type.user_type_id \n" +
+                "INNER JOIN user_type ON users.user_type = user_type.user_type_id \n" +
                 "WHERE email = '" + info.username + "'\n" +
                 "AND   password = '" + info.password + "'");
 
         if (rs.next()) {
+            System.out.println("login " + UserTypeLogin.valueOf(rs.getString("user_type_name")));
             return UserTypeLogin.valueOf(rs.getString("user_type_name"));
 
         } else {
