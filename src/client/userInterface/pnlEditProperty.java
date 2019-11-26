@@ -14,7 +14,6 @@ public class pnlEditProperty {
     private JLabel lblCity;
     private JLabel lblProvince;
     private JLabel lblPostalCode;
-
     private JLabel lblBedrooms;
     private JLabel lblBathrooms;
 
@@ -47,6 +46,7 @@ public class pnlEditProperty {
 
     public void setProperty(Property property) {
         this.property = property;
+        setLabels();
     }
 
     public void setLabels() {
