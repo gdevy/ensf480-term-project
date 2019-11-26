@@ -1,5 +1,6 @@
 package client.userInterface;
 
+import entity.socket.User;
 import entity.socket.property.Property;
 
 import javax.swing.*;
@@ -20,12 +21,12 @@ public class pnlViewUsers {
         return pnlViewUsers;
     }
 
-    public void fillTable(ArrayList<Property> properties) {
+    public void fillTable(ArrayList<User> users) {
         DefaultTableModel d = (DefaultTableModel) tblResults.getModel();
         //TODO:SHOULD USE UserName and usertype,NOT Properties
         d.setRowCount(0);
-        for (Property p : properties) {
-            String[] data = {};
+        for (User u : users) {
+            String[] data = {u.email, u.userType.toString()};
             d.addRow(data);
         }
         //Todo:Clear table, Add more Data

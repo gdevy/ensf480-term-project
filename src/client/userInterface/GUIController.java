@@ -246,7 +246,7 @@ public class GUIController {
         pnlViewUsers = new pnlViewUsers();
         pnlViewUsers.setController(this);
         //TODO:THIS IS WRONG, SHOULD FILL WITH USERDATA
-        pnlViewUsers.fillTable(controller.getLandlordProperties());
+        pnlViewUsers.fillTable(controller.getUserList());
         MainFrame.setContentPane(pnlViewUsers.getPnlViewUsers());
         MainFrame.revalidate();
     }
