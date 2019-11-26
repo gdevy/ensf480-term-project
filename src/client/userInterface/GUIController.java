@@ -294,7 +294,7 @@ public class GUIController {
         if (pnlRenterSearch.getTxtRent().trim().length() != 0){
             c.setMaxMonthlyRent(Integer.parseInt(pnlRenterSearch.getTxtRent()));
         }
-        //controller.
+        controller.sendSavedSearch(c);
         //TODO:Save Searches
     }
 
