@@ -144,6 +144,9 @@ public class GUIController {
             e.printStackTrace();
             //TODO:Error Message
         }
+        MainFrame.setContentPane(pnlLandlordMain.getPnlLandlord());
+        MainFrame.validate();
+
     }
 
 
