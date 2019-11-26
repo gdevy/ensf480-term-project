@@ -298,8 +298,11 @@ public class GUIController {
     }
 
     public void deleteSearch(PropertySearchCriteria propertySearchCriteria) {
-        //TODO:Send Search to be deleted
-        //controller.
+        controller.deletePropertySearch(propertySearchCriteria);
+        controller.getSavedPropertySearches();
+        pnlSavedSearches.fillTable(controller.getSavedPropertySearches());
+        MainFrame.setContentPane(pnlSavedSearches.getPnlSavedSearches());
+        MainFrame.revalidate();
     }
 
     public void goToEmail(int id){
