@@ -373,16 +373,7 @@ public class pnlLandlordNewProp {
 
         txtBathrooms = new JFormattedTextField(formatter);
         txtBedrooms = new JFormattedTextField(formatter);
-        NumberFormat formatD = new DecimalFormat();
-        formatD.setMinimumFractionDigits(0);
-        formatD.setMinimumFractionDigits(2);
 
-        NumberFormatter formatterD = new NumberFormatter(formatD);
-        //formatterD.setValueClass(Double.class);
-//        formatterD.setMinimum(0);
-//        formatterD.setMaximum(Double.MAX_VALUE);
-        // If you want the value to be committed on each keystroke instead of focus lost
-        formatterD.setCommitsOnValidEdit(true);
         txtRent = new JFormattedTextField(formatter);
         //Square feet is int
         txtSquareFootage = new JFormattedTextField(formatter);
