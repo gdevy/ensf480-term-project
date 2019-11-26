@@ -199,14 +199,6 @@ public class pnlRenterSearch {
         gbc.gridy = 3;
         gbc.anchor = GridBagConstraints.WEST;
         pnlRenterSearch.add(label8, gbc);
-        final DefaultComboBoxModel defaultComboBoxModel1 = new DefaultComboBoxModel();
-        cmbQuadrant.setModel(defaultComboBoxModel1);
-        gbc = new GridBagConstraints();
-        gbc.gridx = 2;
-        gbc.gridy = 3;
-        gbc.anchor = GridBagConstraints.WEST;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        pnlRenterSearch.add(cmbQuadrant, gbc);
         final JLabel label9 = new JLabel();
         label9.setText("City:");
         gbc = new GridBagConstraints();
@@ -292,6 +284,13 @@ public class pnlRenterSearch {
         gbc.anchor = GridBagConstraints.WEST;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         pnlRenterSearch.add(cmbFurnished, gbc);
+        cmbQuadrant = new JComboBox();
+        gbc = new GridBagConstraints();
+        gbc.gridx = 2;
+        gbc.gridy = 3;
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        pnlRenterSearch.add(cmbQuadrant, gbc);
     }
 
     /**
