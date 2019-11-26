@@ -1,4 +1,4 @@
-package testemail;
+package email;
 
 import entity.socket.EmailInfo;
 

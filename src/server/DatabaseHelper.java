@@ -23,9 +23,8 @@ public class DatabaseHelper {
                 "root", "");
     }
 
-    public static DatabaseHelper getInstance() throws SQLException
-    {
-        if( instance == null ) instance = new DatabaseHelper();
+    public static DatabaseHelper getInstance() throws SQLException {
+        if (instance == null) instance = new DatabaseHelper();
         return instance;
     }
 
@@ -365,9 +364,40 @@ public class DatabaseHelper {
         return new ManagerReport(results.size(), results.size(), available, results);
     }
 
-//    public ArrayList<Property> viewProperties(String userName) {
-//
-//    }
+    public ArrayList<Property> viewProperties(String userName) throws SQLException {
+        ResultSet rs = DatabaseHelper.getInstance().dbConnection.createStatement().executeQuery("SELECT * FROM properties\n" +
+                "INNER JOIN landlord_property ON properties.property_id = landlord_property.property_id\n" +
+                "INNER JOIN users ON users.user_id = landlord_property.landlord_id\n" +
+                "INNER JOIN user_type ON users.user_type = user_type_id\n" +
+                        "INNER JOIN property_type ON properties.property_type = property_type.type_id\n" +
+                "WHERE users.email = '" + userName + "'");
+
+        ArrayList<Property> results = new ArrayList<>();
+        while (rs.next()) {
+            PropertyType type = PropertyType.valueOf(rs.getString("type"));
+            int bedrooms = rs.getInt("bedrooms");
+            int bathrooms = rs.getInt("bathrooms");
+            int squareFootage = rs.getInt("square_footage");
+            boolean furnished = rs.getInt("furnished") == 1;
+            PropertyTraits pt = new PropertyTraits(type, bedrooms, bathrooms, squareFootage, furnished);
+            int num = rs.getInt("streetNumber");
+            String street = rs.getString("street");
+            String city = rs.getString("city");
+            String province = rs.getString("province");
+            String postalCode = rs.getString("postal_code");
+            Address address = new Address(num, street, city, province, postalCode);
+            int monthlyRent = rs.getInt("monthly_rent");
+            String quad = rs.getString("quadrant_name");
+            System.out.println(quad);
+            Quadrant q = Quadrant.valueOf(quad);
+            PropertyStatus ps = PropertyStatus.valueOf(rs.getString("status"));
+            Property property = new Property(monthlyRent, address, q, ps, pt);
+
+            results.add(property);
+        }
+
+        return results;
+    }
 
     public ArrayList<PropertySearchCriteria> getSavedSearches(String userName) throws SQLException {
         ArrayList<PropertySearchCriteria> results = new ArrayList<>();

@@ -6,6 +6,7 @@ import server.SocketController;
 import descriptor.*;
 import server.entity.mhs.*;
 import server.DatabaseHelper;
+import email.Test;
 
 import java.util.ArrayList;
 import java.io.ObjectInputStream;
@@ -42,7 +43,7 @@ public class UnregisteredRenterMessageHandler extends MessageHandlerStrategy
 	            case SEND_EMAIL_TO_LANDLORD:
 	            	EmailInfo ei = (EmailInfo) ois.readObject();
 
-	            	// db connection
+	            	Test.sendEmailTo( ei, DatabaseHelper.getInstance().getLandlordEmail( ei.PropertyID ) );
 
 	            case LOGIN_ATTEMPT:
 	            	LoginInfo login = (LoginInfo) ois.readObject();
