@@ -62,7 +62,7 @@ public class pnlSavedSearches {
         String[] columns = {"Property Type", "Max Rent", "Min Bedrooms", "Min Bathrooms", "Min Square Footage", "Is Furnished"};
         d.setColumnCount(6);
         d.setColumnIdentifiers(columns);
-        tblResults = new JTable();
+        tblResults = new JTable(d);
         // TODO: place custom component creation code here
     }
 

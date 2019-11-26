@@ -127,6 +127,10 @@ public class pnlManagerReport {
     }
 
     private void createUIComponents() {
-        // TODO: place custom component creation code here
+        DefaultTableModel d = new DefaultTableModel();
+        String[] columns = {"Street number", "Street Name", "Quadrant", "Is Furnished", "Bedrooms", "Bathrooms"};
+        d.setColumnCount(6);
+        d.setColumnIdentifiers(columns);
+        tblActiveListings = new JTable(d);
     }
 }

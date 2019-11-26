@@ -36,7 +36,7 @@ public class pnlViewUsers {
         String[] columns = {"Username", "User type"};
         d.setColumnCount(2);
         d.setColumnIdentifiers(columns);
-        tblResults = new JTable();
+        tblResults = new JTable(d);
     }
 
     {

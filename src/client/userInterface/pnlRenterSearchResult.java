@@ -60,7 +60,7 @@ public class pnlRenterSearchResult {
         String[] columns = {"Street number", "Street Name", "Quadrant", "Is Furnished", "Bedrooms", "Bathrooms"};
         d.setColumnCount(6);
         d.setColumnIdentifiers(columns);
-        tblResults = new JTable();
+        tblResults = new JTable(d);
 
     }
 

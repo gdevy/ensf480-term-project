@@ -89,7 +89,7 @@ public class pnlLandlordNewProp {
     }
 
     public String getTxtPostalCode() {
-        return txtPostalCode.toString();
+        return txtPostalCode.getText();
     }
 
     public String getTxtRent() {
