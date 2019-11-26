@@ -23,7 +23,7 @@ public class DatabaseHelper {
 
     public static void main(String[] args) throws SQLException {
 
-        PropertyTraits pt = new PropertyTraits(PropertyType.HOUSE, 2, 2, 100, true);
+        PropertyTraits pt = new PropertyTraits(PropertyType.APARTMENT, 2, 2, 100, false);
         Address ad = new Address(3307, "24 Street NW", "Calgary", "AB", "T2M3Z8");
         Property object = new Property(1000, ad, Quadrant.NW, PropertyStatus.AVAILABLE, pt);
 
@@ -40,11 +40,13 @@ public class DatabaseHelper {
 
 //        dbHelper.registerProperty(object, "jed");
 //        dbHelper.searchProperty(psc);
-        dbHelper.saveSearchCriteria(psc, "greg");
+//        dbHelper.saveSearchCriteria(psc, "greg");
+//        dbHelper.searchSavedSearches("greg");
 //        LoginInfo info = new LoginInfo("greg", "abc123");
 //        System.out.println(dbHelper.attemptLogin(info));
 //        System.out.println(dbHelper.getLandlordEmail(1008));
 //        dbHelper.editStatus(1008, PropertyStatus.REMOVED);
+        System.out.println(dbHelper.checkSavedSearches(object));
 
     }
 
@@ -72,6 +74,101 @@ public class DatabaseHelper {
         dbConnection.createStatement().executeUpdate("INSERT INTO landlord_property (landlord_id, property_id)\n" +
                 "VALUES\n" +
                 "((SELECT user_id FROM users WHERE email = '" + landlordInfo + "'), " + propertyID + ")");
+    }
+
+    ArrayList<String> checkSavedSearches(Property property) throws SQLException {
+        PreparedStatement ps = dbConnection.prepareStatement("SELECT * FROM saved_search_criteria\n" +
+                "WHERE (max_monthly_rent >= ?\n" +
+                "OR max_monthly_rent = -1)\n" +
+                "AND (min_bathrooms <= ?\n" +
+                "OR min_bathrooms = -1)\n" +
+                "AND (min_bedrooms <= ?\n" +
+                "OR min_bedrooms = -1)\n" +
+                "AND (min_square_footage <= ?\n" +
+                "OR min_bathrooms = -1)\n" +
+                "AND (furnished = 0\n" +
+                "OR furnished = ?)");
+
+        ps.setInt(1, property.getMonthlyRent());
+        ps.setInt(2, property.getTraits().getBathrooms());
+        ps.setInt(3, property.getTraits().getBedrooms());
+        ps.setInt(4, (int) property.getTraits().getSquareFootage()); //TODO change to int
+        ps.setInt(5, property.getTraits().getFurnished() ? 1 : 0);
+        ResultSet rs = ps.executeQuery();
+        ArrayList<Integer> searchIDS = new ArrayList<>();
+        while (rs.next()) {
+            System.out.println(rs.getInt(1));
+            searchIDS.add(rs.getInt(1));
+        }
+
+        System.out.println(searchIDS);
+        Statement tempStatement = dbConnection.createStatement();
+        ArrayList<Integer> toRemove = new ArrayList<>();
+        for (Integer searchID : searchIDS) {
+            boolean quadrantMatches = false;
+            boolean typeMatches = false;
+            boolean rsEmpty = true;
+            rs = tempStatement.executeQuery("SELECT * FROM search_quadrant\n" +
+                    "INNER JOIN quadrant ON search_quadrant.quadrant_id = quadrant.quadrant_id\n" +
+                    "WHERE search_id = " + searchID);
+
+            Quadrant q;
+            while (rs.next()) {
+                rsEmpty = false;
+                q = Quadrant.valueOf(rs.getString("quadrant_name"));
+                if (property.getQuadrant() == q) {
+                    quadrantMatches = true;
+                    break;
+                }
+            }
+            if (rsEmpty) {
+                continue;
+            }
+            if (!quadrantMatches) {
+                toRemove.add(searchID);
+                continue;
+            }
+
+            rs = tempStatement.executeQuery("SELECT * FROM search_property_type\n" +
+                    "INNER JOIN property_type ON search_property_type.property_type_id = property_type.type_id\n" +
+                    "WHERE search_id = " + searchID);
+
+
+            PropertyType pt;
+            rsEmpty = true;
+            while (rs.next()) {
+                rsEmpty = false;
+                pt = PropertyType.valueOf(rs.getString("type"));
+                if (property.getTraits().getType() == pt) {
+                    typeMatches = true;
+                    break;
+                }
+            }
+            if (rsEmpty) {
+                continue;
+            }
+            if (!typeMatches) {
+                toRemove.add(searchID);
+            }
+
+        }
+        for (Integer integer : toRemove) {
+            searchIDS.remove(integer);
+        }
+
+        ArrayList<String> results = new ArrayList<>();
+        for (Integer searchID : searchIDS) {
+
+            rs = tempStatement.executeQuery("SELECT email FROM saved_search_criteria\n" +
+                    "INNER JOIN users ON saved_search_criteria.user_id = users.user_id\n" +
+                    "WHERE saved_search_criteria.search_id = " + searchID);
+            if (rs.next()) {
+                results.add(rs.getString("email"));
+            }
+        }
+
+        return results;
+
     }
 
     void saveSearchCriteria(PropertySearchCriteria psc, String userInfo) throws SQLException {
@@ -223,7 +320,7 @@ public class DatabaseHelper {
         return results;
     }
 
-    ArrayList<PropertySearchCriteria> searchSavedSearches(String userName) throws SQLException {
+    ArrayList<PropertySearchCriteria> getSavedSearches(String userName) throws SQLException {
         ArrayList<PropertySearchCriteria> results = new ArrayList<>();
         Statement stm = dbConnection.createStatement();
         ResultSet rs = stm.executeQuery("SELECT user_id FROM users\n" +
@@ -261,6 +358,8 @@ public class DatabaseHelper {
             }
             results.add(psc);
         }
+
+        System.out.println(results.size());
         return results;
     }
 
