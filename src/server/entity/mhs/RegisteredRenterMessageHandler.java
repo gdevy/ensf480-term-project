@@ -48,6 +48,7 @@ public class RegisteredRenterMessageHandler extends MessageHandlerStrategy
 
 	            case VIEW_SAVED_SEARCHES_REQUEST:
 	            	ois.readObject();
+	            	
 	            	ArrayList<PropertySearchCriteria> savedSearches = new ArrayList<PropertySearchCriteria>();
 
 	            	PropertySearchCriteria search = new PropertySearchCriteria();
@@ -63,6 +64,11 @@ public class RegisteredRenterMessageHandler extends MessageHandlerStrategy
 					savedSearches.add(search);
 					oos.writeObject( MessageType.VIEW_SAVED_SEARCHES_RESULT );
 					oos.writeObject( savedSearches );
+	            	break;
+
+	            case DELETE_PROPERTY_SEARCH:
+	            	PropertySearchCriteria psc1 = (PropertySearchCriteria) ois.readObject();
+
 	            	break;
 
 	            default:
