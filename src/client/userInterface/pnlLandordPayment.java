@@ -113,6 +113,8 @@ public class pnlLandordPayment {
         gbc.anchor = GridBagConstraints.WEST;
         pnlLandlordPayment.add(label5, gbc);
         txtCardName = new JTextField();
+        txtCardName.setMinimumSize(new Dimension(120, 30));
+        txtCardName.setPreferredSize(new Dimension(120, 30));
         gbc = new GridBagConstraints();
         gbc.gridx = 2;
         gbc.gridy = 2;
@@ -120,6 +122,7 @@ public class pnlLandordPayment {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         pnlLandlordPayment.add(txtCardName, gbc);
         txtCardNumber = new JTextField();
+        txtCardNumber.setMinimumSize(new Dimension(120, 30));
         gbc = new GridBagConstraints();
         gbc.gridx = 2;
         gbc.gridy = 3;
@@ -155,4 +158,5 @@ public class pnlLandordPayment {
     public JComponent $$$getRootComponent$$$() {
         return pnlLandlordPayment;
     }
+
 }
