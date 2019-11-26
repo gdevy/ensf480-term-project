@@ -35,6 +35,7 @@ public class GUIController {
     private pnlManagerViewProperties pnlManagerViewProperties;
     private pnlSendEmail pnlSendEmail;
     private pnlSavedSearches pnlSavedSearches;
+    private pnlRegRenterMain pnlRegRenterMain;
 
 
     public static void main(String[] args) {
@@ -84,7 +85,13 @@ public class GUIController {
             //TODO:Error Message
                 break;
             case REGISTERED_RENTER:
-                   userInfo = loginInfo;
+                pnlRegRenterMain = new pnlRegRenterMain();
+                pnlRegRenterMain.setController(this);
+                MainFrame.setContentPane(pnlRegRenterMain.getPnlRegRenterMain());
+                MainFrame.revalidate();
+                userInfo = loginInfo;
+
+
                 break;
             case LANDLORD:
                 pnlLandlordMain = new pnlLandlordMain();
