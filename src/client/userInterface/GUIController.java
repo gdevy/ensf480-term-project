@@ -163,7 +163,7 @@ public class GUIController {
             c.setMinBedrooms(Integer.parseInt(pnlRenterSearch.getTxtBedrooms().replace(",","")));
         }
         if (pnlRenterSearch.getTxtRent().trim().length() != 0){
-            c.setMaxMonthlyRent(Integer.parseInt(pnlRenterSearch.getTxtRent().replace(",","")));
+            c.setMaxMonthlyRent(Integer.parseInt(pnlRenterSearch.getTxtRent().replace(",","").replace(".","")));
         }
         if(String.valueOf(pnlRenterSearch.getCmbFurnished().getSelectedItem())=="FURNISHED"){
             c.setFurnished(true);
