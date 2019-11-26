@@ -381,7 +381,7 @@ public class DatabaseHelper {
             lastSearchID = rs.getInt("search_id");
 
             PropertySearchCriteria psc = new PropertySearchCriteria();
-
+            psc.setID(rs.getInt(rs.getInt("search_id")));
             psc.setMaxMonthlyRent(rs.getInt("max_monthly_rent"));
             psc.setMinBathrooms(rs.getInt("min_bathrooms"));
             psc.setMinBedrooms(rs.getInt("min_bedrooms"));
