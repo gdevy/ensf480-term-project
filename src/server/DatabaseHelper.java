@@ -10,6 +10,9 @@ import org.sqlite.SQLiteDataSource;
 import javax.naming.directory.SearchControls;
 import java.io.*;
 import java.sql.*;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.*;
 
 public class DatabaseHelper {
@@ -38,7 +41,7 @@ public class DatabaseHelper {
 
         DatabaseHelper dbHelper = new DatabaseHelper();
 
-//        dbHelper.registerProperty(object, "jed");
+        dbHelper.registerProperty(object, "jed");
 //        dbHelper.searchProperty(psc);
 //        dbHelper.saveSearchCriteria(psc, "greg");
 //        dbHelper.searchSavedSearches("greg");
@@ -46,13 +49,13 @@ public class DatabaseHelper {
 //        System.out.println(dbHelper.attemptLogin(info));
 //        System.out.println(dbHelper.getLandlordEmail(1008));
 //        dbHelper.editStatus(1008, PropertyStatus.REMOVED);
-        System.out.println(dbHelper.checkSavedSearches(object));
+//        System.out.println(dbHelper.checkSavedSearches(object));
 
     }
 
     void registerProperty(Property property, String landlordInfo) throws SQLException {
-        PreparedStatement statement = dbConnection.prepareStatement("INSERT INTO properties (property_id, quadrant, property_status, property_type, bathrooms, bedrooms, furnished, square_footage, monthly_rent, streetNumber, street, city, province, postal_code) values" +
-                " (null, (SELECT quadrant_id from quadrant WHERE quadrant_name = ?), (SELECT status_id from property_status WHERE status = ?), (SELECT type_id from property_type WHERE type =?), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        PreparedStatement statement = dbConnection.prepareStatement("INSERT INTO properties (property_id, quadrant, property_status, property_type, bathrooms, bedrooms, furnished, square_footage, monthly_rent, streetNumber, street, city, province, postal_code, date_created) values" +
+                " (null, (SELECT quadrant_id from quadrant WHERE quadrant_name = ?), (SELECT status_id from property_status WHERE status = ?), (SELECT type_id from property_type WHERE type =?), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
         statement.setString(1, property.getQuadrant().name());
         statement.setString(2, property.getStatus().name());
         statement.setString(3, property.getTraits().getType().name());
@@ -66,6 +69,8 @@ public class DatabaseHelper {
         statement.setString(11, property.getAddress().getCity());
         statement.setString(12, property.getAddress().getProvince());
         statement.setString(13, property.getAddress().getPostalCode());
+        String time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime());
+        statement.setString(14, time);
         statement.executeUpdate();
 
         ResultSet rs = dbConnection.createStatement().executeQuery("SELECT last_insert_rowid()");
@@ -395,4 +400,17 @@ public class DatabaseHelper {
         }
 
     }
+
+//    void getAllUsers() throws SQLException {
+//        ResultSet rs = dbConnection.createStatement().executeQuery("SELECT email, user_type_name  FROM users\n" +
+//                "INNER JOIN user_type on users.user_type = user_type.user_type_id");
+//
+//        ArrayList<> results = new ArrayList();
+//        while (rs.next()) {
+//            rs.getString("email");
+//            UserTypeLogin.valueOf(rs.getString("user_type_name"));
+//
+//            results.append
+//        }
+//    }
 }
