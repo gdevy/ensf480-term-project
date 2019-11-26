@@ -42,7 +42,9 @@ public class pnlLandlordListings {
             String[] data = {p.getAddress().getStreetNumber() + "", p.getAddress().getStreet(),
                     p.getQuadrant().toString(), p.getTraits().getFurnished() + "", p.getTraits().getBedrooms() + "", p.getTraits().getBathrooms() + ""};
             d.addRow(data);
+
         }
+        d.fireTableDataChanged();
         //Todo:Clear table, Add more Data
     }
 
@@ -94,6 +96,7 @@ public class pnlLandlordListings {
         gbc.fill = GridBagConstraints.VERTICAL;
         pnlLandlordListings.add(spacer2, gbc);
         final JScrollPane scrollPane1 = new JScrollPane();
+        scrollPane1.setMinimumSize(new Dimension(500,350));
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 3;

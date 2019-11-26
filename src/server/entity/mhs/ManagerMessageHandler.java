@@ -5,6 +5,7 @@ import entity.socket.*;
 import server.SocketController;
 import descriptor.*;
 import entity.socket.ManagerReport;
+import server.DatabaseHelper;
 
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -43,6 +44,22 @@ public class ManagerMessageHandler extends MessageHandlerStrategy
 					oos.writeObject( report );
 					System.out.println( "Sent back landlord's properties" );
 	            	break;
+
+				case EDIT_CURRENT_PROPERTY:
+					Property pedit = (Property) ois.readObject();
+					System.out.println( pedit.getTraits() );
+
+					DatabaseHelper.getInstance().editStatus( pedit.getId(), pedit.getStatus() );
+					break;
+
+				case VIEW_ALL_USERS_REQUEST:
+					ois.readObject();
+
+					ArrayList<User> users = new ArrayList<User>();
+
+					oos.writeObject( MessageType.VIEW_ALL_USERS_RESULT );
+					oos.writeObject( users );
+					break;
 
 	            default:
 	                System.out.println( "Message handler can't handle: " + msgType );

@@ -56,7 +56,7 @@ public class DatabaseHelper {
 
     }
 
-    void registerProperty(Property property, String landlordInfo) throws SQLException {
+    public void registerProperty(Property property, String landlordInfo) throws SQLException {
         PreparedStatement statement = dbConnection.prepareStatement("INSERT INTO properties (property_id, quadrant, property_status, property_type, bathrooms, bedrooms, furnished, square_footage, monthly_rent, streetNumber, street, city, province, postal_code, date_created) values" +
                 " (null, (SELECT quadrant_id from quadrant WHERE quadrant_name = ?), (SELECT status_id from property_status WHERE status = ?), (SELECT type_id from property_type WHERE type =?), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
         statement.setString(1, property.getQuadrant().name());
@@ -84,7 +84,7 @@ public class DatabaseHelper {
                 "((SELECT user_id FROM users WHERE email = '" + landlordInfo + "'), " + propertyID + ")");
     }
 
-    ArrayList<String> checkSavedSearches(Property property) throws SQLException {
+    public ArrayList<String> checkSavedSearches(Property property) throws SQLException {
         PreparedStatement ps = DatabaseHelper.getInstance().dbConnection.prepareStatement("SELECT * FROM saved_search_criteria\n" +
                 "WHERE (max_monthly_rent >= ?\n" +
                 "OR max_monthly_rent = -1)\n" +
@@ -179,7 +179,7 @@ public class DatabaseHelper {
 
     }
 
-    void saveSearchCriteria(PropertySearchCriteria psc, String userInfo) throws SQLException {
+    public void saveSearchCriteria(PropertySearchCriteria psc, String userInfo) throws SQLException {
         PreparedStatement statement = DatabaseHelper.getInstance().dbConnection.prepareStatement("INSERT INTO saved_search_criteria (search_id, user_id, max_monthly_rent, min_bathrooms, min_bedrooms, min_square_footage) " +
                 "values (null, (SELECT user_id FROM users WHERE email = ?), ?, ?, ?, ?)");
         statement.setString(1, userInfo);
@@ -222,7 +222,7 @@ public class DatabaseHelper {
 
     }
 
-    ArrayList<Property> searchProperty(PropertySearchCriteria psc) throws SQLException {
+    public ArrayList<Property> searchProperty(PropertySearchCriteria psc) throws SQLException {
         ArrayList<Property> results = new ArrayList<>();
         StringBuilder query = new StringBuilder("SELECT * FROM properties\n");
 
@@ -328,7 +328,7 @@ public class DatabaseHelper {
         return results;
     }
 
-    ManagerReport createPropertyReport() throws SQLException {
+    public ManagerReport createPropertyReport() throws SQLException {
 
         ResultSet rs = dbConnection.createStatement().executeQuery("SELECT * FROM properties\n" +
                 "INNER JOIN property_status ON property_status = property_status.status_id\n" +
@@ -365,7 +365,11 @@ public class DatabaseHelper {
         return new ManagerReport(results.size(), results.size(), available, results);
     }
 
-    ArrayList<PropertySearchCriteria> getSavedSearches(String userName) throws SQLException {
+//    public ArrayList<Property> viewProperties(String userName) {
+//
+//    }
+
+    public ArrayList<PropertySearchCriteria> getSavedSearches(String userName) throws SQLException {
         ArrayList<PropertySearchCriteria> results = new ArrayList<>();
         Statement stm = DatabaseHelper.getInstance().dbConnection.createStatement();
         ResultSet rs = stm.executeQuery("SELECT user_id FROM users\n" +
@@ -408,7 +412,7 @@ public class DatabaseHelper {
         return results;
     }
 
-    String getLandlordEmail(int propertyID) throws SQLException {
+    public String getLandlordEmail(int propertyID) throws SQLException {
         ResultSet rs = DatabaseHelper.getInstance().dbConnection.createStatement().executeQuery("SELECT email FROM users\n" +
                 "INNER JOIN landlord_property ON user_id = landlord_property.landlord_id\n" +
                 "WHERE property_id = '" + propertyID + "'");
@@ -416,14 +420,14 @@ public class DatabaseHelper {
         return rs.getString(1);
     }
 
-    void editStatus(int propertyID, PropertyStatus newStatus) throws SQLException {
+    public void editStatus(int propertyID, PropertyStatus newStatus) throws SQLException {
         DatabaseHelper.getInstance().dbConnection.createStatement().executeUpdate("UPDATE properties\n" +
                 "SET property_status = (SELECT status_id FROM property_status WHERE status = '" + newStatus.name() + "')\n" +
                 "WHERE\n" +
                 "    property_id = " + propertyID);
     }
 
-    UserTypeLogin attemptLogin(LoginInfo info) throws SQLException {
+    public UserTypeLogin attemptLogin(LoginInfo info) throws SQLException {
         Statement stm = DatabaseHelper.getInstance().dbConnection.createStatement();
 
 
@@ -441,7 +445,7 @@ public class DatabaseHelper {
 
     }
 
-    ArrayList<User> getAllUsers() throws SQLException {
+    public ArrayList<User> getAllUsers() throws SQLException {
         ResultSet rs = dbConnection.createStatement().executeQuery("SELECT email, user_type_name  FROM users\n" +
                 "INNER JOIN user_type on users.user_type = user_type.user_type_id");
 
