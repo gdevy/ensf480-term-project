@@ -34,6 +34,7 @@ public class GUIController {
     private pnlManagerFees pnlManagerFees;
     private pnlManagerViewProperties pnlManagerViewProperties;
     private pnlSendEmail pnlSendEmail;
+    private pnlSavedSearches pnlSavedSearches;
 
 
     public static void main(String[] args) {
@@ -279,5 +280,12 @@ public class GUIController {
     }
     public void SendEmail(EmailInfo ei) {
         controller.sendEmailToLandlord(ei);
+    }
+
+    public void goToSavedSearches() {
+        pnlSavedSearches = new pnlSavedSearches();
+        pnlSavedSearches.setController(this);
+        MainFrame.setContentPane(pnlSavedSearches.getPnlSavedSearches());
+        MainFrame.revalidate();
     }
 }
