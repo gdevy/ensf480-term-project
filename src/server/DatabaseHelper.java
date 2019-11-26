@@ -40,11 +40,11 @@ public class DatabaseHelper {
 
 //        dbHelper.registerProperty(object, "jed");
 //        dbHelper.searchProperty(psc);
-//        dbHelper.saveSearchCriteria(psc, "greg");
+        dbHelper.saveSearchCriteria(psc, "greg");
 //        LoginInfo info = new LoginInfo("greg", "abc123");
 //        System.out.println(dbHelper.attemptLogin(info));
 //        System.out.println(dbHelper.getLandlordEmail(1008));
-        dbHelper.editStatus(1008, PropertyStatus.REMOVED);
+//        dbHelper.editStatus(1008, PropertyStatus.REMOVED);
 
     }
 
@@ -234,8 +234,32 @@ public class DatabaseHelper {
         rs = stm.executeQuery("SELECT * from saved_search_criteria\n" +
                 "WHERE user_id = " + userID + "");
 
+        int lastSearchID = -1;
         while (rs.next()) {
+            lastSearchID = rs.getInt("search_id");
 
+            PropertySearchCriteria psc = new PropertySearchCriteria();
+
+            psc.setMaxMonthlyRent(rs.getInt("max_monthly_rent"));
+            psc.setMinBathrooms(rs.getInt("min_bathrooms"));
+            psc.setMinBedrooms(rs.getInt("min_bedrooms"));
+            psc.setMinSquareFootage(rs.getInt("min_square_footage"));
+            psc.setFurnished(rs.getInt("furnished") == 1);
+
+            ResultSet tempRS = stm.executeQuery("SELECT * FROM search_quadrant\n" +
+                    "LEFT JOIN quadrant ON search_quadrant.quadrant_id = quadrant.quadrant_id\n" +
+                    "WHERE search_id = " + lastSearchID);
+            while (tempRS.next()) {
+                psc.addQuadrant(Quadrant.valueOf(rs.getString("quadrant_name")));
+            }
+
+            rs = stm.executeQuery("SELECT * FROM search_property_type\n" +
+                    "LEFT JOIN property_type ON search_property_type.property_type_id = property_type.type_id\n" +
+                    "WHERE search_id = " + lastSearchID);
+            while (tempRS.next()) {
+                psc.addType(PropertyType.valueOf(rs.getString("quadrant_name")));
+            }
+            results.add(psc);
         }
         return results;
     }
