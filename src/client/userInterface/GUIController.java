@@ -299,4 +299,11 @@ public class GUIController {
         MainFrame.setContentPane(pnlSavedSearches.getPnlSavedSearches());
         MainFrame.revalidate();
     }
+
+    public void goToPayment() {
+        pnlLandordPayment = new pnlLandordPayment();
+        pnlLandordPayment.setController(this);
+        MainFrame.setContentPane(pnlLandordPayment.getPnlLandlordPayment());
+        MainFrame.revalidate();
+    }
 }

@@ -26,7 +26,7 @@ public class pnlLandlordMain {
         paymentButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                controller.goToPayment();
             }
         });
         makeNewListingButton.addActionListener(new ActionListener() {
