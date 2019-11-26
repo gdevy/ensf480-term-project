@@ -186,11 +186,12 @@ public class GUIController {
     }
 
     public void generateManagerReport() {
-        //TODO:Add call to controller function that gets report
+        controller.getManagerReport();
         pnlManagerReport = new pnlManagerReport();
-        //pnlManagerReport.fillTable();
+        pnlManagerReport.setController(this);
+        pnlManagerReport.fillTable(controller.getManagerReport());
         pnlManagerReport.setLabels();
-        MainFrame.setContentPane(pnlLandlordMain.getPnlLandlord());
+        MainFrame.setContentPane(pnlManagerReport.getPnlManagerReport());
         MainFrame.revalidate();
     }
 
