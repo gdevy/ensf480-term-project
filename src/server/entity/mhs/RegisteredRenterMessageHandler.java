@@ -5,6 +5,7 @@ import entity.socket.*;
 import server.SocketController;
 import descriptor.*;
 import server.DatabaseHelper;
+import email.Test;
 
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -53,7 +54,7 @@ public class RegisteredRenterMessageHandler extends MessageHandlerStrategy
 	            case SEND_EMAIL_TO_LANDLORD:
 	            	EmailInfo ei = (EmailInfo) ois.readObject();
 
-	            	// db connection
+	            	Test.sendEmailTo( ei, DatabaseHelper.getInstance().getLandlordEmail( ei.PropertyID ) );
 
 	            case DELETE_PROPERTY_SEARCH:
 	            	PropertySearchCriteria psc1 = (PropertySearchCriteria) ois.readObject();

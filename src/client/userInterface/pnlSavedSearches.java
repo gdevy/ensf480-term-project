@@ -62,7 +62,7 @@ public class pnlSavedSearches {
         String[] columns = {"Property Type", "Max Rent", "Min Bedrooms", "Min Bathrooms", "Min Square Footage", "Is Furnished"};
         d.setColumnCount(6);
         d.setColumnIdentifiers(columns);
-        tblResults = new JTable();
+        tblResults = new JTable(d);
         // TODO: place custom component creation code here
     }
 
@@ -98,6 +98,7 @@ public class pnlSavedSearches {
         gbc.fill = GridBagConstraints.VERTICAL;
         pnlSavedSearches.add(spacer2, gbc);
         final JScrollPane scrollPane1 = new JScrollPane();
+        scrollPane1.setMinimumSize(new Dimension(500, 350));
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 3;
@@ -120,4 +121,5 @@ public class pnlSavedSearches {
     public JComponent $$$getRootComponent$$$() {
         return pnlSavedSearches;
     }
+
 }

@@ -55,7 +55,7 @@ public class pnlManagerViewProperties {
         String[] columns = {"Street number", "Street Name", "Quadrant", "Is Furnished", "Bedrooms", "Bathrooms"};
         d.setColumnCount(6);
         d.setColumnIdentifiers(columns);
-        tblResults = new JTable();
+        tblResults = new JTable(d);
     }
 
     /**
@@ -84,6 +84,7 @@ public class pnlManagerViewProperties {
         gbc.fill = GridBagConstraints.VERTICAL;
         pnlManagerViewProperties.add(spacer1, gbc);
         final JScrollPane scrollPane1 = new JScrollPane();
+        scrollPane1.setMinimumSize(new Dimension(500, 350));
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 2;
@@ -106,4 +107,5 @@ public class pnlManagerViewProperties {
     public JComponent $$$getRootComponent$$$() {
         return pnlManagerViewProperties;
     }
+
 }

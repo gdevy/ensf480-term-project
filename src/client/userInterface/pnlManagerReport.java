@@ -115,6 +115,7 @@ public class pnlManagerReport {
         gbc.anchor = GridBagConstraints.WEST;
         panel1.add(txtNumActiveListings, gbc);
         final JScrollPane scrollPane1 = new JScrollPane();
+        scrollPane1.setMinimumSize(new Dimension(500, 350));
         pnlManagerReport.add(scrollPane1, BorderLayout.CENTER);
         scrollPane1.setViewportView(tblActiveListings);
     }
@@ -127,6 +128,10 @@ public class pnlManagerReport {
     }
 
     private void createUIComponents() {
-        // TODO: place custom component creation code here
+        DefaultTableModel d = new DefaultTableModel();
+        String[] columns = {"Street number", "Street Name", "Quadrant", "Is Furnished", "Bedrooms", "Bathrooms"};
+        d.setColumnCount(6);
+        d.setColumnIdentifiers(columns);
+        tblActiveListings = new JTable(d);
     }
 }

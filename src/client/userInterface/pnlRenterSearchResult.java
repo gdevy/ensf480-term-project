@@ -60,7 +60,7 @@ public class pnlRenterSearchResult {
         String[] columns = {"Street number", "Street Name", "Quadrant", "Is Furnished", "Bedrooms", "Bathrooms"};
         d.setColumnCount(6);
         d.setColumnIdentifiers(columns);
-        tblResults = new JTable();
+        tblResults = new JTable(d);
 
     }
 
@@ -90,6 +90,7 @@ public class pnlRenterSearchResult {
         gbc.fill = GridBagConstraints.VERTICAL;
         pnlRenterSearchResult.add(spacer1, gbc);
         final JScrollPane scrollPane1 = new JScrollPane();
+        scrollPane1.setMinimumSize(new Dimension(500, 350));
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 2;

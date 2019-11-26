@@ -192,7 +192,11 @@ public class GUIController {
     }
 
     public void goToEditProperty(Property property) {
+        pnlEditProperty = new pnlEditProperty();
         pnlEditProperty.setProperty(property);
+        pnlEditProperty.setController(this);
+        MainFrame.setContentPane(pnlEditProperty.getPnlEditProperty());
+        MainFrame.revalidate();
     }
 
     public void generateManagerReport() {
