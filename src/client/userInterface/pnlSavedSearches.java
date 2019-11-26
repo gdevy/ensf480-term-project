@@ -49,9 +49,20 @@ public class pnlSavedSearches {
         DefaultTableModel d = (DefaultTableModel) tblResults.getModel();
         d.setRowCount(0);
         for (PropertySearchCriteria p : c) {
+            if (p.getTypes().isEmpty()){
+                String[] data = { "N/A", p.getMaxMonthlyRent() + "",
+                        p.getMinBedrooms() + "", p.getMinBathrooms() + "", p.getMinSquareFootage() + "", p.getMinSquareFootage() + ""};
+                for(int i = 0;i<data.length;i++){
+                    data[i] = data[i].replaceAll("-1","N/A");
+                }
+                d.addRow(data);
+            }
             for (PropertyType pt : p.getTypes()) {
                 String[] data = {pt + "", p.getMaxMonthlyRent() + "",
                         p.getMinBedrooms() + "", p.getMinBathrooms() + "", p.getMinSquareFootage() + "", p.getMinSquareFootage() + ""};
+                for(int i = 0;i<data.length;i++){
+                    data[i] = data[i].replaceAll("-1","N/A");
+                }
                 d.addRow(data);
             }
         }
