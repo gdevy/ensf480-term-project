@@ -5,6 +5,7 @@ import server.SocketController;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.lang.Thread;
 
 public class Controller
 {
@@ -30,7 +31,8 @@ public class Controller
 				Socket sock = serverSocket.accept();
 				System.out.println( "Client found, assigning thread" );
 				SocketController sockControl = new SocketController( sock );
-				sockControl.run();
+				new Thread(sockControl).start();
+				System.out.println("clinet is running");
 			}
 			catch( IOException e )
 			{

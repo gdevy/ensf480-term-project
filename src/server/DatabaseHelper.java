@@ -8,6 +8,7 @@ import entity.socket.PropertySearchCriteria;
 import entity.socket.User;
 import entity.socket.property.*;
 
+import javax.xml.crypto.Data;
 import java.lang.reflect.Array;
 import java.sql.*;
 import java.text.SimpleDateFormat;
@@ -36,22 +37,20 @@ public class DatabaseHelper {
 //        Property object = new Property(1000, ad, Quadrant.NW, PropertyStatus.AVAILABLE, pt);
 
         PropertySearchCriteria psc = new PropertySearchCriteria();
-        psc.addType(PropertyType.BASEMENT);
-        psc.addType(PropertyType.CONDO);
-        psc.setMinBedrooms(1);
-        psc.setMinBathrooms(1);
-        psc.setMinSquareFootage(750);
-        psc.addQuadrant(Quadrant.SW);
+        psc.addType(PropertyType.HOUSE);
+        psc.addQuadrant(Quadrant.NW);
 
         PropertyTraits pt = new PropertyTraits( PropertyType.CONDO, 2, 2, 1000, false );
         Address ad = new Address( 3307, "24 Street NW", "Calgary", "AB", "T2M3Z8" );
         Property object = new Property( 1000, ad, Quadrant.NW, PropertyStatus.AVAILABLE, pt );
 
-        DatabaseHelper.getInstance().createPropertyReport();
-
+        ArrayList<PropertySearchCriteria> results = DatabaseHelper.getInstance().getSavedSearches("greg.devyatov@gmail.com");
+        for (PropertySearchCriteria result : results) {
+            System.out.println("entry");
+        }
     }
 
-    //workds
+    //works
     public void registerProperty(Property property, String landlordInfo) throws SQLException {
         PreparedStatement statement = dbConnection.prepareStatement("INSERT INTO properties (property_id, quadrant, property_status, property_type, bathrooms, bedrooms, furnished, square_footage, monthly_rent, streetNumber, street, city, province, postal_code, date_created) values" +
                 " (null, (SELECT quadrant_id from quadrant WHERE quadrant_name = ?), (SELECT status_id from property_status WHERE status = ?), (SELECT type_id from property_type WHERE type =?), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
@@ -79,7 +78,6 @@ public class DatabaseHelper {
                 "VALUES\n" +
                 "((SELECT user_id FROM users WHERE email = '" + landlordInfo + "'), " + propertyID + ")");
     }
-
 
     //works
     public ArrayList<String> checkSavedSearches(Property property) throws SQLException {
@@ -432,6 +430,7 @@ public class DatabaseHelper {
                     "LEFT JOIN quadrant ON search_quadrant.quadrant_id = quadrant.quadrant_id\n" +
                     "WHERE search_id = " + lastSearchID);
             while (tempRS.next()) {
+                System.out.println(tempRS.getString("quadrant_name"));
                 psc.addQuadrant(Quadrant.valueOf(tempRS.getString("quadrant_name")));
             }
 
@@ -444,7 +443,7 @@ public class DatabaseHelper {
             System.out.println(psc.getTypes());
             results.add(psc);
         }
-
+        System.out.println(results.size());
         return results;
     }
 
@@ -472,6 +471,11 @@ public class DatabaseHelper {
         }
     }
 
+    public void deleteSavedSearch(int searchID) throws SQLException {
+        DatabaseHelper.getInstance().dbConnection.createStatement().executeUpdate("DELETE FROM saved_search_criteria \n" +
+                "WHERE search_id = " + searchID);
+
+    }
     //works
     public UserTypeLogin attemptLogin(LoginInfo info) throws SQLException {
         Statement stm = DatabaseHelper.getInstance().dbConnection.createStatement();

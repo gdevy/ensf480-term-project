@@ -46,6 +46,8 @@ public class pnlSavedSearches {
 
     public void fillTable(ArrayList<PropertySearchCriteria> c) {
         this.c = c;
+        System.out.println("in pnl :" + c.size());
+
         DefaultTableModel d = (DefaultTableModel) tblResults.getModel();
         d.setRowCount(0);
         for (PropertySearchCriteria p : c) {
