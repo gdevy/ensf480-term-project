@@ -5,6 +5,7 @@ import entity.socket.*;
 import server.SocketController;
 import descriptor.*;
 import server.entity.mhs.*;
+import server.DatabaseHelper;
 
 import java.util.ArrayList;
 import java.io.ObjectInputStream;
@@ -31,14 +32,8 @@ public class UnregisteredRenterMessageHandler extends MessageHandlerStrategy
 	                System.out.println( "Min bathrooms: " + psc.getMinBathrooms() );
 	                System.out.println( "Furnished: " + psc.getFurnished() );
 
-	            	ArrayList<Property> currentProperties = new ArrayList<Property>();
+	            	ArrayList<Property> currentProperties = DatabaseHelper.getInstance().searchProperty( psc );
 
-	            	PropertyTraits pt = new PropertyTraits( PropertyType.HOUSE, 1, 1, 1000, true );
-        			Address ad = new Address( 3307, "24 Street NW", "Calgary", "AB", "T2M3Z8" );
-        			Property tempp = new Property( 1000, ad, Quadrant.NW, PropertyStatus.AVAILABLE, pt );
-
-					currentProperties.add(tempp);
-					currentProperties.add(tempp);
 					oos.writeObject( MessageType.PROPERT_SEARCH_RESULT );
 					oos.writeObject( currentProperties );
 					System.out.println( "Sent back landlord's properties" );
@@ -49,8 +44,7 @@ public class UnregisteredRenterMessageHandler extends MessageHandlerStrategy
 	            	System.out.println( "Username: " + login.username );
 	            	System.out.println( "Password: " + login.password );
 
-	            	// get usertype from database
-	            	UserTypeLogin userType = UserTypeLogin.LANDLORD;
+	            	UserTypeLogin userType = DatabaseHelper.getInstance().attemptLogin( login );
 
 	            	oos.writeObject( MessageType.LOGIN_RESULT );
 	            	oos.writeObject( userType );

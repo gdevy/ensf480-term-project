@@ -5,6 +5,7 @@ import entity.socket.*;
 import entity.socket.property.*;
 import server.SocketController;
 import descriptor.*;
+import server.DatabaseHelper;
 
 import java.util.ArrayList;
 import java.io.ObjectInputStream;
@@ -32,11 +33,15 @@ public class LandlordMessageHandler extends MessageHandlerStrategy
 	            case CREATE_NEW_PROPERTY:
 	            	Property p = (Property) ois.readObject();
 	            	System.out.println( p.getTraits() );
+
+	            	DatabaseHelper.getInstance().registerProperty( p, username );
 	            	break;
 
 				case EDIT_CURRENT_PROPERTY:
 					Property pedit = (Property) ois.readObject();
 					System.out.println( pedit.getTraits() );
+
+					DatabaseHelper.getInstance().editStatus( pedit.getId(), pedit.getStatus() );
 					break;
 
 	            case VIEW_LANDLORD_PROPERTIES_REQUEST:
