@@ -21,6 +21,8 @@ public class PropertySearchCriteria implements Serializable
 	private Furnishing furnished;
 	private ArrayList<Quadrant> quadrants;
 
+	private int id;
+
 	private static final long serialVersionUID = 1L;
 
 	public PropertySearchCriteria()
@@ -32,6 +34,18 @@ public class PropertySearchCriteria implements Serializable
 		minSquareFootage = -1;
 		furnished = Furnishing.EITHER;
 		quadrants = new ArrayList<Quadrant>();
+
+		id = 0;
+	}
+
+	public void setID( int id )
+	{
+		this.id = id;
+	}
+
+	public int getID()
+	{
+		return id;
 	}
 
 	public void setMaxMonthlyRent( int maxMonthlyRent )

@@ -1,11 +1,15 @@
 package client.userInterface;
 
 import descriptor.*;
+import entity.socket.EmailInfo;
 import entity.socket.PropertySearchCriteria;
 import entity.socket.property.*;
 import client.mvc.Controller;
 
+import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class GUIController {
@@ -29,6 +33,7 @@ public class GUIController {
     private pnlViewUsers pnlViewUsers;
     private pnlManagerFees pnlManagerFees;
     private pnlManagerViewProperties pnlManagerViewProperties;
+    private pnlSendEmail pnlSendEmail;
 
 
     public static void main(String[] args) {
@@ -220,5 +225,59 @@ public class GUIController {
         pnlManagerFees.setController(this);
         MainFrame.setContentPane(pnlManagerFees.getPnlManagerFees());
         MainFrame.revalidate();
+    }
+
+    public void goToRegRenterSearch() {
+        pnlRenterSearch = new pnlRenterSearch();
+        pnlRenterSearch.setController(this);
+        JPanel p = pnlRenterSearch.getPnlRenterSearch();
+        JButton b = new JButton();
+        b.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                saveSearch();
+            }
+        });
+        b.setText("Search");
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 4;
+        gbc.gridy = 9;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        p.add(b, gbc);
+        MainFrame.setContentPane(p);
+
+    }
+
+    private void saveSearch() {
+        PropertySearchCriteria c = new PropertySearchCriteria();
+        if(pnlRenterSearch.getTxtSquareFootage().trim().length() != 0){
+            c.setMinSquareFootage(Integer.parseInt(pnlRenterSearch.getTxtSquareFootage()));
+        }
+        if (pnlRenterSearch.getTxtBathrooms().trim().length() != 0){
+            c.setMinBathrooms(Integer.parseInt(pnlRenterSearch.getTxtBathrooms()));
+        }
+        if (pnlRenterSearch.getTxtBedrooms().trim().length() != 0){
+            c.setMinBedrooms(Integer.parseInt(pnlRenterSearch.getTxtBedrooms()));
+        }
+        if (pnlRenterSearch.getTxtRent().trim().length() != 0){
+            c.setMaxMonthlyRent(Integer.parseInt(pnlRenterSearch.getTxtRent()));
+        }
+        //TODO:Save Searches
+    }
+
+    public void deleteSearch(PropertySearchCriteria propertySearchCriteria) {
+        //TODO:Send Search to be deleted
+        //controller.
+    }
+
+    public void goToEmail(int id){
+        pnlSendEmail = new pnlSendEmail();
+        pnlSendEmail.setController(this);
+        pnlSendEmail.setPropID(id);
+        MainFrame.setContentPane(pnlSendEmail.getPnlSendEmail());
+        MainFrame.revalidate();
+    }
+    public void SendEmail(EmailInfo ei) {
+        controller.sendEmailToLandlord(ei);
     }
 }

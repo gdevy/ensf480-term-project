@@ -22,5 +22,7 @@ public enum MessageType
 	VIEW_MANAGER_REPORT_REQUEST,
 	VIEW_MANAGER_REPORT_RESULT,
 
+	DELETE_PROPERTY_SEARCH, // PropertySearchCriteria
+
 	NULL_OBJECT
 }

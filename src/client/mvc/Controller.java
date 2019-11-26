@@ -192,13 +192,13 @@ public class Controller
 		{
 			sockOut.writeObject( MessageType.VIEW_MANAGER_REPORT_REQUEST );
 			sockOut.writeObject( MessageType.NULL_OBJECT );
-			System.out.println( "sent view landlord properties request" );
+			System.out.println( "sent view manager report request" );
 
 			MessageType msgType;
 			while( true )
 			{
 				msgType = (MessageType) sockIn.readObject();
-				if( msgType == MessageType.VIEW_MANAGER_REPORT_REQUEST )
+				if( msgType == MessageType.VIEW_MANAGER_REPORT_RESULT )
 				{
 					break;
 				}
@@ -211,6 +211,20 @@ public class Controller
 		}
 
 		return retVal;
+	}
+
+	public void deletePropertySearch( PropertySearchCriteria psc )
+	{
+		try
+		{
+			sockOut.writeObject( MessageType.DELETE_PROPERTY_SEARCH );
+			sockOut.writeObject( psc );
+			System.out.println( "sent delete property search" );
+		}
+		catch( Exception e )
+		{
+			e.printStackTrace();
+		}
 	}
 
 	public static void main( String[] args )
