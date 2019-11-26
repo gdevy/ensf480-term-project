@@ -23,6 +23,11 @@ public class pnlRenterSearch {
     private JComboBox cmbFeetEquals;
     private JPanel pnlRenterSearch;
     private JComboBox cmbFurnished;
+
+    public JComboBox getCmbFurnished() {
+        return cmbFurnished;
+    }
+
     private GUIController controller;
 
     public pnlRenterSearch() {
@@ -155,7 +160,6 @@ public class pnlRenterSearch {
         gbc.gridy = 7;
         gbc.anchor = GridBagConstraints.WEST;
         pnlRenterSearch.add(label7, gbc);
-        cmbPropertyType = new JComboBox();
         gbc = new GridBagConstraints();
         gbc.gridx = 6;
         gbc.gridy = 3;
@@ -195,7 +199,6 @@ public class pnlRenterSearch {
         gbc.gridy = 3;
         gbc.anchor = GridBagConstraints.WEST;
         pnlRenterSearch.add(label8, gbc);
-        cmbQuadrant = new JComboBox();
         final DefaultComboBoxModel defaultComboBoxModel1 = new DefaultComboBoxModel();
         cmbQuadrant.setModel(defaultComboBoxModel1);
         gbc = new GridBagConstraints();
@@ -283,7 +286,6 @@ public class pnlRenterSearch {
         gbc.gridy = 0;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         pnlRenterSearch.add(spacer5, gbc);
-        cmbFurnished = new JComboBox();
         gbc = new GridBagConstraints();
         gbc.gridx = 6;
         gbc.gridy = 7;
@@ -324,5 +326,22 @@ public class pnlRenterSearch {
         txtRent = new JFormattedTextField(formatterD);
         //Square feet is int
         txtSquareFootage = new JFormattedTextField(formatter);
+        cmbPropertyType = new JComboBox();
+        cmbPropertyType.addItem("HOUSE");
+        cmbPropertyType.addItem("DUPLEX");
+        cmbPropertyType.addItem("TOWNHOUSE");
+        cmbPropertyType.addItem("APARTMENT");
+        cmbPropertyType.addItem("CONDO");
+        cmbPropertyType.addItem("MAINFLOOR");
+        cmbPropertyType.addItem("BASEMENT");
+        cmbQuadrant = new JComboBox();
+        cmbQuadrant.addItem("NW");
+        cmbQuadrant.addItem("NE");
+        cmbQuadrant.addItem("SW");
+        cmbQuadrant.addItem("SE");
+        cmbFurnished = new JComboBox();
+        cmbFurnished.addItem("FURNISHED");
+        cmbFurnished.addItem("UNFURNISHED");
+        cmbFurnished.addItem("EITHER");
     }
 }

@@ -2,6 +2,7 @@ package client.userInterface;
 
 import descriptor.*;
 import entity.socket.EmailInfo;
+
 import entity.socket.PropertySearchCriteria;
 import entity.socket.property.*;
 import client.mvc.Controller;
@@ -153,16 +154,22 @@ public class GUIController {
     public void PropertySearch() {
         PropertySearchCriteria c = new PropertySearchCriteria();
         if(pnlRenterSearch.getTxtSquareFootage().trim().length() != 0){
-            c.setMinSquareFootage(Integer.parseInt(pnlRenterSearch.getTxtSquareFootage()));
+            c.setMinSquareFootage(Integer.parseInt(pnlRenterSearch.getTxtSquareFootage().replace(",","")));
         }
         if (pnlRenterSearch.getTxtBathrooms().trim().length() != 0){
-            c.setMinBathrooms(Integer.parseInt(pnlRenterSearch.getTxtBathrooms()));
+            c.setMinBathrooms(Integer.parseInt(pnlRenterSearch.getTxtBathrooms().replace(",","")));
         }
         if (pnlRenterSearch.getTxtBedrooms().trim().length() != 0){
-            c.setMinBedrooms(Integer.parseInt(pnlRenterSearch.getTxtBedrooms()));
+            c.setMinBedrooms(Integer.parseInt(pnlRenterSearch.getTxtBedrooms().replace(",","")));
         }
         if (pnlRenterSearch.getTxtRent().trim().length() != 0){
-            c.setMaxMonthlyRent(Integer.parseInt(pnlRenterSearch.getTxtRent()));
+            c.setMaxMonthlyRent(Integer.parseInt(pnlRenterSearch.getTxtRent().replace(",","")));
+        }
+        if(String.valueOf(pnlRenterSearch.getCmbFurnished().getSelectedItem())=="FURNISHED"){
+            c.setFurnished(true);
+        }
+        if(String.valueOf(pnlRenterSearch.getCmbFurnished().getSelectedItem())=="UNFURNISHED"){
+            c.setFurnished(false);
         }
 
         ArrayList<Property> p = controller.sendPropertySearchRequestAndGetResults(c);
