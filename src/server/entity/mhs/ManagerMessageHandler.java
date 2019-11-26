@@ -52,6 +52,15 @@ public class ManagerMessageHandler extends MessageHandlerStrategy
 					DatabaseHelper.getInstance().editStatus( pedit.getId(), pedit.getStatus() );
 					break;
 
+				case VIEW_ALL_USERS_REQUEST:
+					ois.readObject();
+
+					ArrayList<User> users = new ArrayList<User>();
+
+					oos.writeObject( MessageType.VIEW_ALL_USERS_RESULT );
+					oos.writeObject( users );
+					break;
+
 	            default:
 	                System.out.println( "Message handler can't handle: " + msgType );
 	                ois.readObject();

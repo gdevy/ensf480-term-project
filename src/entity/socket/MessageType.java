@@ -24,5 +24,8 @@ public enum MessageType
 
 	DELETE_PROPERTY_SEARCH, // PropertySearchCriteria
 
+	VIEW_ALL_USERS_REQUEST,
+	VIEW_ALL_USERS_RESULT,
+
 	NULL_OBJECT
 }

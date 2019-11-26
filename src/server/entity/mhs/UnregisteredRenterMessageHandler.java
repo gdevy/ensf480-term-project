@@ -39,6 +39,11 @@ public class UnregisteredRenterMessageHandler extends MessageHandlerStrategy
 					System.out.println( "Sent back landlord's properties" );
 	                break;
 
+	            case SEND_EMAIL_TO_LANDLORD:
+	            	EmailInfo ei = (EmailInfo) ois.readObject();
+
+	            	// db connection
+
 	            case LOGIN_ATTEMPT:
 	            	LoginInfo login = (LoginInfo) ois.readObject();
 	            	System.out.println( "Username: " + login.username );
