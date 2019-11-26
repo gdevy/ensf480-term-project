@@ -7,18 +7,18 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-public class pnlLandlordListings {
+public class pnlManagerViewProperties {
     private JTable tblResults;
-    private JPanel pnlLandlordListings;
     private JButton editPropertyButton;
-    private GUIController controller;
+    private JPanel pnlManagerViewProperties;
     private ArrayList<Property> properties;
+    private GUIController controller;
 
-
-    public pnlLandlordListings() {
+    public pnlManagerViewProperties() {
         $$$setupUI$$$();
         tblResults.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             public void valueChanged(ListSelectionEvent event) {
@@ -34,6 +34,10 @@ public class pnlLandlordListings {
         });
     }
 
+    public void setController(GUIController controller) {
+        this.controller = controller;
+    }
+
     public void fillTable(ArrayList<Property> properties) {
         this.properties = properties;
         DefaultTableModel d = (DefaultTableModel) tblResults.getModel();
@@ -44,14 +48,6 @@ public class pnlLandlordListings {
             d.addRow(data);
         }
         //Todo:Clear table, Add more Data
-    }
-
-    public void setController(GUIController controller) {
-        this.controller = controller;
-    }
-
-    public JPanel getPnlLandlordListings() {
-        return pnlLandlordListings;
     }
 
     private void createUIComponents() {
@@ -71,50 +67,43 @@ public class pnlLandlordListings {
      */
     private void $$$setupUI$$$() {
         createUIComponents();
-        pnlLandlordListings = new JPanel();
-        pnlLandlordListings.setLayout(new GridBagLayout());
-        final JPanel spacer1 = new JPanel();
+        pnlManagerViewProperties = new JPanel();
+        pnlManagerViewProperties.setLayout(new GridBagLayout());
+        final JLabel label1 = new JLabel();
+        label1.setText("All Properties");
         GridBagConstraints gbc;
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.fill = GridBagConstraints.VERTICAL;
-        pnlLandlordListings.add(spacer1, gbc);
-        final JLabel label1 = new JLabel();
-        label1.setText("Your Properties");
+        gbc.anchor = GridBagConstraints.WEST;
+        pnlManagerViewProperties.add(label1, gbc);
+        final JPanel spacer1 = new JPanel();
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 1;
-        gbc.anchor = GridBagConstraints.WEST;
-        pnlLandlordListings.add(label1, gbc);
-        final JPanel spacer2 = new JPanel();
-        gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 2;
         gbc.fill = GridBagConstraints.VERTICAL;
-        pnlLandlordListings.add(spacer2, gbc);
+        pnlManagerViewProperties.add(spacer1, gbc);
         final JScrollPane scrollPane1 = new JScrollPane();
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
-        gbc.gridy = 3;
+        gbc.gridy = 2;
         gbc.fill = GridBagConstraints.BOTH;
-        pnlLandlordListings.add(scrollPane1, gbc);
+        pnlManagerViewProperties.add(scrollPane1, gbc);
         scrollPane1.setViewportView(tblResults);
         editPropertyButton = new JButton();
         editPropertyButton.setEnabled(false);
         editPropertyButton.setText("Edit Property");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
-        gbc.gridy = 4;
+        gbc.gridy = 3;
         gbc.anchor = GridBagConstraints.EAST;
-        pnlLandlordListings.add(editPropertyButton, gbc);
+        pnlManagerViewProperties.add(editPropertyButton, gbc);
     }
 
     /**
      * @noinspection ALL
      */
     public JComponent $$$getRootComponent$$$() {
-        return pnlLandlordListings;
+        return pnlManagerViewProperties;
     }
-
 }

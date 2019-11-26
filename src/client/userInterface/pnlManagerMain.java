@@ -2,15 +2,49 @@ package client.userInterface;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class pnlManagerMain {
     private JButton viewSummaryOfListingsButton;
     private JButton editAListingButton;
     private JButton viewLandlordMessagesButton;
     private JButton manageFeesButton;
-    private JButton viewLandlordsButton;
+    private JButton viewUsersButton;
     private JButton viewRentersButton;
     private JPanel pnlManagerMain;
+    private GUIController controller;
+
+    public void setController(GUIController controller) {
+        this.controller = controller;
+    }
+
+    public pnlManagerMain() {
+        viewSummaryOfListingsButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                controller.generateManagerReport();
+            }
+        });
+        editAListingButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                controller.viewAllProperties();
+            }
+        });
+        viewUsersButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                controller.goToViewUsers();
+            }
+        });
+        manageFeesButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                controller.goToSetFees();
+            }
+        });
+    }
 
     public JButton getViewSummaryOfListingsButton() {
         return viewSummaryOfListingsButton;
@@ -44,12 +78,12 @@ public class pnlManagerMain {
         this.manageFeesButton = manageFeesButton;
     }
 
-    public JButton getViewLandlordsButton() {
-        return viewLandlordsButton;
+    public JButton getViewUsersButton() {
+        return viewUsersButton;
     }
 
-    public void setViewLandlordsButton(JButton viewLandlordsButton) {
-        this.viewLandlordsButton = viewLandlordsButton;
+    public void setViewUsersButton(JButton viewUsersButton) {
+        this.viewUsersButton = viewUsersButton;
     }
 
     public JButton getViewRentersButton() {
@@ -112,13 +146,6 @@ public class pnlManagerMain {
         gbc.gridy = 0;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         pnlManagerMain.add(editAListingButton, gbc);
-        viewLandlordMessagesButton = new JButton();
-        viewLandlordMessagesButton.setText("View Landlord Messages");
-        gbc = new GridBagConstraints();
-        gbc.gridx = 4;
-        gbc.gridy = 0;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        pnlManagerMain.add(viewLandlordMessagesButton, gbc);
         manageFeesButton = new JButton();
         manageFeesButton.setText("Manage Fees");
         gbc = new GridBagConstraints();
@@ -126,20 +153,13 @@ public class pnlManagerMain {
         gbc.gridy = 2;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         pnlManagerMain.add(manageFeesButton, gbc);
-        viewLandlordsButton = new JButton();
-        viewLandlordsButton.setText("View Landlords");
+        viewUsersButton = new JButton();
+        viewUsersButton.setText("View Users");
         gbc = new GridBagConstraints();
         gbc.gridx = 2;
         gbc.gridy = 2;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        pnlManagerMain.add(viewLandlordsButton, gbc);
-        viewRentersButton = new JButton();
-        viewRentersButton.setText("View Renters");
-        gbc = new GridBagConstraints();
-        gbc.gridx = 4;
-        gbc.gridy = 2;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        pnlManagerMain.add(viewRentersButton, gbc);
+        pnlManagerMain.add(viewUsersButton, gbc);
         final JPanel spacer3 = new JPanel();
         gbc = new GridBagConstraints();
         gbc.gridx = 3;

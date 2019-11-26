@@ -11,7 +11,11 @@ public class Property implements Serializable
 	private Quadrant quadrant;
 	private PropertyStatus status;
 	private PropertyTraits traits;
-	
+
+    public void setStatus(PropertyStatus status) {
+        this.status = status;
+    }
+
     private int id;
     
 	private static final long serialVersionUID = 3L;

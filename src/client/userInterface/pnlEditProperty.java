@@ -1,160 +1,124 @@
 package client.userInterface;
 
+import entity.socket.property.Property;
+import entity.socket.property.PropertyStatus;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class pnlEditProperty {
-    private JTextField txtStreet;
-    private JTextField txtStreetNum;
-    private JTextField txtCity;
-    private JTextField txtProvince;
-    private JTextField txtPostalCode;
-    private JComboBox cmbQuadrant;
-    private JComboBox cmbPropertyType;
-    private JTextField txtBedrooms;
-    private JTextField txtBathrooms;
-    private JTextField txtSquareFootage;
-    private JCheckBox chkFurnished;
+
+    private JLabel lblStreetNum;
+    private JLabel lblCity;
+    private JLabel lblProvince;
+    private JLabel lblPostalCode;
+
+    private JLabel lblBedrooms;
+    private JLabel lblBathrooms;
+
     private JComboBox cmbPropertyStatus;
-    private JButton btnSubmit;
-    private JTextField txtRent;
+    private JButton btnUpdate;
+    private JLabel lblRent;
     private JPanel pnlEditProperty;
-    private JButton deletePropertyButton;
+    private JLabel lblStreetName;
+    private JLabel lblQuadrant;
+    private JLabel lblType;
+    private JLabel lblSqrFootage;
+    private JLabel lblFurnished;
+    private Property property;
+    private GUIController controller;
 
-    public JTextField getTxtStreet() {
-        return txtStreet;
+    public pnlEditProperty() {
+        $$$setupUI$$$();
+        btnUpdate.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                property.setStatus(PropertyStatus.valueOf(cmbPropertyStatus.getSelectedItem().toString()));
+                controller.updateProperty(property);
+            }
+        });
     }
 
-    public void setTxtStreet(JTextField txtStreet) {
-        this.txtStreet = txtStreet;
+    public void setController(GUIController controller) {
+        this.controller = controller;
     }
 
-    public JTextField getTxtStreetNum() {
-        return txtStreetNum;
+    public void setProperty(Property property) {
+        this.property = property;
     }
 
-    public void setTxtStreetNum(JTextField txtStreetNum) {
-        this.txtStreetNum = txtStreetNum;
+    public void setLabels() {
+        setLblBathrooms(property.getTraits().getBathrooms() + "");
+        setLblBedrooms(property.getTraits().getBedrooms() + "");
+        setLblCity(property.getAddress().getCity());
+        setLblFurnished(property.getTraits().getFurnished() + "");
+        setLblPostalCode(property.getAddress().getPostalCode());
+        setLblProvince(property.getAddress().getProvince());
+        setLblQuadrant(property.getQuadrant() + "");
+        setLblRent(property.getMonthlyRent() + "$");
+        setLblSqrFootage(property.getTraits().getSquareFootage() + "");
+        setLblStreetName(property.getAddress().getStreet());
+        setLblType(property.getTraits().getType() + "");
+        cmbPropertyStatus.setSelectedItem(property.getStatus());
+        //TODO:Fill these Values IN, Take in an argument
     }
 
-    public JTextField getTxtCity() {
-        return txtCity;
+
+    public void setLblStreetNum(String newString) {
+        this.lblStreetNum.setText(newString);
     }
 
-    public void setTxtCity(JTextField txtCity) {
-        this.txtCity = txtCity;
+    public void setLblCity(String newString) {
+        this.lblCity.setText(newString);
     }
 
-    public JTextField getTxtProvince() {
-        return txtProvince;
+    public void setLblProvince(String newString) {
+        this.lblProvince.setText(newString);
     }
 
-    public void setTxtProvince(JTextField txtProvince) {
-        this.txtProvince = txtProvince;
+    public void setLblPostalCode(String newString) {
+        this.lblPostalCode.setText(newString);
     }
 
-    public JTextField getTxtPostalCode() {
-        return txtPostalCode;
+    public void setLblBedrooms(String newString) {
+        this.lblBedrooms.setText(newString);
     }
 
-    public void setTxtPostalCode(JTextField txtPostalCode) {
-        this.txtPostalCode = txtPostalCode;
+    public void setLblBathrooms(String newString) {
+        this.lblBathrooms.setText(newString);
     }
 
-    public JComboBox getCmbQuadrant() {
-        return cmbQuadrant;
+
+    public void setLblRent(String newString) {
+        this.lblRent.setText(newString);
     }
 
-    public void setCmbQuadrant(JComboBox cmbQuadrant) {
-        this.cmbQuadrant = cmbQuadrant;
+    public void setLblStreetName(String newString) {
+        this.lblStreetName.setText(newString);
     }
 
-    public JComboBox getCmbPropertyType() {
-        return cmbPropertyType;
+    public void setLblQuadrant(String newString) {
+        this.lblQuadrant.setText(newString);
     }
 
-    public void setCmbPropertyType(JComboBox cmbPropertyType) {
-        this.cmbPropertyType = cmbPropertyType;
+    public void setLblType(String newString) {
+        this.lblType.setText(newString);
     }
 
-    public JTextField getTxtBedrooms() {
-        return txtBedrooms;
+    public void setLblSqrFootage(String newString) {
+        this.lblSqrFootage.setText(newString);
     }
 
-    public void setTxtBedrooms(JTextField txtBedrooms) {
-        this.txtBedrooms = txtBedrooms;
-    }
-
-    public JTextField getTxtBathrooms() {
-        return txtBathrooms;
-    }
-
-    public void setTxtBathrooms(JTextField txtBathrooms) {
-        this.txtBathrooms = txtBathrooms;
-    }
-
-    public JTextField getTxtSquareFootage() {
-        return txtSquareFootage;
-    }
-
-    public void setTxtSquareFootage(JTextField txtSquareFootage) {
-        this.txtSquareFootage = txtSquareFootage;
-    }
-
-    public JCheckBox getChkFurnished() {
-        return chkFurnished;
-    }
-
-    public void setChkFurnished(JCheckBox chkFurnished) {
-        this.chkFurnished = chkFurnished;
-    }
-
-    public JComboBox getCmbPropertyStatus() {
-        return cmbPropertyStatus;
-    }
-
-    public void setCmbPropertyStatus(JComboBox cmbPropertyStatus) {
-        this.cmbPropertyStatus = cmbPropertyStatus;
-    }
-
-    public JButton getBtnSubmit() {
-        return btnSubmit;
-    }
-
-    public void setBtnSubmit(JButton btnSubmit) {
-        this.btnSubmit = btnSubmit;
-    }
-
-    public JTextField getTxtRent() {
-        return txtRent;
-    }
-
-    public void setTxtRent(JTextField txtRent) {
-        this.txtRent = txtRent;
+    public void setLblFurnished(String newString) {
+        this.lblFurnished.setText(newString);
     }
 
     public JPanel getPnlEditProperty() {
         return pnlEditProperty;
     }
 
-    public void setPnlEditProperty(JPanel pnlEditProperty) {
-        this.pnlEditProperty = pnlEditProperty;
-    }
-
-    public JButton getDeletePropertyButton() {
-        return deletePropertyButton;
-    }
-
-    public void setDeletePropertyButton(JButton deletePropertyButton) {
-        this.deletePropertyButton = deletePropertyButton;
-    }
-
-    {
-// GUI initializer generated by IntelliJ IDEA GUI Designer
-// >>> IMPORTANT!! <<<
-// DO NOT EDIT OR ADD ANY CODE HERE!
-        $$$setupUI$$$();
-    }
 
     /**
      * Method generated by IntelliJ IDEA GUI Designer
@@ -164,6 +128,7 @@ public class pnlEditProperty {
      * @noinspection ALL
      */
     private void $$$setupUI$$$() {
+        createUIComponents();
         pnlEditProperty = new JPanel();
         pnlEditProperty.setLayout(new GridBagLayout());
         final JPanel spacer1 = new JPanel();
@@ -217,15 +182,6 @@ public class pnlEditProperty {
         gbc.gridy = 3;
         gbc.anchor = GridBagConstraints.WEST;
         pnlEditProperty.add(label2, gbc);
-        txtStreet = new JTextField();
-        txtStreet.setMinimumSize(new Dimension(120, 30));
-        txtStreet.setPreferredSize(new Dimension(120, 30));
-        gbc = new GridBagConstraints();
-        gbc.gridx = 2;
-        gbc.gridy = 3;
-        gbc.anchor = GridBagConstraints.WEST;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        pnlEditProperty.add(txtStreet, gbc);
         final JLabel label3 = new JLabel();
         label3.setText("Property Type:");
         gbc = new GridBagConstraints();
@@ -233,13 +189,6 @@ public class pnlEditProperty {
         gbc.gridy = 3;
         gbc.anchor = GridBagConstraints.WEST;
         pnlEditProperty.add(label3, gbc);
-        cmbPropertyType = new JComboBox();
-        gbc = new GridBagConstraints();
-        gbc.gridx = 6;
-        gbc.gridy = 3;
-        gbc.anchor = GridBagConstraints.WEST;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        pnlEditProperty.add(cmbPropertyType, gbc);
         final JLabel label4 = new JLabel();
         label4.setText("Street Number:");
         gbc = new GridBagConstraints();
@@ -247,15 +196,6 @@ public class pnlEditProperty {
         gbc.gridy = 4;
         gbc.anchor = GridBagConstraints.WEST;
         pnlEditProperty.add(label4, gbc);
-        txtStreetNum = new JTextField();
-        txtStreetNum.setMinimumSize(new Dimension(120, 30));
-        txtStreetNum.setPreferredSize(new Dimension(120, 30));
-        gbc = new GridBagConstraints();
-        gbc.gridx = 2;
-        gbc.gridy = 4;
-        gbc.anchor = GridBagConstraints.WEST;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        pnlEditProperty.add(txtStreetNum, gbc);
         final JLabel label5 = new JLabel();
         label5.setText("Bedrooms:");
         gbc = new GridBagConstraints();
@@ -263,15 +203,6 @@ public class pnlEditProperty {
         gbc.gridy = 4;
         gbc.anchor = GridBagConstraints.WEST;
         pnlEditProperty.add(label5, gbc);
-        txtBedrooms = new JTextField();
-        txtBedrooms.setMinimumSize(new Dimension(120, 30));
-        txtBedrooms.setPreferredSize(new Dimension(120, 30));
-        gbc = new GridBagConstraints();
-        gbc.gridx = 6;
-        gbc.gridy = 4;
-        gbc.anchor = GridBagConstraints.WEST;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        pnlEditProperty.add(txtBedrooms, gbc);
         final JLabel label6 = new JLabel();
         label6.setText("Quadrant:");
         gbc = new GridBagConstraints();
@@ -279,16 +210,6 @@ public class pnlEditProperty {
         gbc.gridy = 5;
         gbc.anchor = GridBagConstraints.WEST;
         pnlEditProperty.add(label6, gbc);
-        cmbQuadrant = new JComboBox();
-        cmbQuadrant.setMinimumSize(new Dimension(120, 30));
-        final DefaultComboBoxModel defaultComboBoxModel1 = new DefaultComboBoxModel();
-        cmbQuadrant.setModel(defaultComboBoxModel1);
-        gbc = new GridBagConstraints();
-        gbc.gridx = 2;
-        gbc.gridy = 5;
-        gbc.anchor = GridBagConstraints.WEST;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        pnlEditProperty.add(cmbQuadrant, gbc);
         final JLabel label7 = new JLabel();
         label7.setText("Bathrooms:");
         gbc = new GridBagConstraints();
@@ -296,14 +217,6 @@ public class pnlEditProperty {
         gbc.gridy = 5;
         gbc.anchor = GridBagConstraints.WEST;
         pnlEditProperty.add(label7, gbc);
-        txtBathrooms = new JTextField();
-        txtBathrooms.setMinimumSize(new Dimension(120, 30));
-        gbc = new GridBagConstraints();
-        gbc.gridx = 6;
-        gbc.gridy = 5;
-        gbc.anchor = GridBagConstraints.WEST;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        pnlEditProperty.add(txtBathrooms, gbc);
         final JLabel label8 = new JLabel();
         label8.setText("City:");
         gbc = new GridBagConstraints();
@@ -311,16 +224,6 @@ public class pnlEditProperty {
         gbc.gridy = 6;
         gbc.anchor = GridBagConstraints.WEST;
         pnlEditProperty.add(label8, gbc);
-        txtCity = new JTextField();
-        txtCity.setMinimumSize(new Dimension(120, 30));
-        txtCity.setOpaque(false);
-        txtCity.setPreferredSize(new Dimension(120, 30));
-        gbc = new GridBagConstraints();
-        gbc.gridx = 2;
-        gbc.gridy = 6;
-        gbc.anchor = GridBagConstraints.WEST;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        pnlEditProperty.add(txtCity, gbc);
         final JLabel label9 = new JLabel();
         label9.setText("Square Footage:");
         gbc = new GridBagConstraints();
@@ -328,14 +231,6 @@ public class pnlEditProperty {
         gbc.gridy = 6;
         gbc.anchor = GridBagConstraints.WEST;
         pnlEditProperty.add(label9, gbc);
-        txtSquareFootage = new JTextField();
-        txtSquareFootage.setMinimumSize(new Dimension(120, 30));
-        gbc = new GridBagConstraints();
-        gbc.gridx = 6;
-        gbc.gridy = 6;
-        gbc.anchor = GridBagConstraints.WEST;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        pnlEditProperty.add(txtSquareFootage, gbc);
         final JLabel label10 = new JLabel();
         label10.setText("Province: ");
         gbc = new GridBagConstraints();
@@ -343,16 +238,6 @@ public class pnlEditProperty {
         gbc.gridy = 7;
         gbc.anchor = GridBagConstraints.WEST;
         pnlEditProperty.add(label10, gbc);
-        txtProvince = new JTextField();
-        txtProvince.setMinimumSize(new Dimension(120, 30));
-        txtProvince.setOpaque(false);
-        txtProvince.setPreferredSize(new Dimension(120, 30));
-        gbc = new GridBagConstraints();
-        gbc.gridx = 2;
-        gbc.gridy = 7;
-        gbc.anchor = GridBagConstraints.WEST;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        pnlEditProperty.add(txtProvince, gbc);
         final JLabel label11 = new JLabel();
         label11.setText("Furnished:");
         gbc = new GridBagConstraints();
@@ -360,13 +245,6 @@ public class pnlEditProperty {
         gbc.gridy = 7;
         gbc.anchor = GridBagConstraints.WEST;
         pnlEditProperty.add(label11, gbc);
-        chkFurnished = new JCheckBox();
-        chkFurnished.setText("");
-        gbc = new GridBagConstraints();
-        gbc.gridx = 6;
-        gbc.gridy = 7;
-        gbc.anchor = GridBagConstraints.WEST;
-        pnlEditProperty.add(chkFurnished, gbc);
         final JLabel label12 = new JLabel();
         label12.setText("Postal Code:");
         gbc = new GridBagConstraints();
@@ -374,16 +252,6 @@ public class pnlEditProperty {
         gbc.gridy = 8;
         gbc.anchor = GridBagConstraints.WEST;
         pnlEditProperty.add(label12, gbc);
-        txtPostalCode = new JTextField();
-        txtPostalCode.setMinimumSize(new Dimension(120, 30));
-        txtPostalCode.setOpaque(false);
-        txtPostalCode.setPreferredSize(new Dimension(120, 30));
-        gbc = new GridBagConstraints();
-        gbc.gridx = 2;
-        gbc.gridy = 8;
-        gbc.anchor = GridBagConstraints.WEST;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        pnlEditProperty.add(txtPostalCode, gbc);
         final JPanel spacer7 = new JPanel();
         gbc = new GridBagConstraints();
         gbc.gridx = 4;
@@ -397,50 +265,116 @@ public class pnlEditProperty {
         gbc.gridy = 9;
         gbc.anchor = GridBagConstraints.WEST;
         pnlEditProperty.add(label13, gbc);
-        cmbPropertyStatus = new JComboBox();
-        gbc = new GridBagConstraints();
-        gbc.gridx = 6;
-        gbc.gridy = 9;
-        gbc.anchor = GridBagConstraints.WEST;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        pnlEditProperty.add(cmbPropertyStatus, gbc);
-        final JLabel label14 = new JLabel();
-        label14.setText("Monthly Rent:");
-        gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 10;
-        gbc.anchor = GridBagConstraints.WEST;
-        pnlEditProperty.add(label14, gbc);
-        txtRent = new JTextField();
-        txtRent.setMinimumSize(new Dimension(120, 30));
-        txtRent.setOpaque(false);
-        txtRent.setPreferredSize(new Dimension(120, 30));
-        gbc = new GridBagConstraints();
-        gbc.gridx = 2;
-        gbc.gridy = 10;
-        gbc.anchor = GridBagConstraints.WEST;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        pnlEditProperty.add(txtRent, gbc);
         final JPanel spacer8 = new JPanel();
         gbc = new GridBagConstraints();
         gbc.gridx = 4;
         gbc.gridy = 10;
         gbc.fill = GridBagConstraints.VERTICAL;
         pnlEditProperty.add(spacer8, gbc);
-        btnSubmit = new JButton();
-        btnSubmit.setText("Submit");
+        btnUpdate = new JButton();
+        btnUpdate.setText("Update");
         gbc = new GridBagConstraints();
         gbc.gridx = 2;
         gbc.gridy = 12;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        pnlEditProperty.add(btnSubmit, gbc);
-        deletePropertyButton = new JButton();
-        deletePropertyButton.setText("Delete Property");
+        pnlEditProperty.add(btnUpdate, gbc);
+        final JLabel label14 = new JLabel();
+        label14.setText("Monthly Rent:");
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 9;
+        gbc.anchor = GridBagConstraints.WEST;
+        pnlEditProperty.add(label14, gbc);
+        lblStreetName = new JLabel();
+        lblStreetName.setText("");
+        gbc = new GridBagConstraints();
+        gbc.gridx = 2;
+        gbc.gridy = 3;
+        gbc.anchor = GridBagConstraints.WEST;
+        pnlEditProperty.add(lblStreetName, gbc);
+        lblStreetNum = new JLabel();
+        lblStreetNum.setText("");
+        gbc = new GridBagConstraints();
+        gbc.gridx = 2;
+        gbc.gridy = 4;
+        gbc.anchor = GridBagConstraints.WEST;
+        pnlEditProperty.add(lblStreetNum, gbc);
+        lblQuadrant = new JLabel();
+        lblQuadrant.setText("");
+        gbc = new GridBagConstraints();
+        gbc.gridx = 2;
+        gbc.gridy = 5;
+        gbc.anchor = GridBagConstraints.WEST;
+        pnlEditProperty.add(lblQuadrant, gbc);
+        lblCity = new JLabel();
+        lblCity.setText("");
+        gbc = new GridBagConstraints();
+        gbc.gridx = 2;
+        gbc.gridy = 6;
+        gbc.anchor = GridBagConstraints.WEST;
+        pnlEditProperty.add(lblCity, gbc);
+        lblProvince = new JLabel();
+        lblProvince.setText("");
+        gbc = new GridBagConstraints();
+        gbc.gridx = 2;
+        gbc.gridy = 7;
+        gbc.anchor = GridBagConstraints.WEST;
+        pnlEditProperty.add(lblProvince, gbc);
+        lblPostalCode = new JLabel();
+        lblPostalCode.setText("");
+        gbc = new GridBagConstraints();
+        gbc.gridx = 2;
+        gbc.gridy = 8;
+        gbc.anchor = GridBagConstraints.WEST;
+        pnlEditProperty.add(lblPostalCode, gbc);
+        lblRent = new JLabel();
+        lblRent.setText("");
+        gbc = new GridBagConstraints();
+        gbc.gridx = 2;
+        gbc.gridy = 9;
+        gbc.anchor = GridBagConstraints.WEST;
+        pnlEditProperty.add(lblRent, gbc);
+        lblType = new JLabel();
+        lblType.setText("");
         gbc = new GridBagConstraints();
         gbc.gridx = 6;
-        gbc.gridy = 12;
+        gbc.gridy = 3;
+        gbc.anchor = GridBagConstraints.WEST;
+        pnlEditProperty.add(lblType, gbc);
+        lblBathrooms = new JLabel();
+        lblBathrooms.setText("");
+        gbc = new GridBagConstraints();
+        gbc.gridx = 6;
+        gbc.gridy = 5;
+        gbc.anchor = GridBagConstraints.WEST;
+        pnlEditProperty.add(lblBathrooms, gbc);
+        lblSqrFootage = new JLabel();
+        lblSqrFootage.setText("");
+        gbc = new GridBagConstraints();
+        gbc.gridx = 6;
+        gbc.gridy = 6;
+        gbc.anchor = GridBagConstraints.WEST;
+        pnlEditProperty.add(lblSqrFootage, gbc);
+        lblFurnished = new JLabel();
+        lblFurnished.setText("");
+        gbc = new GridBagConstraints();
+        gbc.gridx = 6;
+        gbc.gridy = 7;
+        gbc.anchor = GridBagConstraints.WEST;
+        pnlEditProperty.add(lblFurnished, gbc);
+        gbc = new GridBagConstraints();
+        gbc.gridx = 6;
+        gbc.gridy = 9;
+        gbc.anchor = GridBagConstraints.WEST;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        pnlEditProperty.add(deletePropertyButton, gbc);
+        pnlEditProperty.add(cmbPropertyStatus, gbc);
+        lblBedrooms = new JLabel();
+        lblBedrooms.setText("");
+        gbc = new GridBagConstraints();
+        gbc.gridx = 6;
+        gbc.gridy = 4;
+        gbc.anchor = GridBagConstraints.WEST;
+        pnlEditProperty.add(lblBedrooms, gbc);
     }
 
     /**
@@ -448,5 +382,13 @@ public class pnlEditProperty {
      */
     public JComponent $$$getRootComponent$$$() {
         return pnlEditProperty;
+    }
+
+    private void createUIComponents() {
+        cmbPropertyStatus = new JComboBox();
+        cmbPropertyStatus.addItem("AVAILABLE");
+        cmbPropertyStatus.addItem("SUSPENDED");
+        cmbPropertyStatus.addItem("RENTED");
+        cmbPropertyStatus.addItem("REMOVED");
     }
 }

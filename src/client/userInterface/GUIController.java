@@ -24,6 +24,10 @@ public class GUIController {
     private pnlRenterSearchResult pnlRenterSearchResult;
     private pnlLandlordListings pnlLandlordListings;
     private pnlLandordPayment pnlLandordPayment;
+    private pnlManagerReport pnlManagerReport;
+    private LoginInfo userInfo;
+    private pnlViewUsers pnlViewUsers;
+    private pnlManagerFees pnlManagerFees;
     //TODO: Manager and landlord communications
 
     public static void main(String[] args) {
@@ -73,17 +77,19 @@ public class GUIController {
 
                 break;
             case REGISTERED_RENTER:
-
+                   userInfo = loginInfo;
                 break;
             case LANDLORD:
                 pnlLandlordMain = new pnlLandlordMain();
                 pnlLandlordMain.setController(this);
                 MainFrame.setContentPane(pnlLandlordMain.getPnlLandlord());
+                userInfo = loginInfo;
                 break;
             case MANAGER:
-                //pnlManagerMain = new pnlManagerMain();
-                //pnlManagerMain.setController(this);
-                //MainFrame.setContentPane(pnlManagerMain.getPnlManagerMain());
+                pnlManagerMain = new pnlManagerMain();
+                pnlManagerMain.setController(this);
+                MainFrame.setContentPane(pnlManagerMain.getPnlManagerMain());
+                userInfo = loginInfo;
                 break;
         }
 
@@ -163,6 +169,7 @@ public class GUIController {
     public void goToLandlordProperty() {
         pnlLandlordListings = new pnlLandlordListings();
         pnlLandlordListings.setController(this);
+        pnlLandlordListings.fillTable(controller.getLandlordProperties());
         MainFrame.setContentPane(pnlLandlordListings.getPnlLandlordListings());
         MainFrame.revalidate();
     }
@@ -177,7 +184,48 @@ public class GUIController {
         MainFrame.revalidate();
     }
 
-    public void goToLandlordEditProperty() {
-        //TODO:Finish Edit Property
+    public void goToEditProperty(Property property) {
+        pnlEditProperty.setProperty(property);
+    }
+
+    public void generateManagerReport() {
+        //TODO:Add call to controller function that gets report
+        pnlManagerReport = new pnlManagerReport();
+        //pnlManagerReport.fillTable();
+        pnlManagerReport.setLabels();
+        MainFrame.setContentPane(pnlLandlordMain.getPnlLandlord());
+        MainFrame.revalidate();
+    }
+
+    public void updateProperty(Property property) {
+        //TODO:Add Call to controller to update property
+    }
+
+    public void viewAllProperties() {
+        PropertySearchCriteria c = new PropertySearchCriteria();
+        ArrayList<Property> p = controller.sendPropertySearchRequestAndGetResults(c);
+
+    }
+
+    public void updateFees(int Fee, int period) {
+        //TODO:Send Info TO Controller
+        MainFrame.setContentPane(pnlManagerMain.getPnlManagerMain());
+        MainFrame.revalidate();
+    }
+
+    public void goToViewUsers() {
+        pnlViewUsers = new pnlViewUsers();
+        pnlViewUsers.setController(this);
+        //TODO:THIS IS WRONG, SHOULD FILL WITH USERDATA
+        pnlViewUsers.fillTable(controller.getLandlordProperties());
+        MainFrame.setContentPane(pnlViewUsers.getPnlViewUsers());
+        MainFrame.revalidate();
+    }
+
+    public void goToSetFees() {
+        pnlManagerFees = new pnlManagerFees();
+        pnlManagerFees.setController(this);
+        MainFrame.setContentPane(pnlManagerFees.getPnlManagerFees());
+        MainFrame.revalidate();
     }
 }
