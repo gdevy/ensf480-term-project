@@ -255,6 +255,20 @@ public class Controller
 		}
 	}
 
+	public void sendSavedSearch( PropertySearchCriteria psc )
+	{
+		try
+		{
+			sockOut.writeObject( MessageType.SAVED_SEARCH_REQUEST );
+			sockOut.writeObject( psc );
+			System.out.println( "sent saved search request" );
+		}
+		catch( Exception e )
+		{
+			e.printStackTrace();
+		}
+	}
+
 	public static void main( String[] args )
 	{
 		Controller c = new Controller();

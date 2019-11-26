@@ -51,6 +51,11 @@ public class RegisteredRenterMessageHandler extends MessageHandlerStrategy
 					oos.writeObject( savedSearches );
 	            	break;
 
+	            case SAVED_SEARCH_REQUEST:
+	                PropertySearchCriteria psc2 = (PropertySearchCriteria) ois.readObject();
+	                //send to database
+	                break;
+
 	            case SEND_EMAIL_TO_LANDLORD:
 	            	EmailInfo ei = (EmailInfo) ois.readObject();
 
