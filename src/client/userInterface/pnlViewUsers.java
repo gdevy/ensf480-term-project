@@ -66,6 +66,7 @@ public class pnlViewUsers {
         gbc.anchor = GridBagConstraints.WEST;
         pnlViewUsers.add(label1, gbc);
         final JScrollPane scrollPane1 = new JScrollPane();
+        scrollPane1.setMinimumSize(new Dimension(500, 300));
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 2;
@@ -80,4 +81,5 @@ public class pnlViewUsers {
     public JComponent $$$getRootComponent$$$() {
         return pnlViewUsers;
     }
+
 }

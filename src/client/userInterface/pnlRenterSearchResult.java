@@ -90,6 +90,7 @@ public class pnlRenterSearchResult {
         gbc.fill = GridBagConstraints.VERTICAL;
         pnlRenterSearchResult.add(spacer1, gbc);
         final JScrollPane scrollPane1 = new JScrollPane();
+        scrollPane1.setMinimumSize(new Dimension(500, 350));
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 2;
