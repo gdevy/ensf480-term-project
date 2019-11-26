@@ -43,6 +43,20 @@ public class Controller
 		}
 	}
 
+	public void editCurrentProperty( Property property )
+	{
+		try
+		{
+			sockOut.writeObject( MessageType.EDIT_CURRENT_PROPERTY );
+			sockOut.writeObject( property );
+			System.out.println( "sent property edit" );
+		}
+		catch( Exception e ) 
+		{
+			e.printStackTrace();
+		}	
+	}
+
 	public UserTypeLogin sendLoginAttemptAndGetResult( LoginInfo login )
 	{
 		UserTypeLogin login_result = UserTypeLogin.LOGIN_FAILED;
@@ -155,6 +169,20 @@ public class Controller
 		}
 
 		return retVal;
+	}
+
+	public void sendEmailToLandlord( EmailInfo emailInfo )
+	{
+		try
+		{
+			sockOut.writeObject( MessageType.SEND_EMAIL_TO_LANDLORD );
+			sockOut.writeObject( emailInfo );
+			System.out.println( "sent landlord-bound email" );
+		}
+		catch( Exception e )
+		{
+			e.printStackTrace();
+		}
 	}
 
 	public static void main( String[] args )
