@@ -52,6 +52,10 @@ public class PropertySearchCriteria implements Serializable
 
 	public void addType( PropertyType type )
 	{
+		for( PropertyType i : types )
+		{
+			if( i == type ) return;
+		}
 		types.add( type );
 	}
 
@@ -134,6 +138,10 @@ public class PropertySearchCriteria implements Serializable
 
 	public void addQuadrant( Quadrant quadrant )
 	{
+		for( Quadrant q : quadrants )
+		{
+			if( q == quadrant ) return;
+		}
 		quadrants.add( quadrant );
 	}
 

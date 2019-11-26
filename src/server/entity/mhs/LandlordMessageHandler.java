@@ -34,6 +34,11 @@ public class LandlordMessageHandler extends MessageHandlerStrategy
 	            	System.out.println( p.getTraits() );
 	            	break;
 
+				case EDIT_CURRENT_PROPERTY:
+					Property pedit = (Property) ois.readObject();
+					System.out.println( pedit.getTraits() );
+					break;
+
 	            case VIEW_LANDLORD_PROPERTIES_REQUEST:
 	            	ois.readObject();
 	            	ArrayList<Property> currentProperties = new ArrayList<Property>();
