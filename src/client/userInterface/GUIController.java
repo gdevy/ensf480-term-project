@@ -172,6 +172,13 @@ public class GUIController {
         if(String.valueOf(pnlRenterSearch.getCmbFurnished().getSelectedItem())=="UNFURNISHED"){
             c.setFurnished(false);
         }
+        if(pnlRenterSearch.getCmbPropertyType().getSelectedIndex()!=-1){
+            c.addType(PropertyType.valueOf(String.valueOf(pnlRenterSearch.getCmbPropertyType().getSelectedItem())));
+        }
+        if(pnlRenterSearch.getCmbQuadrant().getSelectedIndex()!=-1){
+            c.addType(PropertyType.valueOf(String.valueOf(pnlRenterSearch.getCmbQuadrant().getSelectedItem())));
+        }
+        //TODO
 
         ArrayList<Property> p = controller.sendPropertySearchRequestAndGetResults(c);
 
@@ -309,6 +316,7 @@ public class GUIController {
     public void goToSavedSearches() {
         pnlSavedSearches = new pnlSavedSearches();
         pnlSavedSearches.setController(this);
+        pnlSavedSearches.fillTable(controller.getSavedPropertySearches());
         MainFrame.setContentPane(pnlSavedSearches.getPnlSavedSearches());
         MainFrame.revalidate();
     }

@@ -24,11 +24,19 @@ public class pnlRenterSearch {
     private JPanel pnlRenterSearch;
     private JComboBox cmbFurnished;
 
+    public JComboBox getCmbQuadrant() {
+        return cmbQuadrant;
+    }
+
     public JComboBox getCmbFurnished() {
         return cmbFurnished;
     }
 
     private GUIController controller;
+
+    public JComboBox getCmbPropertyType() {
+        return cmbPropertyType;
+    }
 
     public pnlRenterSearch() {
         $$$setupUI$$$();
@@ -49,18 +57,6 @@ public class pnlRenterSearch {
     }
 
 
-    public String getTxtCity() {
-        return txtCity.getText();
-    }
-
-    public String getCmbQuadrant() {
-        return String.valueOf(cmbQuadrant.getSelectedItem());
-    }
-
-    public String getCmbPropertyType() {
-        return String.valueOf(cmbPropertyType);
-    }
-
     public String getTxtBedrooms() {
         return txtBedrooms.getText();
     }
@@ -73,24 +69,8 @@ public class pnlRenterSearch {
         return txtSquareFootage.getText();
     }
 
-    public String getChkFurnished() {
-        return chkFurnished.getText();
-    }
-
-    public String getTxtProvince() {
-        return txtProvince.getText();
-    }
-
     public String getTxtRent() {
         return txtRent.getText();
-    }
-
-    public String getCmbRentEquals() {
-        return String.valueOf(cmbRentEquals.getSelectedItem());
-    }
-
-    public String getCmbFeetEquals() {
-        return String.valueOf(cmbFeetEquals.getSelectedItem());
     }
 
     /**
@@ -322,14 +302,17 @@ public class pnlRenterSearch {
         cmbPropertyType.addItem("CONDO");
         cmbPropertyType.addItem("MAINFLOOR");
         cmbPropertyType.addItem("BASEMENT");
+        cmbPropertyType.setSelectedIndex(-1);
         cmbQuadrant = new JComboBox();
         cmbQuadrant.addItem("NW");
         cmbQuadrant.addItem("NE");
         cmbQuadrant.addItem("SW");
         cmbQuadrant.addItem("SE");
+        cmbQuadrant.setSelectedIndex(-1);
         cmbFurnished = new JComboBox();
+        cmbFurnished.addItem("EITHER");
         cmbFurnished.addItem("FURNISHED");
         cmbFurnished.addItem("UNFURNISHED");
-        cmbFurnished.addItem("EITHER");
+        cmbFurnished.setSelectedIndex(-1);
     }
 }
