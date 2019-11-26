@@ -97,6 +97,7 @@ public class pnlRenterSearchResult {
         gbc.fill = GridBagConstraints.BOTH;
         pnlRenterSearchResult.add(scrollPane1, gbc);
         scrollPane1.setViewportView(tblResults);
+        EmailLandlordbtn = new JButton();
         EmailLandlordbtn.setEnabled(false);
         EmailLandlordbtn.setText("Email Landlord");
         gbc = new GridBagConstraints();
