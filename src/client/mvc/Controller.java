@@ -213,6 +213,34 @@ public class Controller
 		return retVal;
 	}
 
+	public ArrayList<User> getUserList()
+	{
+		ArrayList<User> retVal = null;
+		try
+		{
+			sockOut.writeObject( MessageType.VIEW_ALL_USERS_REQUEST );
+			sockOut.writeObject( MessageType.NULL_OBJECT );
+			System.out.println( "sent view manager report request" );
+
+			MessageType msgType;
+			while( true )
+			{
+				msgType = (MessageType) sockIn.readObject();
+				if( msgType == MessageType.VIEW_ALL_USERS_RESULT )
+				{
+					break;
+				}
+			}
+			retVal = (ArrayList<User>) sockIn.readObject();
+		}
+		catch( Exception e )
+		{
+			e.printStackTrace();
+		}
+
+		return retVal;
+	}
+
 	public void deletePropertySearch( PropertySearchCriteria psc )
 	{
 		try
