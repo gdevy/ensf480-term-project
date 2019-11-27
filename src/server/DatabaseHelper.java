@@ -177,6 +177,8 @@ public class DatabaseHelper {
         StringBuilder insertUpdate;
         boolean firstRow;
         if (psc.hasType()) {
+            System.out.println(psc.getTypes().get(0));
+
             firstRow = true;
             insertUpdate = new StringBuilder("INSERT INTO search_property_type (search_id, property_type_id)\n" +
                     "VALUES\n");

@@ -7,6 +7,7 @@ import descriptor.*;
 import server.DatabaseHelper;
 import email.Test;
 
+import javax.xml.crypto.Data;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
@@ -54,7 +55,8 @@ public class RegisteredRenterMessageHandler extends MessageHandlerStrategy
 
 	            case SAVED_SEARCH_REQUEST:
 	                PropertySearchCriteria psc2 = (PropertySearchCriteria) ois.readObject();
-	                //send to database
+					DatabaseHelper.getInstance().saveSearchCriteria(psc2, username);
+	                //send to database. use saveSearchCriteria(PropertySearchCriteria psc, String userInfo)
 	                break;
 
 	            case SEND_EMAIL_TO_LANDLORD:
