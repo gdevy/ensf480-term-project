@@ -368,7 +368,7 @@ public class DatabaseHelper {
                 "INNER JOIN users ON users.user_id = landlord_property.landlord_id\n" +
                 "INNER JOIN user_type ON users.user_type = user_type_id\n" +
                 "INNER JOIN property_type ON properties.property_type = property_type.type_id\n" +
-                "INNER JOIN quadrant ON properties.property_type = quadrant.quadrant_id\n" +
+                "INNER JOIN quadrant ON properties.quadrant = quadrant.quadrant_id\n" +
                 "INNER JOIN property_status ON property_status = property_status.status_id\n" +
                 "WHERE users.email = '" + userName + "'");
 
