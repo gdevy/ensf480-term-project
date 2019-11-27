@@ -61,6 +61,17 @@ public class Property implements Serializable
         this.id = id;
     }
 
+    public String toString()
+    {
+        String retVal = "";
+        retVal += "Address: " + address.toString() + "\n";
+        retVal += "Monthly Rent: $" + monthlyRent + "\n";
+        retVal += "Quadrant: " + quadrant + "\n";
+        retVal += traits.toString();
+
+        return retVal;
+    }
+
     public static void main(String[] args)
     {   
     	PropertyTraits pt = new PropertyTraits( PropertyType.HOUSE, 1, 1, 1000, true );
