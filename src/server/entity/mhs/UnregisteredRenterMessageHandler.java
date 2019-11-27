@@ -71,6 +71,7 @@ public class UnregisteredRenterMessageHandler extends MessageHandlerStrategy
 							break;
 						case MANAGER:
 							mhs = new ManagerMessageHandler( sc, oos, ois );
+							sc.setMessageHandler( mhs );
 							break;
 	            	}
 

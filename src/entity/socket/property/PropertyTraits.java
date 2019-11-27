@@ -50,7 +50,10 @@ public class PropertyTraits implements Serializable
 	@Override
 	public String toString()
 	{
-		return type + " " + bedrooms + " " + bathrooms + " " + squareFootage;
+		String ret = "Property Type: " + type + "\nBedrooms: " + bedrooms + "\nBathrooms: " + bathrooms + "\nSquare Footage: " + squareFootage;
+		if( furnished ) ret += "\n Furnished: Yes";
+		else ret += "\n Furnished: No";
+		return ret;
 	}
 
 }

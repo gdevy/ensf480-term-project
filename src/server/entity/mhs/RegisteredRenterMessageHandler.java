@@ -7,6 +7,7 @@ import descriptor.*;
 import server.DatabaseHelper;
 import email.Test;
 
+import javax.xml.crypto.Data;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
@@ -46,6 +47,7 @@ public class RegisteredRenterMessageHandler extends MessageHandlerStrategy
 	            	ois.readObject();
 
 	            	ArrayList<PropertySearchCriteria> savedSearches = DatabaseHelper.getInstance().getSavedSearches( username );
+					System.out.println("in msg hndlr: "+ savedSearches.size());
 
 					oos.writeObject( MessageType.VIEW_SAVED_SEARCHES_RESULT );
 					oos.writeObject( savedSearches );
@@ -53,17 +55,18 @@ public class RegisteredRenterMessageHandler extends MessageHandlerStrategy
 
 	            case SAVED_SEARCH_REQUEST:
 	                PropertySearchCriteria psc2 = (PropertySearchCriteria) ois.readObject();
-	                //send to database
+					DatabaseHelper.getInstance().saveSearchCriteria(psc2, username);
+	                //send to database. use saveSearchCriteria(PropertySearchCriteria psc, String userInfo)
 	                break;
 
 	            case SEND_EMAIL_TO_LANDLORD:
 	            	EmailInfo ei = (EmailInfo) ois.readObject();
 
 	            	Test.sendEmailTo( ei, DatabaseHelper.getInstance().getLandlordEmail( ei.PropertyID ) );
-
+	            	//TODO add break?
 	            case DELETE_PROPERTY_SEARCH:
 	            	PropertySearchCriteria psc1 = (PropertySearchCriteria) ois.readObject();
-
+					DatabaseHelper.getInstance().deleteSavedSearch(psc1.getID());
 	            	break;
 
 	            default:

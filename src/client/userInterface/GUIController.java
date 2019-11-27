@@ -176,7 +176,7 @@ public class GUIController {
             c.addType(PropertyType.valueOf(String.valueOf(pnlRenterSearch.getCmbPropertyType().getSelectedItem())));
         }
         if(pnlRenterSearch.getCmbQuadrant().getSelectedIndex()!=-1){
-            c.addType(PropertyType.valueOf(String.valueOf(pnlRenterSearch.getCmbQuadrant().getSelectedItem())));
+            c.addQuadrant(Quadrant.valueOf((pnlRenterSearch.getCmbQuadrant().getSelectedItem().toString())));
         }
         //TODO
 

@@ -44,6 +44,11 @@ public class Address implements Serializable
 	public String getPostalCode()
 	{
 		return postalCode;
-	}	
+	}
+
+	public String toString()
+	{
+		return streetNumber + " " + street + ", " + city + ", " + province + ", " + postalCode;
+	}
 
 }

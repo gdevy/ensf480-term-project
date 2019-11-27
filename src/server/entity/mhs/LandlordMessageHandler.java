@@ -6,6 +6,7 @@ import entity.socket.property.*;
 import server.SocketController;
 import descriptor.*;
 import server.DatabaseHelper;
+import email.Test;
 
 import javax.xml.crypto.Data;
 import java.util.ArrayList;
@@ -36,6 +37,16 @@ public class LandlordMessageHandler extends MessageHandlerStrategy
 	            	System.out.println( p.getTraits() );
 
 	            	DatabaseHelper.getInstance().registerProperty( p, username );
+
+	            	ArrayList<String> emails = DatabaseHelper.getInstance().checkSavedSearches( p );
+	            	String subject = "Renter App Notification";
+	            	String body = "The following property was just posted on Renter App and matches your search criteria!\n\n" + p.toString();
+	            	body += "\n\nPlease logon to your account to view this property. Thank you for using Renter App.";
+	            	for( String email : emails )
+	            	{
+	            		EmailInfo ei = new EmailInfo( subject, body );
+	            		Test.sendEmailTo( ei, email );
+	            	}
 	            	break;
 
 				case EDIT_CURRENT_PROPERTY:
