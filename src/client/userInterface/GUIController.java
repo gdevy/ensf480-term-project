@@ -234,6 +234,8 @@ public class GUIController {
         pnlManagerViewProperties = new pnlManagerViewProperties();
         pnlManagerViewProperties.setController(this);
         pnlManagerViewProperties.fillTable(p);
+        MainFrame.setContentPane(pnlManagerViewProperties.getPnlManagerViewProperties());
+        MainFrame.revalidate();
     }
 
     public void updateFees(int Fee, int period) {

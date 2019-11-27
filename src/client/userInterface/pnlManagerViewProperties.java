@@ -18,6 +18,10 @@ public class pnlManagerViewProperties {
     private ArrayList<Property> properties;
     private GUIController controller;
 
+    public JPanel getPnlManagerViewProperties() {
+        return pnlManagerViewProperties;
+    }
+
     public pnlManagerViewProperties() {
         $$$setupUI$$$();
         tblResults.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
