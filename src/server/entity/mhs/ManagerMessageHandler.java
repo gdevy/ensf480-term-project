@@ -31,14 +31,7 @@ public class ManagerMessageHandler extends MessageHandlerStrategy
 	            case VIEW_MANAGER_REPORT_REQUEST:
 					ois.readObject();
 
-					PropertyTraits pt = new PropertyTraits( PropertyType.HOUSE, 1, 1, 1000, true );
-        			Address ad = new Address( 3307, "24 Street NW", "Calgary", "AB", "T2M3Z8" );
-        			Property tempp = new Property( 1000, ad, Quadrant.NW, PropertyStatus.AVAILABLE, pt );
-
-        			ArrayList<Property> props = new ArrayList<Property>();
-        			props.add(tempp);
-
-					ManagerReport report = new ManagerReport( 1, 2, 3, props );
+					ManagerReport report = DatabaseHelper.getInstance().createPropertyReport();
 
 					oos.writeObject( MessageType.VIEW_MANAGER_REPORT_RESULT );
 					oos.writeObject( report );
