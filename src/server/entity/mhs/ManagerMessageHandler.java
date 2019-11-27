@@ -24,9 +24,19 @@ public class ManagerMessageHandler extends MessageHandlerStrategy
 	{
 		try
 		{
-	        System.out.println( "Unregistered Renter handling " + msgType );
+	        System.out.println( "Manaher handling " + msgType );
 	        switch( msgType )
 	        {
+
+	            case PROPERTY_SEARCH_REQUEST:
+	                PropertySearchCriteria psc = (PropertySearchCriteria) ois.readObject();
+
+	            	ArrayList<Property> currentProperties = DatabaseHelper.getInstance().searchProperty( psc );
+
+					oos.writeObject( MessageType.PROPERT_SEARCH_RESULT );
+					oos.writeObject( currentProperties );
+					System.out.println( "Sent back landlord's properties" );
+	                break;
 
 	            case VIEW_MANAGER_REPORT_REQUEST:
 					ois.readObject();
