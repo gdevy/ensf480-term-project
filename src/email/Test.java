@@ -54,7 +54,7 @@ public class Test {
             message.setText(email_body);
             Transport.send(message);
             System.out.println("message sent");
-            JOptionPane.showMessageDialog(null, "Message Sent!", "Sent", JOptionPane.INFORMATION_MESSAGE);
+            //JOptionPane.showMessageDialog(null, "Message Sent!", "Sent", JOptionPane.INFORMATION_MESSAGE);
         } catch (Exception e) {
             System.out.println(e);
             JOptionPane.showMessageDialog(null, e.toString());

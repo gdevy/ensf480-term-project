@@ -77,6 +77,8 @@ public class DatabaseHelper {
         DatabaseHelper.getInstance().dbConnection.createStatement().executeUpdate("INSERT INTO landlord_property (landlord_id, property_id)\n" +
                 "VALUES\n" +
                 "((SELECT user_id FROM users WHERE email = '" + landlordInfo + "'), " + propertyID + ")");
+
+
     }
 
     //works
@@ -157,7 +159,14 @@ public class DatabaseHelper {
             }
         }
 
-        return results;
+        ArrayList<String> temp = new ArrayList<>();
+        for (String result : results) {
+            if (!temp.contains(result)) {
+                temp.add(result);
+            }
+        }
+
+        return temp;
 
     }
 
@@ -312,8 +321,13 @@ public class DatabaseHelper {
             Quadrant q = Quadrant.valueOf(quad);
             PropertyStatus ps = PropertyStatus.AVAILABLE;
             Property property = new Property(monthlyRent, address, q, ps, pt);
+            int pid = rs.getInt("property_id");
+            property.setId(pid);
 
             results.add(property);
+        }
+        for (Property result : results) {
+            System.out.println(result.getId());
         }
 
         return results;
@@ -325,8 +339,6 @@ public class DatabaseHelper {
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.MONTH, -1);
         String timeMonthAgo = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(calendar.getTime());
-        System.out.println(timeNow);
-        System.out.println(timeMonthAgo);
         ResultSet rs = dbConnection.createStatement().executeQuery("SELECT * FROM properties\n" +
                 "  INNER JOIN property_status ON property_status = property_status.status_id\n" +
                 "  INNER JOIN property_type ON property_type = property_type.type_id\n" +
@@ -350,7 +362,6 @@ public class DatabaseHelper {
             Address address = new Address(num, street, city, province, postalCode);
             int monthlyRent = rs.getInt("monthly_rent");
             String quad = rs.getString("quadrant_name");
-            System.out.println(quad);
             Quadrant q = Quadrant.valueOf(quad);
             PropertyStatus ps = PropertyStatus.valueOf(rs.getString("status"));
             if (ps == PropertyStatus.AVAILABLE) {
@@ -432,7 +443,6 @@ public class DatabaseHelper {
                     "LEFT JOIN quadrant ON search_quadrant.quadrant_id = quadrant.quadrant_id\n" +
                     "WHERE search_id = " + lastSearchID);
             while (tempRS.next()) {
-                System.out.println(tempRS.getString("quadrant_name"));
                 psc.addQuadrant(Quadrant.valueOf(tempRS.getString("quadrant_name")));
             }
 
@@ -442,7 +452,6 @@ public class DatabaseHelper {
             while (tempRS.next()) {
                 psc.addType(PropertyType.valueOf(tempRS.getString("type")));
             }
-            System.out.println(psc.getTypes());
             results.add(psc);
         }
         System.out.println(results.size());
@@ -451,11 +460,17 @@ public class DatabaseHelper {
 
     //works
     public String getLandlordEmail(int propertyID) throws SQLException {
-        ResultSet rs = DatabaseHelper.getInstance().dbConnection.createStatement().executeQuery("SELECT email FROM users\n" +
+        System.out.println("peid: " + propertyID);
+        ResultSet rs = DatabaseHelper.getInstance().dbConnection.createStatement().executeQuery("SELECT * FROM users\n" +
                 "INNER JOIN landlord_property ON user_id = landlord_property.landlord_id\n" +
-                "WHERE property_id = '" + propertyID + "'");
+                "WHERE property_id = " + propertyID);
 
-        return rs.getString(1);
+        String email = "";
+        if (rs.next()) {
+            email =  rs.getString("email");
+            System.out.println(email);
+        }
+        return email;
     }
 
     //works

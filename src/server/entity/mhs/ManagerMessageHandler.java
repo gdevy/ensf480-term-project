@@ -51,7 +51,7 @@ public class ManagerMessageHandler extends MessageHandlerStrategy
 				case EDIT_CURRENT_PROPERTY:
 					Property pedit = (Property) ois.readObject();
 					System.out.println( pedit.getTraits() );
-
+					System.out.println(pedit.getStatus());
 					DatabaseHelper.getInstance().editStatus( pedit.getId(), pedit.getStatus() );
 					break;
 
@@ -59,6 +59,7 @@ public class ManagerMessageHandler extends MessageHandlerStrategy
 					ois.readObject();
 
 					ArrayList<User> users = new ArrayList<User>();
+					users = DatabaseHelper.getInstance().getAllUsers();
 
 					oos.writeObject( MessageType.VIEW_ALL_USERS_RESULT );
 					oos.writeObject( users );

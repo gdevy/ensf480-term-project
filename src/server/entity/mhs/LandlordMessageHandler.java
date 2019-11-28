@@ -42,8 +42,10 @@ public class LandlordMessageHandler extends MessageHandlerStrategy
 	            	String subject = "Renter App Notification";
 	            	String body = "The following property was just posted on Renter App and matches your search criteria!\n\n" + p.toString();
 	            	body += "\n\nPlease logon to your account to view this property. Thank you for using Renter App.";
+                    System.out.println( "Number of search hits: "+ emails.size());
 	            	for( String email : emails )
 	            	{
+                        System.out.println("Sending email to: " + email );
 	            		EmailInfo ei = new EmailInfo( subject, body );
 	            		Test.sendEmailTo( ei, email );
 	            	}
