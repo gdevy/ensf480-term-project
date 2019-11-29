@@ -32,7 +32,7 @@ public class pnlSendEmail {
             @Override
             public void actionPerformed(ActionEvent e) {
                 EmailInfo ei = new EmailInfo(txtHeader.getText(), txtBody.getText());
-                ei.PropertyID = propID;
+                ei.setPropertyID(propID);
                 controller.SendEmail(ei);
             }
         });

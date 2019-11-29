@@ -296,8 +296,19 @@ public class GUIController {
         if (pnlRenterSearch.getTxtRent().trim().length() != 0){
             c.setMaxMonthlyRent(Integer.parseInt(pnlRenterSearch.getTxtRent()));
         }
+        if(String.valueOf(pnlRenterSearch.getCmbFurnished().getSelectedItem())=="FURNISHED"){
+            c.setFurnished(true);
+        }
+        if(String.valueOf(pnlRenterSearch.getCmbFurnished().getSelectedItem())=="UNFURNISHED"){
+            c.setFurnished(false);
+        }
+        if(pnlRenterSearch.getCmbPropertyType().getSelectedIndex()!=-1){
+            c.addType(PropertyType.valueOf(String.valueOf(pnlRenterSearch.getCmbPropertyType().getSelectedItem())));
+        }
+        if(pnlRenterSearch.getCmbQuadrant().getSelectedIndex()!=-1){
+            c.addQuadrant(Quadrant.valueOf((pnlRenterSearch.getCmbQuadrant().getSelectedItem().toString())));
+        }
         controller.sendSavedSearch(c);
-        //TODO:Save Searches
     }
 
     public void deleteSearch(PropertySearchCriteria propertySearchCriteria) {
